@@ -41,6 +41,7 @@ public class AndroidApplicationConfiguration {
 	public boolean useAccelerometer = true;
 
 	/** whether to use the gyroscope. default: false **/
+	//使用陀螺仪
 	public boolean useGyroscope = false;
 
 	/** Whether to use the compass. The compass enables {@link Input#getRotationMatrix(float[])}, {@link Input#getAzimuth()},
@@ -64,6 +65,7 @@ public class AndroidApplicationConfiguration {
 	/** The requested sensor sampling rate in microseconds or one of the {@code SENSOR_DELAY_*} constants in {@link SensorManager}.
 	 * <p>
 	 * Default: {@link SensorManager#SENSOR_DELAY_GAME} (20 ms updates). */
+	//采样率
 	public int sensorDelay = SensorManager.SENSOR_DELAY_GAME;
 
 	/** the time in milliseconds to sleep after each event in the touch handler, set this to 16ms to get rid of touch flooding on

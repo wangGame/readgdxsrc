@@ -154,6 +154,7 @@ public class GLSurfaceView20 extends GLSurfaceView {
 		public EGLContext createContext (EGL10 egl, EGLDisplay display, EGLConfig eglConfig) {
 			Log.w(TAG, "creating OpenGL ES " + GLSurfaceView20.targetGLESVersion + ".0 context");
 			checkEglError("Before eglCreateContext " + targetGLESVersion, egl);
+			//版本怎么用，   使用版本来获取上下文
 			int[] attrib_list = {EGL_CONTEXT_CLIENT_VERSION, GLSurfaceView20.targetGLESVersion, EGL10.EGL_NONE};
 			//创建EGL上下文
 			EGLContext context = egl.eglCreateContext(display, eglConfig, EGL10.EGL_NO_CONTEXT, attrib_list);

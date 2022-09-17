@@ -51,6 +51,7 @@ import javax.microedition.khronos.opengles.GL10;
 /** An implementation of {@link Graphics} for Android.
  *
  * @author mzechner */
+
 public class AndroidGraphics extends AbstractGraphics implements Renderer {
 
 	private static final String LOG_TAG = "AndroidGraphics";
@@ -60,17 +61,23 @@ public class AndroidGraphics extends AbstractGraphics implements Renderer {
 	 * be called in the GLThread while {@link #pause()} is sleeping in the Android UI Thread which will cause the
 	 * {@link AndroidGraphics#pause} variable never be set to false. As a result, the {@link AndroidGraphics#pause()} method will
 	 * kill the current process to avoid ANR */
+	//强制连续渲染，不然会出现ANR， 如果一直不渲染就杀死当前进程
 	static volatile boolean enforceContinuousRendering = false;
-
+	//view
 	final GLSurfaceView20 view;
+	//屏幕的宽和高（实际显示视口的）
 	int width;
 	int height;
+	//刘海
 	int safeInsetLeft, safeInsetTop, safeInsetBottom, safeInsetRight;
 	AndroidApplicationBase app;
 	GL20 gl20;
 	GL30 gl30;
+	//绘制上下文
 	EGLContext eglContext;
+	//版本
 	GLVersion glVersion;
+	//扩展版本
 	String extensions;
 
 	protected long lastFrameTime = System.nanoTime();
@@ -103,8 +110,9 @@ public class AndroidGraphics extends AbstractGraphics implements Renderer {
 
 	public AndroidGraphics (AndroidApplicationBase application, AndroidApplicationConfiguration config,
 		ResolutionStrategy resolutionStrategy, boolean focusableView) {
-		this.config = config;
-		this.app = application;
+		this.config = config; //配置
+		this.app = application; //
+		///创建view
 		view = createGLSurfaceView(application, resolutionStrategy);
 		preserveEGLContextOnPause();
 		if (focusableView) {
@@ -117,12 +125,15 @@ public class AndroidGraphics extends AbstractGraphics implements Renderer {
 		view.setPreserveEGLContextOnPause(true);
 	}
 
+	//创建View
 	protected GLSurfaceView20 createGLSurfaceView (AndroidApplicationBase application,
 		final ResolutionStrategy resolutionStrategy) {
 		if (!checkGL20()) throw new GdxRuntimeException("libGDX requires OpenGL ES 2.0");
-
+		//选择屏幕配置
 		EGLConfigChooser configChooser = getEglConfigChooser();
+		//创建View
 		GLSurfaceView20 view = new GLSurfaceView20(application.getContext(), resolutionStrategy, config.useGL30 ? 3 : 2);
+		//自己帅选   如果自己是废物帅选不到，那就人家给 那个我们用那个了
 		if (configChooser != null)
 			view.setEGLConfigChooser(configChooser);
 		else
@@ -158,11 +169,15 @@ public class AndroidGraphics extends AbstractGraphics implements Renderer {
 		density = metrics.density;
 	}
 
+	//获取一次属性，看一有没有问题
 	protected boolean checkGL20 () {
+		//得到EGL
 		EGL10 egl = (EGL10)EGLContext.getEGL();
+		//得到屏幕
 		EGLDisplay display = egl.eglGetDisplay(EGL10.EGL_DEFAULT_DISPLAY);
-
+		//版本
 		int[] version = new int[2];
+		//初始化
 		egl.eglInitialize(display, version);
 
 		int EGL_OPENGL_ES2_BIT = 4;
@@ -210,7 +225,6 @@ public class AndroidGraphics extends AbstractGraphics implements Renderer {
 		this.gl30 = gl30;
 		if (gl30 != null) {
 			this.gl20 = gl30;
-
 			Gdx.gl = gl20;
 			Gdx.gl20 = gl20;
 			Gdx.gl30 = gl30;
@@ -248,11 +262,11 @@ public class AndroidGraphics extends AbstractGraphics implements Renderer {
 		String versionString = gl.glGetString(GL10.GL_VERSION);
 		String vendorString = gl.glGetString(GL10.GL_VENDOR);
 		String rendererString = gl.glGetString(GL10.GL_RENDERER);
+		//根据版本创建不同的gl环境
 		glVersion = new GLVersion(Application.ApplicationType.Android, versionString, vendorString, rendererString);
 		if (config.useGL30 && glVersion.getMajorVersion() > 2) {
 			if (gl30 != null) return;
 			gl20 = gl30 = new AndroidGL30();
-
 			Gdx.gl = gl30;
 			Gdx.gl20 = gl30;
 			Gdx.gl30 = gl30;
@@ -276,6 +290,7 @@ public class AndroidGraphics extends AbstractGraphics implements Renderer {
 		this.height = height;
 		updatePpi();
 		updateSafeAreaInsets();
+		//游戏的create执行的时候在surfaceChange的时候
 		gl.glViewport(0, 0, this.width, this.height);
 		if (created == false) {
 			app.getApplicationListener().create();
@@ -284,11 +299,13 @@ public class AndroidGraphics extends AbstractGraphics implements Renderer {
 				running = true;
 			}
 		}
+		//resize
 		app.getApplicationListener().resize(width, height);
 	}
 
 	@Override
 	public void onSurfaceCreated (javax.microedition.khronos.opengles.GL10 gl, EGLConfig config) {
+		//创建首先 得到绘制的上下文
 		eglContext = ((EGL10)EGLContext.getEGL()).eglGetCurrentContext();
 		setupGL(gl);
 		logConfig(config);
@@ -352,6 +369,7 @@ public class AndroidGraphics extends AbstractGraphics implements Renderer {
 		}
 	}
 
+	//去后台？
 	void pause () {
 		synchronized (synch) {
 			if (!running) return;
@@ -394,7 +412,6 @@ public class AndroidGraphics extends AbstractGraphics implements Renderer {
 		synchronized (synch) {
 			running = false;
 			destroy = true;
-
 			while (destroy) {
 				try {
 					synch.wait();
@@ -542,7 +559,6 @@ public class AndroidGraphics extends AbstractGraphics implements Renderer {
 		TextureArray.clearAllTextureArrays(app);
 		ShaderProgram.clearAllShaderPrograms(app);
 		FrameBuffer.clearAllFrameBuffers(app);
-
 		logManagedCachesStatus();
 	}
 
@@ -623,12 +639,14 @@ public class AndroidGraphics extends AbstractGraphics implements Renderer {
 		return new DisplayMode[] {getDisplayMode()};
 	}
 
+	//对于挖孔和刘海的
 	protected void updateSafeAreaInsets () {
 		safeInsetLeft = 0;
 		safeInsetTop = 0;
 		safeInsetRight = 0;
 		safeInsetBottom = 0;
 
+		//对付刘海的
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
 			try {
 				DisplayCutout displayCutout = app.getApplicationWindow().getDecorView().getRootWindowInsets().getDisplayCutout();
@@ -721,6 +739,10 @@ public class AndroidGraphics extends AbstractGraphics implements Renderer {
 	public void setForegroundFPS (int fps) {
 	}
 
+//	硬件所支持的所有扩展可以通过
+//	glGetString( GL_EXTENSIONS )来获取的。
+//	glGetString( GL_EXTENSIONS )返回的字符串包含
+//	了所有的扩展名，每个扩展名以空格隔开。
 	@Override
 	public boolean supportsExtension (String extension) {
 		if (extensions == null) extensions = Gdx.gl.glGetString(GL10.GL_EXTENSIONS);
@@ -769,12 +791,14 @@ public class AndroidGraphics extends AbstractGraphics implements Renderer {
 		AndroidCursor.setSystemCursor(view, systemCursor);
 	}
 
+	//模式
 	private class AndroidDisplayMode extends DisplayMode {
 		protected AndroidDisplayMode (int width, int height, int refreshRate, int bitsPerPixel) {
 			super(width, height, refreshRate, bitsPerPixel);
 		}
 	}
 
+	//一个x 一个 y   一个name  好像没啥用
 	private class AndroidMonitor extends Monitor {
 		public AndroidMonitor (int virtualX, int virtualY, String name) {
 			super(virtualX, virtualY, name);

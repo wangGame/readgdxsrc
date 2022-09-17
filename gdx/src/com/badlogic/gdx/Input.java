@@ -46,14 +46,15 @@ public interface Input {
 	/** Callback interface for {@link Input#getTextInput(TextInputListener, String, String, String)}
 	 * 
 	 * @author mzechner */
+	//文本输入回调方法
 	static public interface TextInputListener {
 		public void input (String text);
-
 		public void canceled ();
 	}
 
 	/** Mouse buttons.
 	 * @author mzechner */
+	//左右  中间  返回  前进
 	static public class Buttons {
 		public static final int LEFT = 0;
 		public static final int RIGHT = 1;
@@ -65,6 +66,7 @@ public interface Input {
 	/** Keys.
 	 * 
 	 * @author mzechner */
+	// 键盘输入的keys
 	static public class Keys {
 		public static final int ANY_KEY = -1;
 		public static final int NUM_0 = 7;
@@ -269,11 +271,11 @@ public interface Input {
 		public static final int F22 = 192;
 		public static final int F23 = 193;
 		public static final int F24 = 194;
-
 		public static final int MAX_KEYCODE = 255;
 
 		/** @return a human readable representation of the keycode. The returned value can be used in
 		 *         {@link Input.Keys#valueOf(String)} */
+		//输入的key值  返回成语义
 		public static String toString (int keycode) {
 			if (keycode < 0) throw new IllegalArgumentException("keycode cannot be negative, keycode: " + keycode);
 			if (keycode > MAX_KEYCODE) throw new IllegalArgumentException("keycode cannot be greater than 255, keycode: " + keycode);
@@ -624,6 +626,7 @@ public interface Input {
 
 		/** @param keyname the keyname returned by the {@link Keys#toString(int)} method
 		 * @return the int keycode */
+		//获取值    和toString一样，只是一个优化（做了一个缓存）
 		public static int valueOf (String keyname) {
 			if (keyNames == null) initializeKeyNames();
 			return keyNames.get(keyname, -1);
@@ -641,8 +644,18 @@ public interface Input {
 
 	/** Enumeration of potentially available peripherals. Use with {@link Input#isPeripheralAvailable(Peripheral)}.
 	 * @author mzechner */
+	//可用的外置输入
 	public enum Peripheral {
-		HardwareKeyboard, OnscreenKeyboard, MultitouchScreen, Accelerometer, Compass, Vibrator, HapticFeedback, Gyroscope, RotationVector, Pressure
+		HardwareKeyboard, //硬件键盘
+		OnscreenKeyboard,//屏幕键盘
+		MultitouchScreen,//多点触屏
+		Accelerometer,//加速计数器
+		Compass,//罗盘
+		Vibrator,//振动器
+		HapticFeedback, //触发反馈
+		Gyroscope,//陀螺仪
+		RotationVector, //旋转矢量
+		Pressure //压力
 	}
 
 	/** @return The acceleration force in m/s^2 applied to the device in the X axis, including the force of gravity */
@@ -929,6 +942,7 @@ public interface Input {
 	/** @return the native orientation of the device. */
 	public Orientation getNativeOrientation ();
 
+	//方向
 	public enum Orientation {
 		Landscape, Portrait
 	}
@@ -936,13 +950,16 @@ public interface Input {
 	/** Only viable on desktop, GWT and Android 8+. Will confine the mouse cursor location to the window and hide the mouse cursor.
 	 * X and y coordinates are still reported as if the mouse was not catched.
 	 * @param catched whether to catch or not to catch the mouse cursor */
+//	将鼠标光标位置限制在窗口中并隐藏鼠标光标。仍然会报告 X 和 y 坐标，就好像没有抓住鼠标一样。 @param 捕获是否捕获鼠标光标
 	public void setCursorCatched (boolean catched);
 
 	/** @return whether the mouse cursor is catched. */
+	//鼠标光标是否被捕获
 	public boolean isCursorCatched ();
 
 	/** Only viable on the desktop. Will set the mouse cursor location to the given window coordinates (origin top-left corner).
 	 * @param x the x-position
 	 * @param y the y-position */
+	//鼠标的位置  给光标的位置
 	public void setCursorPosition (int x, int y);
 }

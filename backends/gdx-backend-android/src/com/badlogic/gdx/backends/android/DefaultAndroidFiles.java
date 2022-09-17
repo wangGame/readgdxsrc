@@ -34,13 +34,10 @@ import java.io.IOException;
 public class DefaultAndroidFiles implements AndroidFiles {
 	protected final String externalFilesPath;
 	protected final String localpath;
-
 	protected final AssetManager assets;
 	private ZipResourceFile expansionFile = null;
-
 	public DefaultAndroidFiles (AssetManager assets, ContextWrapper contextWrapper, boolean useExternalFiles) {
 		this.assets = assets;
-
 		String localPath = contextWrapper.getFilesDir().getAbsolutePath();
 		this.localpath = localPath.endsWith("/") ? localPath : localPath + "/";
 		if (useExternalFiles) {

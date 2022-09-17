@@ -23,39 +23,39 @@ import java.nio.IntBuffer;
 import com.badlogic.gdx.graphics.GL20;
 
 import android.opengl.GLES20;
-
+//绘制相关的一些操作
 public class AndroidGL20 implements GL20 {
 	private int[] ints = new int[1], ints2 = new int[1], ints3 = new int[1];
 	private byte[] buffer = new byte[512];
-
+	//使得texture活跃
 	public void glActiveTexture (int texture) {
 		GLES20.glActiveTexture(texture);
 	}
-
+	//shader附着到程序上
 	public void glAttachShader (int program, int shader) {
 		GLES20.glAttachShader(program, shader);
 	}
-
+	//绑定  使用名字
 	public void glBindAttribLocation (int program, int index, String name) {
 		GLES20.glBindAttribLocation(program, index, name);
 	}
-
+	//绑定一个缓冲区
 	public void glBindBuffer (int target, int buffer) {
 		GLES20.glBindBuffer(target, buffer);
 	}
-
+	//绑定framebuffer
 	public void glBindFramebuffer (int target, int framebuffer) {
 		GLES20.glBindFramebuffer(target, framebuffer);
 	}
-
+	//绑定渲染    这个之前在创一个frameBuffer之后 进行绘制的时候看到过
 	public void glBindRenderbuffer (int target, int renderbuffer) {
 		GLES20.glBindRenderbuffer(target, renderbuffer);
 	}
-
+	//绑定纹理
 	public void glBindTexture (int target, int texture) {
 		GLES20.glBindTexture(target, texture);
 	}
-
+	//blend
 	public void glBlendColor (float red, float green, float blue, float alpha) {
 		GLES20.glBlendColor(red, green, blue, alpha);
 	}
@@ -75,11 +75,11 @@ public class AndroidGL20 implements GL20 {
 	public void glBlendFuncSeparate (int srcRGB, int dstRGB, int srcAlpha, int dstAlpha) {
 		GLES20.glBlendFuncSeparate(srcRGB, dstRGB, srcAlpha, dstAlpha);
 	}
-
+	//给buffer设置值
 	public void glBufferData (int target, int size, Buffer data, int usage) {
 		GLES20.glBufferData(target, size, data, usage);
 	}
-
+	//
 	public void glBufferSubData (int target, int offset, int size, Buffer data) {
 		GLES20.glBufferSubData(target, offset, size, data);
 	}
@@ -107,11 +107,11 @@ public class AndroidGL20 implements GL20 {
 	public void glColorMask (boolean red, boolean green, boolean blue, boolean alpha) {
 		GLES20.glColorMask(red, green, blue, alpha);
 	}
-
+	//编译shader
 	public void glCompileShader (int shader) {
 		GLES20.glCompileShader(shader);
 	}
-
+	//加载纹理数据
 	public void glCompressedTexImage2D (int target, int level, int internalformat, int width, int height, int border,
 		int imageSize, Buffer data) {
 		GLES20.glCompressedTexImage2D(target, level, internalformat, width, height, border, imageSize, data);
@@ -685,15 +685,15 @@ public class AndroidGL20 implements GL20 {
 	public void glVertexAttrib4f (int indx, float x, float y, float z, float w) {
 		GLES20.glVertexAttrib4f(indx, x, y, z, w);
 	}
-
+	//给一个4
 	public void glVertexAttrib4fv (int indx, FloatBuffer values) {
 		GLES20.glVertexAttrib4fv(indx, values);
 	}
-
+	//给属性设置值
 	public void glVertexAttribPointer (int indx, int size, int type, boolean normalized, int stride, Buffer ptr) {
 		GLES20.glVertexAttribPointer(indx, size, type, normalized, stride, ptr);
 	}
-
+	//给属性设置值
 	public void glVertexAttribPointer (int indx, int size, int type, boolean normalized, int stride, int ptr) {
 		GLES20.glVertexAttribPointer(indx, size, type, normalized, stride, ptr);
 	}

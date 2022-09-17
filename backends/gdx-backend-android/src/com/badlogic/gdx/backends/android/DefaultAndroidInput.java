@@ -54,8 +54,9 @@ import java.util.List;
  * 
  * @author mzechner */
 /** @author jshapcot */
+//默认的输入
 public class DefaultAndroidInput extends AbstractInput implements AndroidInput {
-
+	//
 	static class KeyEvent {
 		static final int KEY_DOWN = 0;
 		static final int KEY_UP = 1;
@@ -527,6 +528,7 @@ public class DefaultAndroidInput extends AbstractInput implements AndroidInput {
 // Gdx.app.getGraphics().requestRendering();
 // }
 
+
 	@Override
 	public boolean onKey (View v, int keyCode, android.view.KeyEvent e) {
 		for (int i = 0, n = keyListeners.size(); i < n; i++)
@@ -540,6 +542,7 @@ public class DefaultAndroidInput extends AbstractInput implements AndroidInput {
 		synchronized (this) {
 			KeyEvent event = null;
 
+			//不知道点击了那个， 并且是多指
 			if (e.getKeyCode() == android.view.KeyEvent.KEYCODE_UNKNOWN && e.getAction() == android.view.KeyEvent.ACTION_MULTIPLE) {
 				String chars = e.getCharacters();
 				for (int i = 0; i < chars.length(); i++) {
@@ -672,6 +675,7 @@ public class DefaultAndroidInput extends AbstractInput implements AndroidInput {
 		return justTouched;
 	}
 
+	//
 	@Override
 	public boolean isButtonPressed (int button) {
 		synchronized (this) {
@@ -686,6 +690,7 @@ public class DefaultAndroidInput extends AbstractInput implements AndroidInput {
 		}
 	}
 
+	//按钮是否按下
 	@Override
 	public boolean isButtonJustPressed (int button) {
 		if (button < 0 || button > NUM_TOUCHES) return false;
@@ -722,7 +727,6 @@ public class DefaultAndroidInput extends AbstractInput implements AndroidInput {
 	@Override
 	public float getAzimuth () {
 		if (!compassAvailable && !rotationVectorAvailable) return 0;
-
 		updateOrientation();
 		return azimuth;
 	}
@@ -738,19 +742,21 @@ public class DefaultAndroidInput extends AbstractInput implements AndroidInput {
 	@Override
 	public float getRoll () {
 		if (!compassAvailable && !rotationVectorAvailable) return 0;
-
 		updateOrientation();
 		return roll;
 	}
 
+	//注册  物理相关的
 	void registerSensorListeners () {
 		if (config.useAccelerometer) {
 			manager = (SensorManager)context.getSystemService(Context.SENSOR_SERVICE);
 			if (manager.getSensorList(Sensor.TYPE_ACCELEROMETER).isEmpty()) {
 				accelerometerAvailable = false;
 			} else {
+				//加速器
 				Sensor accelerometer = manager.getSensorList(Sensor.TYPE_ACCELEROMETER).get(0);
 				accelerometerListener = new SensorListener();
+				//采样率
 				accelerometerAvailable = manager.registerListener(accelerometerListener, accelerometer, config.sensorDelay);
 			}
 		} else
@@ -946,6 +952,7 @@ public class DefaultAndroidInput extends AbstractInput implements AndroidInput {
 
 	@Override
 	public boolean isCursorCatched () {
+		//android 8以上吧
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 			View view = ((AndroidGraphics)app.getGraphics()).getView();
 			return view.hasPointerCapture();
@@ -1040,6 +1047,7 @@ public class DefaultAndroidInput extends AbstractInput implements AndroidInput {
 
 		@Override
 		public void onSensorChanged (SensorEvent event) {
+			//加速计数器   注意屏幕的方向进行 数据的转换
 			if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
 				if (nativeOrientation == Orientation.Portrait) {
 					System.arraycopy(event.values, 0, accelerometerValues, 0, accelerometerValues.length);
@@ -1049,9 +1057,11 @@ public class DefaultAndroidInput extends AbstractInput implements AndroidInput {
 					accelerometerValues[2] = event.values[2];
 				}
 			}
+			//磁
 			if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
 				System.arraycopy(event.values, 0, magneticFieldValues, 0, magneticFieldValues.length);
 			}
+			//陀螺仪
 			if (event.sensor.getType() == Sensor.TYPE_GYROSCOPE) {
 				if (nativeOrientation == Orientation.Portrait) {
 					System.arraycopy(event.values, 0, gyroscopeValues, 0, gyroscopeValues.length);
@@ -1061,6 +1071,7 @@ public class DefaultAndroidInput extends AbstractInput implements AndroidInput {
 					gyroscopeValues[2] = event.values[2];
 				}
 			}
+			//rotation
 			if (event.sensor.getType() == Sensor.TYPE_ROTATION_VECTOR) {
 				if (nativeOrientation == Orientation.Portrait) {
 					System.arraycopy(event.values, 0, rotationVectorValues, 0, rotationVectorValues.length);

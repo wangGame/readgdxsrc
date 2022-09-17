@@ -6,6 +6,7 @@ import android.view.View.OnKeyListener;
 import android.view.View.OnTouchListener;
 import com.badlogic.gdx.Input;
 
+//输入
 public interface AndroidInput extends Input, OnTouchListener, OnKeyListener, OnGenericMotionListener {
 
 	/** Called when the {@link AndroidApplication} is about to pause */

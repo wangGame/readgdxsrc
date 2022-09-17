@@ -39,26 +39,43 @@ import com.badlogic.gdx.utils.*;
  * configuration for the GLSurfaceView.
  * 
  * @author mzechner */
+//游戏android端的入口
 public class AndroidApplication extends Activity implements AndroidApplicationBase {
-
+	//绘制相关的
 	protected AndroidGraphics graphics;
+	//输入相关的
 	protected AndroidInput input;
+	//音效有关的
 	protected AndroidAudio audio;
+	//文件有关的
 	protected AndroidFiles files;
+	//网络
 	protected AndroidNet net;
+	//粘贴板
 	protected AndroidClipboard clipboard;
+	//游戏的接口  完成生命周期回调
 	protected ApplicationListener listener;
+	//android的
 	public Handler handler;
+	//第一次回来
 	protected boolean firstResume = true;
+	//所有的任务
 	protected final Array<Runnable> runnables = new Array<Runnable>();
+	//执行的任务
 	protected final Array<Runnable> executedRunnables = new Array<Runnable>();
+	//生命周期
 	protected final SnapshotArray<LifecycleListener> lifecycleListeners = new SnapshotArray<LifecycleListener>(
 		LifecycleListener.class);
+	//android事件
 	private final Array<AndroidEventListener> androidEventListeners = new Array<AndroidEventListener>();
 	protected int logLevel = LOG_INFO;
+	//日志
 	protected ApplicationLogger applicationLogger;
+	//沉寂模式
 	protected boolean useImmersiveMode = false;
+	//焦点改变
 	private int wasFocusChanged = -1;
+	//等待音频
 	private boolean isWaitingForAudio = false;
 
 	/** This method has to be called in the {@link Activity#onCreate(Bundle)} method. It sets up all the things necessary to get
@@ -66,6 +83,7 @@ public class AndroidApplication extends Activity implements AndroidApplicationBa
 	 * 
 	 * @param listener the {@link ApplicationListener} implementing the program logic **/
 	public void initialize (ApplicationListener listener) {
+		//初始化方法  传递一个config 和 一个game
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		initialize(listener, config);
 	}
@@ -109,13 +127,19 @@ public class AndroidApplication extends Activity implements AndroidApplicationBa
 	}
 
 	private void init (ApplicationListener listener, AndroidApplicationConfiguration config, boolean isForView) {
+		//小于14应该是不要了
 		if (this.getVersion() < MINIMUM_SDK) {
 			throw new GdxRuntimeException("libGDX requires Android API Level " + MINIMUM_SDK + " or later.");
 		}
+		//加载本地库
 		GdxNativesLoader.load();
+		//设置日志  （都是调用android的）
 		setApplicationLogger(new AndroidApplicationLogger());
+		//创建Graphics
+		//默认的策略是铺满
 		graphics = new AndroidGraphics(this, config,
 			config.resolutionStrategy == null ? new FillResolutionStrategy() : config.resolutionStrategy);
+		//键盘输入
 		input = createInput(this, this, graphics.view, config);
 		audio = createAudio(this, config);
 		files = createFiles();
@@ -308,26 +332,31 @@ public class AndroidApplication extends Activity implements AndroidApplicationBa
 		return ApplicationType.Android;
 	}
 
+	//sdk版本
 	@Override
 	public int getVersion () {
 		return android.os.Build.VERSION.SDK_INT;
 	}
 
+	//java栈信息
 	@Override
 	public long getJavaHeap () {
 		return Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
 	}
 
+	//本地栈
 	@Override
 	public long getNativeHeap () {
 		return Debug.getNativeHeapAllocatedSize();
 	}
 
+	//pre
 	@Override
 	public Preferences getPreferences (String name) {
 		return new AndroidPreferences(getSharedPreferences(name, Context.MODE_PRIVATE));
 	}
 
+	//得到粘贴板
 	@Override
 	public Clipboard getClipboard () {
 		return clipboard;
@@ -341,6 +370,7 @@ public class AndroidApplication extends Activity implements AndroidApplicationBa
 		}
 	}
 
+	//
 	@Override
 	public void onConfigurationChanged (Configuration config) {
 		super.onConfigurationChanged(config);
@@ -484,6 +514,7 @@ public class AndroidApplication extends Activity implements AndroidApplicationBa
 		return new DefaultAndroidAudio(context, config);
 	}
 
+	//键盘输入
 	@Override
 	public AndroidInput createInput (Application activity, Context context, Object view, AndroidApplicationConfiguration config) {
 		return new DefaultAndroidInput(this, this, graphics.view, config);

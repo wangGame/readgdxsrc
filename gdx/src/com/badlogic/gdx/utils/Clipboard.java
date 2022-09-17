@@ -17,6 +17,7 @@
 package com.badlogic.gdx.utils;
 
 /** A very simple clipboard interface for text content.
+ * 简单的文本粘贴板
  * @author mzechner */
 public interface Clipboard {
 	/** Check if the clipboard has contents. Recommended to use over getContents() for privacy reasons, if you only want to check
