@@ -20,6 +20,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.files.FileHandle;
 
+/**
+ * class 目录
+ */
 public class ClasspathFileHandleResolver implements FileHandleResolver {
 	@Override
 	public FileHandle resolve (String fileName) {

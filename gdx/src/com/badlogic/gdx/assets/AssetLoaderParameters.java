@@ -16,13 +16,16 @@
 
 package com.badlogic.gdx.assets;
 
+/**
+ * 加载器参数
+ * @param <T>
+ */
 public class AssetLoaderParameters<T> {
-
 	/** Callback interface that will be invoked when the {@link AssetManager} loaded an asset.
 	 * @author mzechner */
+	//回调
 	public interface LoadedCallback {
 		public void finishedLoading (AssetManager assetManager, String fileName, Class type);
 	}
-
 	public LoadedCallback loadedCallback;
 }

@@ -28,8 +28,8 @@ import com.badlogic.gdx.utils.Array;
  * @param <P> the class of the loading parameters the loader supports. */
 public abstract class AssetLoader<T, P extends AssetLoaderParameters<T>> {
 	/** {@link FileHandleResolver} used to map from plain asset names to {@link FileHandle} instances **/
+	//文件路径转换
 	private FileHandleResolver resolver;
-
 	/** Constructor, sets the {@link FileHandleResolver} to use to resolve the file associated with the asset name.
 	 * @param resolver */
 	public AssetLoader (FileHandleResolver resolver) {
@@ -38,6 +38,7 @@ public abstract class AssetLoader<T, P extends AssetLoaderParameters<T>> {
 
 	/** @param fileName file name to resolve
 	 * @return handle to the file, as resolved by the {@link FileHandleResolver} set on the loader */
+	//设置文件名字
 	public FileHandle resolve (String fileName) {
 		return resolver.resolve(fileName);
 	}
@@ -47,5 +48,6 @@ public abstract class AssetLoader<T, P extends AssetLoaderParameters<T>> {
 	 * @param file the resolved file to load
 	 * @param parameter parameters for loading the asset
 	 * @return other assets that the asset depends on and need to be loaded first or null if there are no dependencies. */
+	//加载资产  加载的资产可能在其他线程上加载
 	public abstract Array<AssetDescriptor> getDependencies (String fileName, FileHandle file, P parameter);
 }

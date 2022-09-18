@@ -22,6 +22,7 @@ import com.badlogic.gdx.files.FileHandle;
 /** Interface for classes the can map a file name to a {@link FileHandle}. Used to allow the {@link AssetManager} to load
  * resources from anywhere or implement caching strategies.
  * @author mzechner */
+//将要加载的文件转换为FileHandle，实现任意地方加载
 public interface FileHandleResolver {
 	public FileHandle resolve (String fileName);
 }

@@ -26,6 +26,7 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
 /** @author mzechner */
+//加载图片资源的地方
 public class Gdx2DPixmap implements Disposable {
 	public static final int GDX2D_FORMAT_ALPHA = 1;
 	public static final int GDX2D_FORMAT_LUMINANCE_ALPHA = 2;
@@ -275,7 +276,7 @@ public class Gdx2DPixmap implements Disposable {
 		case GDX2D_FORMAT_ALPHA:
 			return "alpha";
 		case GDX2D_FORMAT_LUMINANCE_ALPHA:
-			return "luminance alpha";
+			return "luminance alpha";//亮度
 		case GDX2D_FORMAT_RGB888:
 			return "rgb888";
 		case GDX2D_FORMAT_RGBA8888:

@@ -31,6 +31,7 @@ import com.badlogic.gdx.utils.Array;
  * {@link AssetManager#load(String, Class, AssetLoaderParameters)} allows to specify whether the atlas regions should be flipped
  * on the y-axis or not.
  * @author mzechner */
+//TextureAtlas实际需要加载的是texture   所以加载的依赖是Texture
 public class TextureAtlasLoader extends SynchronousAssetLoader<TextureAtlas, TextureAtlasLoader.TextureAtlasParameter> {
 	public TextureAtlasLoader (FileHandleResolver resolver) {
 		super(resolver);

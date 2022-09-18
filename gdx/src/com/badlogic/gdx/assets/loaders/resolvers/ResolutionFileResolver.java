@@ -55,10 +55,8 @@ public class ResolutionFileResolver implements FileHandleResolver {
 	public static class Resolution {
 		public final int portraitWidth;
 		public final int portraitHeight;
-
 		/** The name of the folder, where the assets which fit this resolution, are located. */
 		public final String folder;
-
 		/** Constructs a {@code Resolution}.
 		 * @param portraitWidth This resolution's width.
 		 * @param portraitHeight This resolution's height.
@@ -102,7 +100,6 @@ public class ResolutionFileResolver implements FileHandleResolver {
 
 	static public Resolution choose (Resolution... descriptors) {
 		int w = Gdx.graphics.getBackBufferWidth(), h = Gdx.graphics.getBackBufferHeight();
-
 		// Prefer the shortest side.
 		Resolution best = descriptors[0];
 		if (w < h) {

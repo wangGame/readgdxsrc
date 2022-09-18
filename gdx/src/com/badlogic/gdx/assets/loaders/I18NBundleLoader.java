@@ -43,13 +43,10 @@ import com.badlogic.gdx.utils.I18NBundle;
  * </ul>
  * @author davebaol */
 public class I18NBundleLoader extends AsynchronousAssetLoader<I18NBundle, I18NBundleLoader.I18NBundleParameter> {
-
 	public I18NBundleLoader (FileHandleResolver resolver) {
 		super(resolver);
 	}
-
 	I18NBundle bundle;
-
 	@Override
 	public void loadAsync (AssetManager manager, String fileName, FileHandle file, I18NBundleParameter parameter) {
 		this.bundle = null;

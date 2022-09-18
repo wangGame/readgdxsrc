@@ -52,7 +52,6 @@ public class TextureLoader extends AsynchronousAssetLoader<Texture, TextureLoade
 			Format format = null;
 			boolean genMipMaps = false;
 			info.texture = null;
-
 			if (parameter != null) {
 				format = parameter.format;
 				genMipMaps = parameter.genMipMaps;

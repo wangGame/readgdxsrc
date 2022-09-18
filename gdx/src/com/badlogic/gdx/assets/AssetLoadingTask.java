@@ -32,6 +32,7 @@ import com.badlogic.gdx.utils.async.AsyncTask;
  * update the overriding emu file on GWT backend when changing this file!
  * 
  * @author mzechner */
+//加载 资产任务
 class AssetLoadingTask implements AsyncTask<Void> {
 	AssetManager manager;
 	final AssetDescriptor assetDesc;
@@ -45,7 +46,6 @@ class AssetLoadingTask implements AsyncTask<Void> {
 	volatile AsyncResult<Void> depsFuture;
 	volatile AsyncResult<Void> loadFuture;
 	volatile Object asset;
-
 	volatile boolean cancel;
 
 	public AssetLoadingTask (AssetManager manager, AssetDescriptor assetDesc, AssetLoader loader, AsyncExecutor threadPool) {
@@ -60,11 +60,15 @@ class AssetLoadingTask implements AsyncTask<Void> {
 	@Override
 	public Void call () throws Exception {
 		if (cancel) return null;
+		//得到加载器
 		AsynchronousAssetLoader asyncLoader = (AsynchronousAssetLoader)loader;
+		//加载过了就不加载了
 		if (!dependenciesLoaded) {
+			//给加载器写入加载的信息
 			dependencies = asyncLoader.getDependencies(assetDesc.fileName, resolve(loader, assetDesc), assetDesc.params);
 			if (dependencies != null) {
 				removeDuplicates(dependencies);
+				//加载
 				manager.injectDependencies(assetDesc.fileName, dependencies);
 			} else {
 				// if we have no dependencies, we load the async part of the task immediately.
@@ -92,12 +96,16 @@ class AssetLoadingTask implements AsyncTask<Void> {
 		return asset != null;
 	}
 
+	//同步处理
 	private void handleSyncLoader () {
+		//加载器
 		SynchronousAssetLoader syncLoader = (SynchronousAssetLoader)loader;
 		if (!dependenciesLoaded) {
 			dependenciesLoaded = true;
+			//得到依赖
 			dependencies = syncLoader.getDependencies(assetDesc.fileName, resolve(loader, assetDesc), assetDesc.params);
 			if (dependencies == null) {
+				//加载
 				asset = syncLoader.load(manager, assetDesc.fileName, resolve(loader, assetDesc), assetDesc.params);
 				return;
 			}

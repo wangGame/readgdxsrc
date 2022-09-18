@@ -35,45 +35,44 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
  * {@link Texture} containing the glyphs as a dependency. The {@link BitmapFontParameter} allows you to set things like texture
  * filters or whether to flip the glyphs vertically.
  * @author mzechner */
+//加载font 加载fnt文件和加载里面的图片
+	//准备图片文件    创建BitmapFont
 public class BitmapFontLoader extends AsynchronousAssetLoader<BitmapFont, BitmapFontLoader.BitmapFontParameter> {
 	public BitmapFontLoader (FileHandleResolver resolver) {
 		super(resolver);
 	}
-
 	BitmapFontData data;
-
+	//得到字体文件的依赖
 	@Override
 	public Array<AssetDescriptor> getDependencies (String fileName, FileHandle file, BitmapFontParameter parameter) {
 		Array<AssetDescriptor> deps = new Array();
+		//参数不为空（用户给设置参数了）   parameter.data存在值，说明里面已经有东西了
 		if (parameter != null && parameter.bitmapFontData != null) {
 			data = parameter.bitmapFontData;
 			return deps;
 		}
-
 		data = new BitmapFontData(file, parameter != null && parameter.flip);
+		//用户设置了
 		if (parameter != null && parameter.atlasName != null) {
 			deps.add(new AssetDescriptor(parameter.atlasName, TextureAtlas.class));
 		} else {
 			for (int i = 0; i < data.getImagePaths().length; i++) {
 				String path = data.getImagePath(i);
 				FileHandle resolved = resolve(path);
-
 				TextureLoader.TextureParameter textureParams = new TextureLoader.TextureParameter();
-
 				if (parameter != null) {
 					textureParams.genMipMaps = parameter.genMipMaps;
 					textureParams.minFilter = parameter.minFilter;
 					textureParams.magFilter = parameter.magFilter;
 				}
-
 				AssetDescriptor descriptor = new AssetDescriptor(resolved, Texture.class, textureParams);
 				deps.add(descriptor);
 			}
 		}
-
 		return deps;
 	}
 
+	//没有实现
 	@Override
 	public void loadAsync (AssetManager manager, String fileName, FileHandle file, BitmapFontParameter parameter) {
 	}
@@ -81,10 +80,11 @@ public class BitmapFontLoader extends AsynchronousAssetLoader<BitmapFont, Bitmap
 	@Override
 	public BitmapFont loadSync (AssetManager manager, String fileName, FileHandle file, BitmapFontParameter parameter) {
 		if (parameter != null && parameter.atlasName != null) {
+			//使用用户射中的路径
 			TextureAtlas atlas = manager.get(parameter.atlasName, TextureAtlas.class);
+			//得到名字
 			String name = file.sibling(data.imagePaths[0]).nameWithoutExtension().toString();
 			AtlasRegion region = atlas.findRegion(name);
-
 			if (region == null)
 				throw new GdxRuntimeException("Could not find font region " + name + " in atlas " + parameter.atlasName);
 			return new BitmapFont(file, region);
@@ -103,9 +103,11 @@ public class BitmapFontLoader extends AsynchronousAssetLoader<BitmapFont, Bitmap
 	 * @author mzechner */
 	static public class BitmapFontParameter extends AssetLoaderParameters<BitmapFont> {
 		/** Flips the font vertically if {@code true}. Defaults to {@code false}. **/
+		//是否翻转
 		public boolean flip = false;
 
 		/** Generates mipmaps for the font if {@code true}. Defaults to {@code false}. **/
+		//是否使用mipmap
 		public boolean genMipMaps = false;
 
 		/** The {@link TextureFilter} to use when scaling down the {@link BitmapFont}. Defaults to {@link TextureFilter#Nearest}. */
@@ -116,6 +118,7 @@ public class BitmapFontLoader extends AsynchronousAssetLoader<BitmapFont, Bitmap
 
 		/** optional {@link BitmapFontData} to be used instead of loading the {@link Texture} directly. Use this if your font is
 		 * embedded in a {@link Skin}. **/
+		//在skin中使用
 		public BitmapFontData bitmapFontData = null;
 
 		/** The name of the {@link TextureAtlas} to load the {@link BitmapFont} itself from. Optional; if {@code null}, will look

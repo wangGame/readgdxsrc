@@ -21,13 +21,13 @@ import com.badlogic.gdx.files.FileHandle;
 /** Describes an asset to be loaded by its filename, type and {@link AssetLoaderParameters}. Instances of this are used in
  * {@link AssetLoadingTask} to load the actual asset.
  * @author mzechner */
+//加载器 写完了，这里真正的进行加载 的参数
 public class AssetDescriptor<T> {
 	public final String fileName;
 	public final Class<T> type;
 	public final AssetLoaderParameters params;
 	/** The resolved file. May be null if the fileName has not been resolved yet. */
 	public FileHandle file;
-
 	public AssetDescriptor (String fileName, Class<T> assetType) {
 		this(fileName, assetType, null);
 	}

@@ -31,7 +31,6 @@ public class ParticleEffectLoader extends SynchronousAssetLoader<ParticleEffect,
 	public ParticleEffectLoader (FileHandleResolver resolver) {
 		super(resolver);
 	}
-
 	@Override
 	public ParticleEffect load (AssetManager am, String fileName, FileHandle file, ParticleEffectParameter param) {
 		ParticleEffect effect = new ParticleEffect();
