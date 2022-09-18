@@ -21,6 +21,7 @@ import android.content.ClipData;
 import android.content.Context;
 import com.badlogic.gdx.utils.Clipboard;
 
+//粘贴板
 public class AndroidClipboard implements Clipboard {
 
 	private final android.content.ClipboardManager clipboard;

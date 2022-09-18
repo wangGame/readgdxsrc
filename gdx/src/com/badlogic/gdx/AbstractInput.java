@@ -15,6 +15,10 @@ public abstract class AbstractInput implements Input {
 		justPressedKeys = new boolean[Keys.MAX_KEYCODE + 1];
 	}
 
+	//某个键是否按下
+	//如果是任意建   就判断按下的数量
+	//如果超出范围  就返回false
+	//盘点按下的建
 	@Override
 	public boolean isKeyPressed (int key) {
 		if (key == Input.Keys.ANY_KEY) {

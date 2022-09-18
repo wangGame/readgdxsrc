@@ -141,15 +141,20 @@ public class AndroidApplication extends Activity implements AndroidApplicationBa
 			config.resolutionStrategy == null ? new FillResolutionStrategy() : config.resolutionStrategy);
 		//键盘输入
 		input = createInput(this, this, graphics.view, config);
+		//创建 audio
 		audio = createAudio(this, config);
+		//文件
 		files = createFiles();
+		//net
 		net = new AndroidNet(this, config);
+
 		this.listener = listener;
 		this.handler = new Handler();
 		this.useImmersiveMode = config.useImmersiveMode;
+		//粘贴板
 		this.clipboard = new AndroidClipboard(this);
-
 		// Add a specialized audio lifecycle listener
+		//处理音效的
 		addLifecycleListener(new LifecycleListener() {
 
 			@Override
@@ -204,6 +209,7 @@ public class AndroidApplication extends Activity implements AndroidApplicationBa
 		return layoutParams;
 	}
 
+	//使用唤醒
 	protected void createWakeLock (boolean use) {
 		if (use) {
 			getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -229,11 +235,13 @@ public class AndroidApplication extends Activity implements AndroidApplicationBa
 	@Override
 	public void useImmersiveMode (boolean use) {
 		if (!use || getVersion() < Build.VERSION_CODES.KITKAT) return;
-
 		View view = getWindow().getDecorView();
-		int code = View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-			| View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN
-			| View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+		int code = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+						| View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+						| View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+						| View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+						| View.SYSTEM_UI_FLAG_FULLSCREEN
+						| View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
 		view.setSystemUiVisibility(code);
 	}
 

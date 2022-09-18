@@ -8,6 +8,7 @@ import android.view.View;
 import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
+//鼠标的样式
 public class AndroidCursor implements Cursor {
 
 	static void setSystemCursor (View view, SystemCursor systemCursor) {

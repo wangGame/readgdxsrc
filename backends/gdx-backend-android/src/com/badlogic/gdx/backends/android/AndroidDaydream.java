@@ -45,7 +45,6 @@ import com.badlogic.gdx.utils.SnapshotArray;
  * @author mzechner */
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class AndroidDaydream extends DreamService implements AndroidApplicationBase {
-
 	protected AndroidGraphics graphics;
 	protected AndroidInput input;
 	protected AndroidAudio audio;

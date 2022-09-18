@@ -29,15 +29,19 @@ import com.badlogic.gdx.backends.android.surfaceview.ResolutionStrategy;
  * @author mzechner */
 public class AndroidApplicationConfiguration {
 	/** number of bits per color channel **/
+	//颜色使用的位数
 	public int r = 8, g = 8, b = 8, a = 0;
 
 	/** number of bits for depth and stencil buffer **/
+	//深度  模板使用的深度  模板测试默认是关闭的
 	public int depth = 16, stencil = 0;
 
 	/** number of samples for CSAA/MSAA, 2 is a good value **/
+	//csaa . msaa    采样次数
 	public int numSamples = 0;
 
 	/** whether to use the accelerometer. default: true **/
+	//加速器
 	public boolean useAccelerometer = true;
 
 	/** whether to use the gyroscope. default: false **/
@@ -60,16 +64,18 @@ public class AndroidApplicationConfiguration {
 	 * If true and the rotation vector sensor is available, the compass will not be used, regardless of {@link #useCompass}.
 	 * <p>
 	 * Default: false */
+	//矢量传感器
 	public boolean useRotationVectorSensor = false;
 
 	/** The requested sensor sampling rate in microseconds or one of the {@code SENSOR_DELAY_*} constants in {@link SensorManager}.
 	 * <p>
 	 * Default: {@link SensorManager#SENSOR_DELAY_GAME} (20 ms updates). */
-	//采样率
+	//请求传感器  采样率
 	public int sensorDelay = SensorManager.SENSOR_DELAY_GAME;
 
 	/** the time in milliseconds to sleep after each event in the touch handler, set this to 16ms to get rid of touch flooding on
 	 * pre Android 2.0 devices. default: 0 **/
+	//每个实际按之后睡眠时间
 	public int touchSleepTime = 0;
 
 	/** whether to keep the screen on and at full brightness or not while running the application. default: false. Uses

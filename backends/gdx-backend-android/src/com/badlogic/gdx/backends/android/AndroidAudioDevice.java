@@ -25,17 +25,19 @@ import com.badlogic.gdx.audio.AudioDevice;
 /** Implementation of the {@link AudioDevice} interface for Android using the AudioTrack class. You will need to set the
  * permission android.permission.RECORD_AUDIO in your manifest file.
  * @author mzechner */
+//录音
 class AndroidAudioDevice implements AudioDevice {
 	/** the audio track **/
 	private final AudioTrack track;
-
 	/** the mighty buffer **/
+	//缓存区
 	private short[] buffer = new short[1024];
-
 	/** whether this device is in mono or stereo mode **/
+	//是不是立体声
 	private final boolean isMono;
 
 	/** the latency in samples **/
+	//样本延迟
 	private final int latency;
 
 	AndroidAudioDevice (int samplingRate, boolean isMono) {

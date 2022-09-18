@@ -25,22 +25,21 @@ import com.badlogic.gdx.backends.android.DefaultAndroidInput.TouchEvent;
 /** Mouse handler for devices running Android >= 3.1.
  * 
  * @author Richard Martin */
+//安卓鼠标
 public class AndroidMouseHandler {
 	private int deltaX = 0;
 	private int deltaY = 0;
 
 	public boolean onGenericMotion (MotionEvent event, DefaultAndroidInput input) {
 		if ((event.getSource() & InputDevice.SOURCE_CLASS_POINTER) == 0) return false;
-
 		final int action = event.getAction() & MotionEvent.ACTION_MASK;
-
 		int x = 0, y = 0;
 		int scrollAmountX = 0;
 		int scrollAmountY = 0;
-
 		long timeStamp = System.nanoTime();
 		synchronized (input) {
 			switch (action) {
+				///悬停
 			case MotionEvent.ACTION_HOVER_MOVE:
 				x = (int)event.getX();
 				y = (int)event.getY();
@@ -50,7 +49,7 @@ public class AndroidMouseHandler {
 					deltaY = y;
 				}
 				break;
-
+			//动作移动
 			case MotionEvent.ACTION_SCROLL:
 				scrollAmountY = (int)-Math.signum(event.getAxisValue(MotionEvent.AXIS_VSCROLL));
 				scrollAmountX = (int)-Math.signum(event.getAxisValue(MotionEvent.AXIS_HSCROLL));
@@ -77,6 +76,7 @@ public class AndroidMouseHandler {
 		Gdx.app.log("AndroidMouseHandler", "action " + actionStr);
 	}
 
+	//增加触摸
 	private void postTouchEvent (DefaultAndroidInput input, int type, int x, int y, int scrollAmountX, int scrollAmountY,
 		long timeStamp) {
 		TouchEvent event = input.usedTouchEvents.obtain();

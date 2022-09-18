@@ -53,6 +53,7 @@ import com.badlogic.gdx.utils.StreamUtils;
  * 
  * @author mzechner
  * @author Nathan Sweet */
+//android处理文件
 public class FileHandle {
 	protected File file;
 	protected FileType type;
@@ -64,6 +65,7 @@ public class FileHandle {
 	 * Do not use this constructor in case you write something cross-platform. Use the {@link Files} interface instead.
 	 * @param fileName the filename. */
 	public FileHandle (String fileName) {
+		//默认是绝对路径
 		this.file = new File(fileName);
 		this.type = FileType.Absolute;
 	}
@@ -657,6 +659,7 @@ public class FileHandle {
 		return file().lastModified();
 	}
 
+	//类型相同文件的目录值相同
 	public boolean equals (Object obj) {
 		if (!(obj instanceof FileHandle)) return false;
 		FileHandle other = (FileHandle)obj;
@@ -693,6 +696,7 @@ public class FileHandle {
 		}
 	}
 
+	//保护树  就是不删除目录列表
 	static private void emptyDirectory (File file, boolean preserveTree) {
 		if (file.exists()) {
 			File[] files = file.listFiles();
@@ -709,11 +713,13 @@ public class FileHandle {
 		}
 	}
 
+	//删除文件  递归删除
 	static private boolean deleteDirectory (File file) {
 		emptyDirectory(file, false);
 		return file.delete();
 	}
 
+	//目标写入输入流
 	static private void copyFile (FileHandle source, FileHandle dest) {
 		try {
 			dest.write(source.read(), false);
@@ -723,9 +729,13 @@ public class FileHandle {
 		}
 	}
 
+	//复制文件夹
 	static private void copyDirectory (FileHandle sourceDir, FileHandle destDir) {
+		//创建目标文件夹
 		destDir.mkdirs();
+		//得到原始的文件数组
 		FileHandle[] files = sourceDir.list();
+		//遍历    递归文件夹
 		for (int i = 0, n = files.length; i < n; i++) {
 			FileHandle srcFile = files[i];
 			FileHandle destFile = destDir.child(srcFile.name());

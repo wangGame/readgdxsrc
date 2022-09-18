@@ -97,7 +97,7 @@ public class DefaultAndroidInput extends AbstractInput implements AndroidInput {
 			return new TouchEvent();
 		}
 	};
-
+	//20个手指按下
 	public static final int NUM_TOUCHES = 20;
 
 	ArrayList<OnKeyListener> keyListeners = new ArrayList();
@@ -151,11 +151,16 @@ public class DefaultAndroidInput extends AbstractInput implements AndroidInput {
 		// within the AndroidLivewallpaperEngine#onTouchEvent() method.
 		if (view instanceof View) {
 			View v = (View)view;
+			//view   键盘监听
 			v.setOnKeyListener(this);
+			// 触摸
 			v.setOnTouchListener(this);
+			//焦点
 			v.setFocusable(true);
+			//
 			v.setFocusableInTouchMode(true);
 			v.requestFocus();
+
 			v.setOnGenericMotionListener(this);
 		}
 		this.config = config;
@@ -531,6 +536,7 @@ public class DefaultAndroidInput extends AbstractInput implements AndroidInput {
 
 	@Override
 	public boolean onKey (View v, int keyCode, android.view.KeyEvent e) {
+		//key监听  如果有按下的就 返回
 		for (int i = 0, n = keyListeners.size(); i < n; i++)
 			if (keyListeners.get(i).onKey(v, keyCode, e)) return true;
 
@@ -1034,6 +1040,7 @@ public class DefaultAndroidInput extends AbstractInput implements AndroidInput {
 	/** Our implementation of SensorEventListener. Because Android doesn't like it when we register more than one Sensor to a
 	 * single SensorEventListener, we add one of these for each Sensor. Could use an anonymous class, but I don't see any harm in
 	 * explicitly defining it here. Correct me if I am wrong. */
+	//回调方法  检测手机状态发生的变换
 	private class SensorListener implements SensorEventListener {
 
 		public SensorListener () {

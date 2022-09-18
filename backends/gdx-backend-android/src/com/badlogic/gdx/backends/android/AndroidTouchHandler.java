@@ -32,16 +32,15 @@ public class AndroidTouchHandler {
 		final int action = event.getAction() & MotionEvent.ACTION_MASK;
 		int pointerIndex = (event.getAction() & MotionEvent.ACTION_POINTER_INDEX_MASK) >> MotionEvent.ACTION_POINTER_INDEX_SHIFT;
 		int pointerId = event.getPointerId(pointerIndex);
-
 		int x = 0, y = 0;
 		int realPointerIndex = 0;
 		int button = Buttons.LEFT;
-
 		long timeStamp = System.nanoTime();
 		synchronized (input) {
 			switch (action) {
 			case MotionEvent.ACTION_DOWN:
 			case MotionEvent.ACTION_POINTER_DOWN:
+				//得到空闲指针索引
 				realPointerIndex = input.getFreePointerIndex(); // get a free pointer index as reported by Input.getX() etc.
 				if (realPointerIndex >= DefaultAndroidInput.NUM_TOUCHES) break;
 				input.realId[realPointerIndex] = pointerId;

@@ -37,6 +37,7 @@ import com.badlogic.gdx.utils.StreamUtils;
 
 /** @author mzechner
  * @author Nathan Sweet */
+//文件
 public class AndroidFileHandle extends FileHandle {
 	// The asset manager, or null if this is not an internal file.
 	final private AssetManager assets;
