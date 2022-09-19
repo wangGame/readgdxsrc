@@ -124,7 +124,7 @@ public class Actor {
 	 * If the event is {@link Event#stop() stopped} at any time, it will not propagate to the next actor.
 	 * @return true if the event was {@link Event#cancel() cancelled}. */
 	public boolean fire (Event event) {
-		//
+		//设置stage  设置目标
 		if (event.getStage() == null) event.setStage(getStage());
 		event.setTarget(this);
 
@@ -138,6 +138,7 @@ public class Actor {
 		}
 
 		try {
+//			通知祖先的捕获侦听器，从根开始。上升者可能会在孩子们收到之前停止事件。
 			// Notify ascendants' capture listeners, starting at the root. Ascendants may stop an event before children receive it.
 			Object[] ascendantsArray = ascendants.items;
 			for (int i = ascendants.size - 1; i >= 0; i--) {
@@ -178,7 +179,7 @@ public class Actor {
 		if (event.getTarget() == null) throw new IllegalArgumentException("The event target cannot be null.");
 		DelayedRemovalArray<EventListener> listeners = capture ? captureListeners : this.listeners;
 		if (listeners.size == 0) return event.isCancelled();
-
+		//
 		event.setListenerActor(this);
 		event.setCapture(capture);
 		if (event.getStage() == null) event.setStage(stage);

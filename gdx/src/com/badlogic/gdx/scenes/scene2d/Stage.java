@@ -413,6 +413,7 @@ public class Stage extends InputAdapter implements Disposable {
 
 	/** Applies a key down event to the actor that has {@link Stage#setKeyboardFocus(Actor) keyboard focus}, if any, and returns
 	 * true if the event was {@link Event#handle() handled}. */
+	//按键点击
 	public boolean keyDown (int keyCode) {
 		Actor target = keyboardFocus == null ? root : keyboardFocus;
 		InputEvent event = Pools.obtain(InputEvent.class);
