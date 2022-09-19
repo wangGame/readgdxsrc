@@ -42,6 +42,7 @@ public class AndroidTouchHandler {
 			case MotionEvent.ACTION_POINTER_DOWN:
 				//得到空闲指针索引
 				realPointerIndex = input.getFreePointerIndex(); // get a free pointer index as reported by Input.getX() etc.
+				//超过20个触摸点就返回
 				if (realPointerIndex >= DefaultAndroidInput.NUM_TOUCHES) break;
 				input.realId[realPointerIndex] = pointerId;
 				x = (int)event.getX(pointerIndex);

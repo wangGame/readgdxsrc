@@ -47,6 +47,7 @@ public interface Input {
 	 * 
 	 * @author mzechner */
 	//文本输入回调方法
+//		使用的android自带的EditText
 	static public interface TextInputListener {
 		public void input (String text);
 		public void canceled ();

@@ -174,7 +174,6 @@ public class DefaultAndroidInput extends AbstractInput implements AndroidInput {
 		this.sleepTime = config.touchSleepTime;
 		touchHandler = new AndroidTouchHandler();
 		hasMultitouch = touchHandler.supportsMultitouch(context);
-
 		haptics = new AndroidHaptics(context);
 
 		int rotation = getRotation();
@@ -382,6 +381,7 @@ public class DefaultAndroidInput extends AbstractInput implements AndroidInput {
 	@Override
 	public void processEvents () {
 		synchronized (this) {
+			//刚接触   可以理解为复位
 			if (justTouched) {
 				justTouched = false;
 				for (int i = 0; i < justPressedButtons.length; i++) {
@@ -402,7 +402,6 @@ public class DefaultAndroidInput extends AbstractInput implements AndroidInput {
 
 			if (processor != null) {
 				final InputProcessor processor = this.processor;
-
 				int len = keyEvents.size();
 				for (int i = 0; i < len; i++) {
 					KeyEvent e = keyEvents.get(i);

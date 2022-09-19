@@ -124,9 +124,11 @@ public class Actor {
 	 * If the event is {@link Event#stop() stopped} at any time, it will not propagate to the next actor.
 	 * @return true if the event was {@link Event#cancel() cancelled}. */
 	public boolean fire (Event event) {
+		//
 		if (event.getStage() == null) event.setStage(getStage());
 		event.setTarget(this);
 
+		//收集父类
 		// Collect ascendants so event propagation is unaffected by hierarchy changes.
 		Array<Group> ascendants = Pools.obtain(Array.class);
 		Group parent = this.parent;
@@ -174,7 +176,6 @@ public class Actor {
 	 * @return true if the event was {@link Event#cancel() cancelled}. */
 	public boolean notify (Event event, boolean capture) {
 		if (event.getTarget() == null) throw new IllegalArgumentException("The event target cannot be null.");
-
 		DelayedRemovalArray<EventListener> listeners = capture ? captureListeners : this.listeners;
 		if (listeners.size == 0) return event.isCancelled();
 
@@ -184,6 +185,7 @@ public class Actor {
 
 		try {
 			listeners.begin();
+			//得到父类    给每一个父类都执行一次  handle
 			for (int i = 0, n = listeners.size; i < n; i++)
 				if (listeners.get(i).handle(event)) event.handle();
 			listeners.end();
@@ -219,6 +221,7 @@ public class Actor {
 	}
 
 	/** Add a listener to receive events that {@link #hit(float, float, boolean) hit} this actor. See {@link #fire(Event)}.
+	 *  接受一个hit事件
 	 * @see InputListener
 	 * @see ClickListener */
 	public boolean addListener (EventListener listener) {
@@ -240,6 +243,7 @@ public class Actor {
 	}
 
 	/** Adds a listener that is only notified during the capture phase.
+	 * 添加仅在捕获阶段收到通知的侦听器
 	 * @see #fire(Event) */
 	public boolean addCaptureListener (EventListener listener) {
 		if (listener == null) throw new IllegalArgumentException("listener cannot be null.");
