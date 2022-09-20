@@ -48,9 +48,7 @@ public class ViewportTest1 extends GdxTest {
 	public void create () {
 		stage = new Stage();
 		Skin skin = new Skin(Gdx.files.internal("data/uiskin.json"));
-
 		label = new Label("", skin);
-
 		Table root = new Table(skin);
 		root.setFillParent(true);
 		root.setBackground(skin.getDrawable("default-pane"));
