@@ -56,6 +56,7 @@ public interface Graphics {
 	/** Describe a fullscreen display mode
 	 *
 	 * @author mzechner */
+	//模式 宽高  刷新率
 	class DisplayMode {
 		/** the width in physical pixels **/
 		public final int width;
@@ -64,6 +65,7 @@ public interface Graphics {
 		/** the refresh rate in Hertz **/
 		public final int refreshRate;
 		/** the number of bits per pixel, may exclude alpha **/
+		//没像素的位数
 		public final int bitsPerPixel;
 
 		protected DisplayMode (int width, int height, int refreshRate, int bitsPerPixel) {
@@ -94,6 +96,7 @@ public interface Graphics {
 	}
 
 	/** Class describing the bits per pixel, depth buffer precision, stencil precision and number of MSAA samples. */
+	/*描述  每个像素  每个深度缓存区  模板   MSAA是样本数*/
 	class BufferFormat {
 		/* number of bits per color channel */
 		public final int r, g, b, a;

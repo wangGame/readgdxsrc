@@ -26,6 +26,7 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
  * assumed (0, 0, 1).
  *
  * @author vmilea */
+//2D 平移、缩放、翻转、旋转和剪切的序列   3x3 矩阵
 public final class Affine2 implements Serializable {
 	private static final long serialVersionUID = 1524569123485049187L;
 
@@ -111,6 +112,16 @@ public final class Affine2 implements Serializable {
 	 * @param x The translation in x
 	 * @param y The translation in y
 	 * @return This matrix for the purpose of chaining operations. */
+	/**
+	 * 这个应该算是直接结果了
+	 * [1 0 0][x]	[1*x + y*0 + z*0]
+	 * [0 1 0][y] =	[...]
+	 * [0 0 1][z]	[...]
+	 *
+	 * @param x
+	 * @param y
+	 * @return
+	 */
 	public Affine2 setToTranslation (float x, float y) {
 		m00 = 1;
 		m01 = 0;
@@ -131,7 +142,14 @@ public final class Affine2 implements Serializable {
 	/** Sets this matrix to a scaling matrix.
 	 * @param scaleX The scale in x.
 	 * @param scaleY The scale in y.
-	 * @return This matrix for the purpose of chaining operations. */
+	 * @return This matrix for the purpose of chaining operations.
+	 **/
+	/**
+	 * 缩放  就是给x,y乘值
+	 * @param scaleX
+	 * @param scaleY
+	 * @return
+	 */
 	public Affine2 setToScaling (float scaleX, float scaleY) {
 		m00 = scaleX;
 		m01 = 0;

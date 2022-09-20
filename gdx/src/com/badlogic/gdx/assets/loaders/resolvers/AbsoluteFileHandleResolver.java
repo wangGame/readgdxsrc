@@ -14,4 +14,3 @@ public class AbsoluteFileHandleResolver implements FileHandleResolver {
 		return Gdx.files.absolute(fileName);
 	}
 }
-A

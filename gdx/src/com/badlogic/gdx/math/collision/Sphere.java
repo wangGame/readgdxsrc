@@ -23,7 +23,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.NumberUtils;
 
 /** Encapsulates a 3D sphere with a center and a radius
- * 
+ *  中心   半径   球
  * @author badlogicgames@gmail.com */
 public class Sphere implements Serializable {
 	private static final long serialVersionUID = -6487336868908521596L;

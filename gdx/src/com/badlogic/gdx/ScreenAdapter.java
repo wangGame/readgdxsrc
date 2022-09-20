@@ -18,6 +18,10 @@ package com.badlogic.gdx;
 
 /** Convenience implementation of {@link Screen}. Derive from this and only override what you need.
  * @author semtiko */
+
+/**
+ * 仅仅继承需要的类型
+ */
 public class ScreenAdapter implements Screen {
 	@Override
 	public void render (float delta) {

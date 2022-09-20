@@ -31,6 +31,23 @@ public class Bezier<T extends Vector<T>> implements Path<T> {
 	 * @param p1 The end point.
 	 * @param tmp A temporary vector to be used by the calculation.
 	 * @return The value specified by out for chaining */
+	/**
+	 * 简单线性插值
+	 * @param out 要设置为结果的 {@link Vector}。
+	 * @param t 线上的位置（范围 0..1）。
+	 * @param p0 起点。
+	 * @param p1 终点。
+	 * @param tmp 计算使用的临时向量。
+	 *
+	 * @return out 为链接指定的值
+	 * @param out
+	 * @param t
+	 * @param p0
+	 * @param p1
+	 * @param tmp
+	 * @return
+	 * @param <T>
+	 */
 	public static <T extends Vector<T>> T linear (final T out, final float t, final T p0, final T p1, final T tmp) {
 		// B1(t) = p0 + (p1-p0)*t
 		return out.set(p0).scl(1f - t).add(tmp.set(p1).scl(t)); // Could just use lerp...

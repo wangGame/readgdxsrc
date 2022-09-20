@@ -66,9 +66,9 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 public class Stage extends InputAdapter implements Disposable {
 	/** True if any actor has ever had debug enabled. */
 	static boolean debug;
-
 	private Viewport viewport;
 	private final Batch batch;
+	//如果是自己创建的batch就需要自己dispose
 	private boolean ownsBatch;
 	private Group root;
 	private final Vector2 tempCoords = new Vector2();
@@ -109,19 +109,17 @@ public class Stage extends InputAdapter implements Disposable {
 		if (batch == null) throw new IllegalArgumentException("batch cannot be null.");
 		this.viewport = viewport;
 		this.batch = batch;
-
 		root = new Group();
 		root.setStage(this);
-
+		//相机移动到屏幕中央
 		viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 	}
 
 	public void draw () {
 		Camera camera = viewport.getCamera();
 		camera.update();
-
+		//不显示就不绘制
 		if (!root.isVisible()) return;
-
 		Batch batch = this.batch;
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
@@ -417,8 +415,10 @@ public class Stage extends InputAdapter implements Disposable {
 	public boolean keyDown (int keyCode) {
 		Actor target = keyboardFocus == null ? root : keyboardFocus;
 		InputEvent event = Pools.obtain(InputEvent.class);
+		//事件类型
 		event.setType(InputEvent.Type.keyDown);
 		event.setStage(this);
+		//按下的键名
 		event.setKeyCode(keyCode);
 		target.fire(event);
 		boolean handled = event.isHandled();

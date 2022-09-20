@@ -60,10 +60,10 @@ public class Actor {
 	private final DelayedRemovalArray<EventListener> listeners = new DelayedRemovalArray(0);
 	private final DelayedRemovalArray<EventListener> captureListeners = new DelayedRemovalArray(0);
 	private final Array<Action> actions = new Array(0);
-
 	private @Null String name;
 	private Touchable touchable = Touchable.enabled;
-	private boolean visible = true, debug;
+	private boolean visible = true;
+	private boolean debug;
 	float x, y;
 	float width, height;
 	float originX, originY;
@@ -88,6 +88,7 @@ public class Actor {
 	 * <p>
 	 * The default implementation calls {@link Action#act(float)} on each action and removes actions that are complete.
 	 * @param delta Time in seconds since the last frame. */
+	//
 	public void act (float delta) {
 		Array<Action> actions = this.actions;
 		if (actions.size == 0) return;
@@ -123,6 +124,11 @@ public class Actor {
 	 * </ol>
 	 * If the event is {@link Event#stop() stopped} at any time, it will not propagate to the next actor.
 	 * @return true if the event was {@link Event#cancel() cancelled}. */
+	/**
+	 * 点击之后，根据位置，找到点击之后的actor   然后找出actor的父类    从顶向下执行   事件被消费了就返回
+	 * @param event
+	 * @return
+	 */
 	public boolean fire (Event event) {
 		//设置stage  设置目标
 		if (event.getStage() == null) event.setStage(getStage());
@@ -143,6 +149,7 @@ public class Actor {
 			Object[] ascendantsArray = ascendants.items;
 			for (int i = ascendants.size - 1; i >= 0; i--) {
 				Group currentTarget = (Group)ascendantsArray[i];
+				//一般情况下可以忽略掉
 				currentTarget.notify(event, true);
 				if (event.isStopped()) return event.isCancelled();
 			}
@@ -155,7 +162,7 @@ public class Actor {
 			notify(event, false);
 			if (!event.getBubbles()) return event.isCancelled();
 			if (event.isStopped()) return event.isCancelled();
-
+			//事件从根开始   事件被消费了就返回
 			// Notify ascendants' actor listeners, starting at the target. Children may stop an event before ascendants receive it.
 			for (int i = 0, n = ascendants.size; i < n; i++) {
 				((Group)ascendantsArray[i]).notify(event, false);
@@ -175,12 +182,14 @@ public class Actor {
 	 * calling this method.
 	 * @param capture If true, the capture listeners will be notified instead of the regular listeners.
 	 * @return true if the event was {@link Event#cancel() cancelled}. */
+	//捕获事件    查找父类中是不是存在捕获的事件
 	public boolean notify (Event event, boolean capture) {
 		if (event.getTarget() == null) throw new IllegalArgumentException("The event target cannot be null.");
 		DelayedRemovalArray<EventListener> listeners = capture ? captureListeners : this.listeners;
 		if (listeners.size == 0) return event.isCancelled();
-		//
+		//捕获事件
 		event.setListenerActor(this);
+		//
 		event.setCapture(capture);
 		if (event.getStage() == null) event.setStage(stage);
 
@@ -216,6 +225,7 @@ public class Actor {
 
 	/** Removes this actor from its parent, if it has a parent.
 	 * @see Group#removeActor(Actor) */
+	//删除  从父类中删除自己
 	public boolean remove () {
 		if (parent != null) return parent.removeActor(this, true);
 		return false;

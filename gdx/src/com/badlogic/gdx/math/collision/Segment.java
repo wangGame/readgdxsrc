@@ -21,7 +21,7 @@ import java.io.Serializable;
 import com.badlogic.gdx.math.Vector3;
 
 /** A Segment is a line in 3-space having a starting and an ending position.
- * 
+ *  线段
  * @author mzechner */
 public class Segment implements Serializable {
 	private static final long serialVersionUID = 2739667069736519602L;

@@ -17,6 +17,19 @@ buildscript {
     apply from: "gradle/dependencies.gradle"
 
     repositories {
+        maven {
+            url 'https://maven.aliyun.com/repository/central'
+            name 'central'
+        }
+        maven {
+            url 'https://maven.aliyun.com/repository/jcenter'
+            name 'jcenter'
+        }
+        maven {
+            url 'https://maven.aliyun.com/repository/google'
+            name 'Google'
+        }
+
         mavenCentral()
         gradlePluginPortal()
     }
@@ -62,6 +75,19 @@ allprojects {
 
     buildscript {
         repositories {
+            maven {
+                url 'https://maven.aliyun.com/repository/central'
+                name 'central'
+            }
+            maven {
+                url 'https://maven.aliyun.com/repository/jcenter'
+                name 'jcenter'
+            }
+            maven {
+                url 'https://maven.aliyun.com/repository/google'
+                name 'Google'
+            }
+
             google()
             mavenLocal()
             mavenCentral()
@@ -72,6 +98,19 @@ allprojects {
     }
 
     repositories {
+        maven {
+            url 'https://maven.aliyun.com/repository/central'
+            name 'central'
+        }
+        maven {
+            url 'https://maven.aliyun.com/repository/jcenter'
+            name 'jcenter'
+        }
+        maven {
+            url 'https://maven.aliyun.com/repository/google'
+            name 'Google'
+        }
+
         google()
         mavenLocal()
         mavenCentral()

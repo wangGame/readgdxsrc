@@ -24,8 +24,10 @@ import com.badlogic.gdx.math.Vector3;
 /** Encapsulates a ray having a starting position and a unit length direction.
  * 
  * @author badlogicgames@gmail.com */
+//射线
 public class Ray implements Serializable {
 	private static final long serialVersionUID = -620692054835390878L;
+	//初始  和   方向
 	public final Vector3 origin = new Vector3();
 	public final Vector3 direction = new Vector3();
 
@@ -50,6 +52,7 @@ public class Ray implements Serializable {
 	 * @param out The vector to set to the result
 	 * @param distance The distance from the end point to the start point.
 	 * @return The out param */
+	//起点 + 距离方向
 	public Vector3 getEndPoint (final Vector3 out, final float distance) {
 		return out.set(direction).scl(distance).add(origin);
 	}
@@ -57,7 +60,7 @@ public class Ray implements Serializable {
 	static Vector3 tmp = new Vector3();
 
 	/** Multiplies the ray by the given matrix. Use this to transform a ray into another coordinate system.
-	 * 
+	 * 将射线乘以给定的矩阵。使用它可以将光线转换为另一个坐标系。
 	 * @param matrix The matrix
 	 * @return This ray for chaining. */
 	public Ray mul (Matrix4 matrix) {
