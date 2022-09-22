@@ -65,7 +65,7 @@ public interface Graphics {
 		/** the refresh rate in Hertz **/
 		public final int refreshRate;
 		/** the number of bits per pixel, may exclude alpha **/
-		//没像素的位数
+		//每像素的位数  不包含a
 		public final int bitsPerPixel;
 
 		protected DisplayMode (int width, int height, int refreshRate, int bitsPerPixel) {
@@ -129,6 +129,7 @@ public interface Graphics {
 	 * {@link Application} instance to use OpenGL ES 3.0!
 	 *
 	 * @return whether OpenGL ES 3.0 is available */
+//	OpenGL ES 3.0 是否可用
 	boolean isGL30Available ();
 
 	/** @return the {@link GL20} instance */
@@ -195,12 +196,14 @@ public interface Graphics {
 	GLVersion getGLVersion ();
 
 	/** @return the pixels per inch on the x-axis */
+	//每英寸的像素数
 	float getPpiX ();
 
 	/** @return the pixels per inch on the y-axis */
 	float getPpiY ();
 
 	/** @return the pixels per centimeter on the x-axis */
+	//每厘米的像素数
 	float getPpcX ();
 
 	/** @return the pixels per centimeter on the y-axis. */

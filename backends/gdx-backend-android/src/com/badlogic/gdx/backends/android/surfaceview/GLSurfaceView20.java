@@ -54,7 +54,9 @@ public class GLSurfaceView20 extends GLSurfaceView {
 
 	public GLSurfaceView20 (Context context, ResolutionStrategy resolutionStrategy, int targetGLESVersion) {
 		super(context);
+		//目标版本
 		GLSurfaceView20.targetGLESVersion = targetGLESVersion;
+		//屏幕展示策略
 		this.resolutionStrategy = resolutionStrategy;
 		init(false, 16, 0);
 	}
@@ -141,6 +143,7 @@ public class GLSurfaceView20 extends GLSurfaceView {
 		 * config chooser. See ConfigChooser class definition below.
 		 */
 		//透明的，应该就是具有透明度的
+		//这个可以不需要
 		setEGLConfigChooser(
 			translucent ? new ConfigChooser(8, 8, 8, 8, depth, stencil) : new ConfigChooser(8, 8, 8, 0, depth, stencil));
 

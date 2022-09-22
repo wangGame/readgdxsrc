@@ -23,11 +23,21 @@ import com.badlogic.gdx.graphics.GL30;
 
 @TargetApi(18)
 public class AndroidGL30 extends AndroidGL20 implements GL30 {
+//	确定颜色缓冲区的来源
 	@Override
 	public void glReadBuffer (int mode) {
 		GLES30.glReadBuffer(mode);
 	}
 
+	/**
+	 *
+	 * @param mode 绘制的类型  线点
+	 * @param start 数据开始
+	 * @param end
+	 * @param count
+	 * @param type
+	 * @param indices
+	 */
 	@Override
 	public void glDrawRangeElements (int mode, int start, int end, int count, int type, java.nio.Buffer indices) {
 		GLES30.glDrawRangeElements(mode, start, end, count, type, indices);

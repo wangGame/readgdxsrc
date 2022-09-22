@@ -52,6 +52,7 @@ public abstract class AsynchronousAssetLoader<T, P extends AssetLoaderParameters
 	}
 
 	/** Loads the OpenGL part of the asset.
+	 * 加载opengl
 	 * @param manager
 	 * @param fileName
 	 * @param file the resolved file to load

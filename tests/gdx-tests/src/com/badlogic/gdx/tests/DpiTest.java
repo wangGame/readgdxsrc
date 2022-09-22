@@ -22,8 +22,11 @@ public class DpiTest extends GdxTest {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
 		font.draw(batch,
-			"Density: " + Gdx.graphics.getDensity() + "\n" + "PPC-x: " + Gdx.graphics.getPpcX() + "\n" + "PPC-y: "
-				+ Gdx.graphics.getPpcY() + "\n" + "PPI-x: " + Gdx.graphics.getPpiX() + "\n" + "PPI-y: " + Gdx.graphics.getPpiY(),
+			"Density: " + Gdx.graphics.getDensity() + "\n" + "PPC-x: " +
+					Gdx.graphics.getPpcX() + "\n" + "PPC-y: "
+				+ Gdx.graphics.getPpcY() + "\n" + "PPI-x: " +
+					Gdx.graphics.getPpiX() + "\n" + "PPI-y: " +
+					Gdx.graphics.getPpiY(),
 			0, Gdx.graphics.getHeight());
 		batch.end();
 	}

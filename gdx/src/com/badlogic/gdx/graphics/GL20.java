@@ -23,13 +23,20 @@ import java.nio.IntBuffer;
 /** Interface wrapping all the methods of OpenGL ES 2.0
  * @author mzechner */
 public interface GL20 {
+	//版本
 	public static final int GL_ES_VERSION_2_0 = 1;
+	//深度 缓存区
 	public static final int GL_DEPTH_BUFFER_BIT = 0x00000100;
+	//模板 缓存区
 	public static final int GL_STENCIL_BUFFER_BIT = 0x00000400;
+	//颜色  缓存区
 	public static final int GL_COLOR_BUFFER_BIT = 0x00004000;
+	//
 	public static final int GL_FALSE = 0;
 	public static final int GL_TRUE = 1;
+	//点
 	public static final int GL_POINTS = 0x0000;
+	//线
 	public static final int GL_LINES = 0x0001;
 	public static final int GL_LINE_LOOP = 0x0002;
 	public static final int GL_LINE_STRIP = 0x0003;
@@ -335,14 +342,15 @@ public interface GL20 {
 	public static final int GL_TEXTURE_MAX_ANISOTROPY_EXT = 0x84FE;
 	public static final int GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT = 0x84FF;
 
+	//纹理活跃
 	public void glActiveTexture (int texture);
-
+	//绑定纹理
 	public void glBindTexture (int target, int texture);
-
+	//blend
 	public void glBlendFunc (int sfactor, int dfactor);
-
+	//清理
 	public void glClear (int mask);
-
+	//
 	public void glClearColor (float red, float green, float blue, float alpha);
 
 	public void glClearDepthf (float depth);
@@ -351,6 +359,7 @@ public interface GL20 {
 
 	public void glColorMask (boolean red, boolean green, boolean blue, boolean alpha);
 
+	//压缩
 	public void glCompressedTexImage2D (int target, int level, int internalformat, int width, int height, int border,
 		int imageSize, Buffer data);
 

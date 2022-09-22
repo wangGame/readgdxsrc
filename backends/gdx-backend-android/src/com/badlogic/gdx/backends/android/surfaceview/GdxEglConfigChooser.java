@@ -58,8 +58,10 @@ public class GdxEglConfigChooser implements GLSurfaceView.EGLConfigChooser {
 	public EGLConfig chooseConfig (EGL10 egl, EGLDisplay display) {
 		// get (almost) all configs available by using r=g=b=4 so we
 		// can chose with big confidence :)
-		int[] num_config = new int[1]; //读取配置信息的个数   通过我们自己给的条件
+		//读取配置信息的个数   通过我们自己给的条件、测试一下
+		int[] num_config = new int[1];
 		egl.eglChooseConfig(display, mConfigAttribs, null, 0, num_config);
+		//得到个数
 		int numConfigs = num_config[0];
 		//没有读取到配置信息
 		if (numConfigs <= 0) {
@@ -67,9 +69,9 @@ public class GdxEglConfigChooser implements GLSurfaceView.EGLConfigChooser {
 		}
 		//上面只是读取有一个有多少个
 		// now actually read the configurations.
+		//需要拿到那么多的配置
 		EGLConfig[] configs = new EGLConfig[numConfigs];
 		egl.eglChooseConfig(display, mConfigAttribs, configs, numConfigs, num_config);
-
 		// FIXME remove this.
 		// printConfigs(egl, display, configs);
 		//我们通过配置内容得到了配置信息，将这些配置信息全都拿到，选一个合适的配置信息。

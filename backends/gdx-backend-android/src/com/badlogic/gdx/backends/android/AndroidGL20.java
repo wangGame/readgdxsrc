@@ -513,6 +513,12 @@ public class AndroidGL20 implements GL20 {
 		GLES20.glTexParameterf(target, pname, param);
 	}
 
+	/**
+	 *
+	 * @param target
+	 * @param pname
+	 * @param params
+	 */
 	public void glTexParameterfv (int target, int pname, FloatBuffer params) {
 		GLES20.glTexParameterfv(target, pname, params);
 	}
@@ -525,6 +531,18 @@ public class AndroidGL20 implements GL20 {
 		GLES20.glTexParameteriv(target, pname, params);
 	}
 
+	/**
+	 *函数指定现有一维纹理图像的一部分
+	 * @param target 目标纹理。 必须是GL_TEXTURE_2D
+	 * @param level 详细级别编号。 级别 0 是基本映像。 级别 n 是 第 n 个 mipmap 缩减图像。
+	 * @param xoffset
+	 * @param yoffset
+	 * @param width 纹理子图像的宽度
+	 * @param height
+	 * @param format 格式rgb  rgba
+	 * @param type 像素数据类型
+	 * @param pixels //存储位置
+	 */
 	public void glTexSubImage2D (int target, int level, int xoffset, int yoffset, int width, int height, int format, int type,
 		Buffer pixels) {
 		GLES20.glTexSubImage2D(target, level, xoffset, yoffset, width, height, format, type, pixels);
@@ -650,10 +668,15 @@ public class AndroidGL20 implements GL20 {
 		GLES20.glUniformMatrix4fv(location, count, transpose, value, offset);
 	}
 
+	/**
+	 * 使用程序
+	 * @param program
+	 */
 	public void glUseProgram (int program) {
 		GLES20.glUseProgram(program);
 	}
 
+	//验证程序
 	public void glValidateProgram (int program) {
 		GLES20.glValidateProgram(program);
 	}
@@ -678,14 +701,26 @@ public class AndroidGL20 implements GL20 {
 		GLES20.glVertexAttrib3f(indx, x, y, z);
 	}
 
+	/**
+	 *
+	 * @param indx
+	 * @param values 3个float的数组
+	 */
 	public void glVertexAttrib3fv (int indx, FloatBuffer values) {
 		GLES20.glVertexAttrib3fv(indx, values);
 	}
 
+	/**
+	 * @param indx 位置   下面时4个值
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @param w
+	 */
 	public void glVertexAttrib4f (int indx, float x, float y, float z, float w) {
 		GLES20.glVertexAttrib4f(indx, x, y, z, w);
 	}
-	//给一个4
+	//给一个4个float
 	public void glVertexAttrib4fv (int indx, FloatBuffer values) {
 		GLES20.glVertexAttrib4fv(indx, values);
 	}
@@ -693,11 +728,18 @@ public class AndroidGL20 implements GL20 {
 	public void glVertexAttribPointer (int indx, int size, int type, boolean normalized, int stride, Buffer ptr) {
 		GLES20.glVertexAttribPointer(indx, size, type, normalized, stride, ptr);
 	}
-	//给属性设置值
+	//给属性设置值(使用缓存区)
 	public void glVertexAttribPointer (int indx, int size, int type, boolean normalized, int stride, int ptr) {
 		GLES20.glVertexAttribPointer(indx, size, type, normalized, stride, ptr);
 	}
 
+	/**
+	 *
+	 * @param x
+	 * @param y
+	 * @param width
+	 * @param height
+	 */
 	public void glViewport (int x, int y, int width, int height) {
 		GLES20.glViewport(x, y, width, height);
 	}

@@ -19,15 +19,12 @@ import android.view.View;
  * {@link ResolutionStrategy} if none is specified.
  * 
  * @author christoph widulle */
-//铺满  拉伸到全屏
+//铺满  拉伸到全屏  默认的吧
 public class FillResolutionStrategy implements ResolutionStrategy {
-
 	@Override
 	public MeasuredDimension calcMeasures (int widthMeasureSpec, int heightMeasureSpec) {
-
 		final int width = View.MeasureSpec.getSize(widthMeasureSpec);
 		final int height = View.MeasureSpec.getSize(heightMeasureSpec);
-
 		return new MeasuredDimension(width, height);
 	}
 }

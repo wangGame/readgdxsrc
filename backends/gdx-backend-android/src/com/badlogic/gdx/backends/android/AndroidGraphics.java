@@ -259,8 +259,8 @@ public class AndroidGraphics extends AbstractGraphics implements Renderer {
 	 *
 	 * @param gl */
 	protected void setupGL (javax.microedition.khronos.opengles.GL10 gl) {
-		String versionString = gl.glGetString(GL10.GL_VERSION);
-		String vendorString = gl.glGetString(GL10.GL_VENDOR);
+		String versionString = gl.glGetString(GL10.GL_VERSION);//version
+		String vendorString = gl.glGetString(GL10.GL_VENDOR);//vendom
 		String rendererString = gl.glGetString(GL10.GL_RENDERER);
 		//根据版本创建不同的gl环境
 		glVersion = new GLVersion(Application.ApplicationType.Android, versionString, vendorString, rendererString);
@@ -320,7 +320,7 @@ public class AndroidGraphics extends AbstractGraphics implements Renderer {
 		FrameBuffer.invalidateAllFrameBuffers(app);
 
 		logManagedCachesStatus();
-
+		//不理解   为啥不使用   getDisplayMode()
 		Display display = app.getWindowManager().getDefaultDisplay();
 		this.width = display.getWidth();
 		this.height = display.getHeight();

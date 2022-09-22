@@ -32,13 +32,14 @@ public abstract class AssetLoader<T, P extends AssetLoaderParameters<T>> {
 	private FileHandleResolver resolver;
 	/** Constructor, sets the {@link FileHandleResolver} to use to resolve the file associated with the asset name.
 	 * @param resolver */
+	//文件 处理器
 	public AssetLoader (FileHandleResolver resolver) {
 		this.resolver = resolver;
 	}
 
 	/** @param fileName file name to resolve
 	 * @return handle to the file, as resolved by the {@link FileHandleResolver} set on the loader */
-	//设置文件名字
+	//设置文件名字   文件转换为FileHandle
 	public FileHandle resolve (String fileName) {
 		return resolver.resolve(fileName);
 	}

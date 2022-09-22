@@ -31,9 +31,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.ScissorStack;
 /** Manages a {@link Camera} and determines how world coordinates are mapped to and from the screen.
  * @author Daniel Holderbaum
  * @author Nathan Sweet */
+//管理窗口大小  世界坐标和屏幕坐标的一个映射关系
 public abstract class Viewport {
+	//相机
 	private Camera camera;
+	//世界宽和高
 	private float worldWidth, worldHeight;
+	//视口开始的位置
 	private int screenX, screenY, screenWidth, screenHeight;
 
 	private final Vector3 tmp = new Vector3();
@@ -45,6 +49,7 @@ public abstract class Viewport {
 
 	/** Applies the viewport to the camera and sets the glViewport.
 	 * @param centerCamera If true, the camera position is set to the center of the world. */
+	//set viewport  相机居中
 	public void apply (boolean centerCamera) {
 		HdpiUtils.glViewport(screenX, screenY, screenWidth, screenHeight);
 		camera.viewportWidth = worldWidth;
@@ -69,6 +74,7 @@ public abstract class Viewport {
 	/** Transforms the specified screen coordinate to world coordinates.
 	 * @return The vector that was passed in, transformed to world coordinates.
 	 * @see Camera#unproject(Vector3) */
+	//屏幕坐标转换为世界坐标
 	public Vector2 unproject (Vector2 screenCoords) {
 		tmp.set(screenCoords.x, screenCoords.y, 1);
 		camera.unproject(tmp, screenX, screenY, screenWidth, screenHeight);
@@ -79,6 +85,7 @@ public abstract class Viewport {
 	/** Transforms the specified world coordinate to screen coordinates.
 	 * @return The vector that was passed in, transformed to screen coordinates.
 	 * @see Camera#project(Vector3) */
+	//世界坐标向屏幕坐标
 	public Vector2 project (Vector2 worldCoords) {
 		tmp.set(worldCoords.x, worldCoords.y, 1);
 		camera.project(tmp, screenX, screenY, screenWidth, screenHeight);

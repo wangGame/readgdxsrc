@@ -63,11 +63,15 @@ public class ExtendViewport extends Viewport {
 		// Fit min size to the screen.
 		float worldWidth = minWorldWidth;
 		float worldHeight = minWorldHeight;
+		//得到缩放比例  之后的宽高
 		Vector2 scaled = scaling.apply(worldWidth, worldHeight, screenWidth, screenHeight);
 
 		// Extend, possibly in both directions depending on the scaling.
 		int viewportWidth = Math.round(scaled.x);
 		int viewportHeight = Math.round(scaled.y);
+		/**
+		 * 屏幕大于世界   （宽）
+		 */
 		if (viewportWidth < screenWidth) {
 			float toViewportSpace = viewportHeight / worldHeight;
 			float toWorldSpace = worldHeight / viewportHeight;

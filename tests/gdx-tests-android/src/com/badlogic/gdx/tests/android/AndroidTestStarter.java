@@ -28,8 +28,6 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.badlogic.gdx.tests.utils.GdxTests;
-
 public class AndroidTestStarter extends ListActivity {
 	SharedPreferences prefs;
 

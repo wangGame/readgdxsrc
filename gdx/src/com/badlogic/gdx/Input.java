@@ -660,15 +660,18 @@ public interface Input {
 	}
 
 	/** @return The acceleration force in m/s^2 applied to the device in the X axis, including the force of gravity */
+	//加速器x
 	public float getAccelerometerX ();
 
 	/** @return The acceleration force in m/s^2 applied to the device in the Y axis, including the force of gravity */
+	//
 	public float getAccelerometerY ();
 
 	/** @return The acceleration force in m/s^2 applied to the device in the Z axis, including the force of gravity */
 	public float getAccelerometerZ ();
 
 	/** @return The rate of rotation in rad/s around the X axis */
+	//加速器
 	public float getGyroscopeX ();
 
 	/** @return The rate of rotation in rad/s around the Y axis */
@@ -678,10 +681,12 @@ public interface Input {
 	public float getGyroscopeZ ();
 
 	/** @return The maximum number of pointers supported */
+	///最大的点击个数
 	public int getMaxPointers ();
 
 	/** @return The x coordinate of the last touch on touch screen devices and the current mouse position on desktop for the first
 	 *         pointer in screen coordinates. The screen origin is the top left corner. */
+	//最后一次点击位置
 	public int getX ();
 
 	/** Returns the x coordinate in screen coordinates of the given pointer. Pointers are indexed from 0 to n. The pointer id
@@ -691,6 +696,7 @@ public interface Input {
 	 * 
 	 * @param pointer the pointer id.
 	 * @return the x coordinate */
+	//某个指头点击的x
 	public int getX (int pointer);
 
 	/** @return the different between the current pointer location and the last pointer location on the x-axis. */
@@ -722,6 +728,7 @@ public interface Input {
 	public boolean isTouched ();
 
 	/** @return whether a new touch down event just occurred. */
+	//新的 点击事件
 	public boolean justTouched ();
 
 	/** Whether the screen is currently touched by the pointer with the given index. Pointers are indexed from 0 to n. The pointer
@@ -734,6 +741,7 @@ public interface Input {
 	public boolean isTouched (int pointer);
 
 	/** @return the pressure of the first pointer */
+	//压力
 	public float getPressure ();
 
 	/** Returns the pressure of the given pointer, where 0 is untouched. On Android it should be up to 1.0, but it can go above
@@ -749,6 +757,7 @@ public interface Input {
 	 * Buttons#LEFT constant is meaningful before version 4.0.
 	 * @param button the button to check.
 	 * @return whether the button is down or not. */
+	//是否安按下按钮
 	public boolean isButtonPressed (int button);
 
 	/** Returns whether a given button has just been pressed. Button constants can be found in {@link Buttons}. On Android only the
@@ -810,6 +819,8 @@ public interface Input {
 	 * On iOS backend you'll need to set <code>useHaptics = true</code> for devices with haptics capabilities to use them.
 	 * 
 	 * @param milliseconds the number of milliseconds to vibrate. */
+//	在没有触觉功能的设备上生成给定持续时间的简单触觉效果或振动效果。请注意，在 Android 后端，您需要清单文件中的权限 <code> <uses-permission android:name="android.permission.VIBRATE" ><code> 才
+//	能使其工作。在 iOS 后端，您需要为具有触觉功能的设备设置 <code>useHaptics = true<code> 才能使用它们。
 	public void vibrate (int milliseconds);
 
 	/** Generates a simple haptic effect of a given duration and default amplitude. Note that on Android backend you'll need the
