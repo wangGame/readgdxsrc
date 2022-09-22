@@ -80,7 +80,7 @@ public class BitmapFontLoader extends AsynchronousAssetLoader<BitmapFont, Bitmap
 	@Override
 	public BitmapFont loadSync (AssetManager manager, String fileName, FileHandle file, BitmapFontParameter parameter) {
 		if (parameter != null && parameter.atlasName != null) {
-			//使用用户射中的路径
+			//使用用户设置中的路径
 			TextureAtlas atlas = manager.get(parameter.atlasName, TextureAtlas.class);
 			//得到名字
 			String name = file.sibling(data.imagePaths[0]).nameWithoutExtension().toString();

@@ -69,7 +69,8 @@ public class BitmapFont implements Disposable {
 	/** Creates a BitmapFont using the default 15pt Liberation Sans font included in the libgdx JAR file. This is convenient to
 	 * easily display text without bothering without generating a bitmap font yourself. */
 	public BitmapFont () {
-		this(Gdx.files.classpath("com/badlogic/gdx/utils/lsans-15.fnt"), Gdx.files.classpath("com/badlogic/gdx/utils/lsans-15.png"),
+		this(Gdx.files.classpath("com/badlogic/gdx/utils/lsans-15.fnt"),
+				Gdx.files.classpath("com/badlogic/gdx/utils/lsans-15.png"),
 			false, true);
 	}
 
@@ -77,7 +78,8 @@ public class BitmapFont implements Disposable {
 	 * easily display text without bothering without generating a bitmap font yourself.
 	 * @param flip If true, the glyphs will be flipped for use with a perspective where 0,0 is the upper left corner. */
 	public BitmapFont (boolean flip) {
-		this(Gdx.files.classpath("com/badlogic/gdx/utils/lsans-15.fnt"), Gdx.files.classpath("com/badlogic/gdx/utils/lsans-15.png"),
+		this(Gdx.files.classpath("com/badlogic/gdx/utils/lsans-15.fnt"),
+				Gdx.files.classpath("com/badlogic/gdx/utils/lsans-15.png"),
 			flip, true);
 	}
 
@@ -443,8 +445,10 @@ public class BitmapFont implements Disposable {
 		public float lineHeight;
 		/** The distance from the top of most uppercase characters to the baseline. Since the drawing position is the cap height of
 		 * the first line, the cap height can be used to get the location of the baseline. */
+//		从大多数大写字符的顶部到基线的距离。由于绘图位置是第一行的大写高度，因此大写高度可以用来获取基线的位置。
 		public float capHeight = 1;
 		/** The distance from the cap height to the top of the tallest glyph. */
+//		从大写高度到最高字形顶部的距离。
 		public float ascent;
 		/** The distance from the bottom of the glyph that extends the lowest to the baseline. This number is negative. */
 		public float descent;

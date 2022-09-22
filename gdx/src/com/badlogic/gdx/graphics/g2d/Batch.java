@@ -202,10 +202,18 @@ public interface Batch extends Disposable {
 
 	/** Returns the current projection matrix. Changing this within {@link #begin()}/{@link #end()} results in undefined
 	 * behaviour. */
+	/**
+	 * 投影矩阵   正交  透视
+	 * @return
+	 */
 	public Matrix4 getProjectionMatrix ();
 
 	/** Returns the current transform matrix. Changing this within {@link #begin()}/{@link #end()} results in undefined
 	 * behaviour. */
+	/**
+	 * 转换矩阵
+	 * @return
+	 */
 	public Matrix4 getTransformMatrix ();
 
 	/** Sets the projection matrix to be used by this Batch. If this is called inside a {@link #begin()}/{@link #end()} block, the
@@ -236,7 +244,7 @@ public interface Batch extends Disposable {
 
 	/** @return true if currently between begin and end. */
 	public boolean isDrawing ();
-
+	// x  y  u	v  c
 	static public final int X1 = 0;
 	static public final int Y1 = 1;
 	static public final int C1 = 2;
