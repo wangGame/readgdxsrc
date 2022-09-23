@@ -70,6 +70,7 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
  * @author mzechner, Dave Clayton <contact@redskyforge.com>, Xoppa */
 public class Mesh implements Disposable {
 	public enum VertexDataType {
+		//顶点数组     顶点数组缓存区
 		VertexArray, VertexBufferObject, VertexBufferObjectSubData, VertexBufferObjectWithVAO
 	}
 
@@ -88,7 +89,6 @@ public class Mesh implements Disposable {
 		this.vertices = vertices;
 		this.indices = indices;
 		this.isVertexArray = isVertexArray;
-
 		addManagedMesh(Gdx.app, this);
 	}
 
@@ -115,6 +115,7 @@ public class Mesh implements Disposable {
 	 * @param attributes the {@link VertexAttributes}. Each vertex attribute defines one property of a vertex such as position,
 	 *           normal or texture coordinate */
 	public Mesh (boolean isStatic, int maxVertices, int maxIndices, VertexAttributes attributes) {
+		//顶点  线索
 		vertices = makeVertexBuffer(isStatic, maxVertices, attributes);
 		indices = new IndexBufferObject(isStatic, maxIndices);
 		isVertexArray = false;
@@ -306,7 +307,7 @@ public class Mesh implements Disposable {
 	}
 
 	/** Sets the vertices of this Mesh. The attributes are assumed to be given in float format.
-	 *
+	 *设置此网格的顶点。假定属性以浮点格式给出。
 	 * @param vertices the vertices.
 	 * @return the mesh for invocation chaining. */
 	public Mesh setVertices (float[] vertices) {

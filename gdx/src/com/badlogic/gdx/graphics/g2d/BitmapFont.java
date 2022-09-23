@@ -869,6 +869,7 @@ public class BitmapFont implements Disposable {
 
 		/** Returns the first valid glyph index to use to wrap to the next line, starting at the specified start index and
 		 * (typically) moving toward the beginning of the glyphs array. */
+//		返回用于换行到下一行的第一个有效字形索引，从指定的起始索引开始，并且（通常）移向字形数组的开头。
 		public int getWrapIndex (Array<Glyph> glyphs, int start) {
 			int i = start - 1;
 			Object[] glyphsItems = glyphs.items;
@@ -949,6 +950,7 @@ public class BitmapFont implements Disposable {
 		/** Sets the font's scale relative to the current scale.
 		 * @see #setScale(float, float)
 		 * @throws IllegalArgumentException if the resulting scale is zero. */
+//		在当前的基础上设置
 		public void scale (float amount) {
 			setScale(scaleX + amount, scaleY + amount);
 		}

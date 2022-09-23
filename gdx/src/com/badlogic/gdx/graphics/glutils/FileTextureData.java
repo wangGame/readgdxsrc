@@ -24,7 +24,7 @@ import com.badlogic.gdx.graphics.TextureData;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
 public class FileTextureData implements TextureData {
-
+	//
 	final FileHandle file;
 	int width = 0;
 	int height = 0;

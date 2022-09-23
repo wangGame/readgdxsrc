@@ -43,7 +43,9 @@ import com.badlogic.gdx.utils.StreamUtils;
  * A TextureAtlas must be disposed to free up the resources consumed by the backing textures.
  * @author Nathan Sweet */
 public class TextureAtlas implements Disposable {
+	//texture资源
 	private final ObjectSet<Texture> textures = new ObjectSet(4);
+	//数据
 	private final Array<AtlasRegion> regions = new Array();
 
 	/** Creates an empty atlas to which regions can be added. */

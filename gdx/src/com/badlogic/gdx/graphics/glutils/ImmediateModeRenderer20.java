@@ -27,6 +27,7 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 /** Immediate mode rendering class for GLES 2.0. The renderer will allow you to specify vertices on the fly and provides a default
  * shader for (unlit) rendering.
  * @author mzechner */
+//GLES 2.0 的即时模式渲染类。渲染器将允许您动态指定顶点并为（无光照）渲染提供默认着色器。
 public class ImmediateModeRenderer20 implements ImmediateModeRenderer {
 	private int primitiveType;
 	private int vertexIdx;

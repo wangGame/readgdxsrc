@@ -38,6 +38,9 @@ import java.nio.Buffer;
 public class SpriteBatch implements Batch {
 	/** @deprecated Do not use, this field is for testing only and is likely to be removed. Sets the {@link VertexDataType} to be
 	 *             used when gles 3 is not available, defaults to {@link VertexDataType#VertexArray}. */
+	/**
+	 * 过时了
+	 */
 	@Deprecated public static VertexDataType defaultVertexDataType = VertexDataType.VertexArray;
 
 	private Mesh mesh;
@@ -48,24 +51,29 @@ public class SpriteBatch implements Batch {
 	float invTexWidth = 0, invTexHeight = 0;
 
 	boolean drawing = false;
-
+	//转换矩阵
 	private final Matrix4 transformMatrix = new Matrix4();
+	//正交  透视
 	private final Matrix4 projectionMatrix = new Matrix4();
+	//组合矩阵
 	private final Matrix4 combinedMatrix = new Matrix4();
-
+	//是否blend
 	private boolean blendingDisabled = false;
+	//src a
 	private int blendSrcFunc = GL20.GL_SRC_ALPHA;
 	private int blendDstFunc = GL20.GL_ONE_MINUS_SRC_ALPHA;
 	private int blendSrcFuncAlpha = GL20.GL_SRC_ALPHA;
 	private int blendDstFuncAlpha = GL20.GL_ONE_MINUS_SRC_ALPHA;
-
+	//shader
 	private final ShaderProgram shader;
+	//用户自己定义的
 	private ShaderProgram customShader = null;
+	//使用的矩阵 是不是自己的，是就自己回收，不是就不管
 	private boolean ownsShader;
-
+	//画笔颜色
 	private final Color color = new Color(1, 1, 1, 1);
 	float colorPacked = Color.WHITE_FLOAT_BITS;
-
+	//render call
 	/** Number of render calls since the last {@link #begin()}. **/
 	public int renderCalls = 0;
 
@@ -73,6 +81,7 @@ public class SpriteBatch implements Batch {
 	public int totalRenderCalls = 0;
 
 	/** The maximum number of sprites rendered in one batch so far. **/
+	//渲染精灵的最大数量
 	public int maxSpritesInBatch = 0;
 
 	/** Constructs a new SpriteBatch with a size of 1000, one buffer, and the default shader.
@@ -96,11 +105,12 @@ public class SpriteBatch implements Batch {
 	 * @param size The max number of sprites in a single batch. Max of 8191.
 	 * @param defaultShader The default shader to use. This is not owned by the SpriteBatch and must be disposed separately. */
 	public SpriteBatch (int size, ShaderProgram defaultShader) {
-		// 32767 is max vertex index, so 32767 / 4 vertices per sprite = 8191 sprites max.
+		// 32767 is max vertex index, so 32767 / 4 vertices per sprite = 8191 sprites max
+		//最大索引数  32767  8191个精灵
 		if (size > 8191) throw new IllegalArgumentException("Can't have more than 8191 sprites per batch: " + size);
-
+		//带有 VAO 的顶点缓冲区对象 (3.0)    2.0顶点数组
 		VertexDataType vertexDataType = (Gdx.gl30 != null) ? VertexDataType.VertexBufferObjectWithVAO : defaultVertexDataType;
-
+		//
 		mesh = new Mesh(vertexDataType, false, size * 4, size * 6,
 			new VertexAttribute(Usage.Position, 2, ShaderProgram.POSITION_ATTRIBUTE),
 			new VertexAttribute(Usage.ColorPacked, 4, ShaderProgram.COLOR_ATTRIBUTE),
@@ -169,7 +179,53 @@ public class SpriteBatch implements Batch {
 	public void begin () {
 		if (drawing) throw new IllegalStateException("SpriteBatch.end must be called before begin.");
 		renderCalls = 0;
-
+/**
+ * 如果我注释掉//glDepthMask( GL_FALSE ); //glDepthMask( GL_TRUE );这两句，
+ * 物体A和场景中其它物体的深度都会正确。但是， 修改物体A的alpha 值就不会起作用（如
+ * color.setAlpha(alpha) ）。
+ *
+ * 如果我取消那两句的注释， alpha 的修改能正常工作，但是深度会出现问题， 换句话说， A应该在其
+ * 它物体后面，但看上去它在前面.我该如何解决这个问题？
+ *
+ * 1）开启深度写入， glDepthMask( GL_TRUE )
+ * 2）渲染所有的不透明物体，以任何顺序
+ * 3) 关闭深度写入, glDepthMask( GL_FALSE )
+ * 4) 开启混合 glEnable( GL_BLEND )
+ * 5) 从远到近渲染透明物体
+ *
+ * 为什么要这么做？
+ * 你需要关注两个缓存: 深度缓存和颜色缓存。 这两个缓存其实就是两个很大的2维数组， 大小为窗口的高度
+ * X 宽度。 颜色缓存不停地更新（如果测试通过），最终会得到屏幕上看到的颜色。每一个屏幕像素的值都会有颜色
+ * 缓存跟它对应（如像像素pixel[100][100] 的最终颜色就是颜色缓存color[100][100]）。 和颜色缓存类似，
+ * 每一个像素也都一个深度缓存的值跟它对应， 只不过它用在别的地方。 深度缓存则描述片元离相机的远近，然后取
+ * 最近的深度。
+ *
+ * 如果你渲染一个三角形，它远离相机，它会为将要覆盖的屏幕像素产生一组颜色和深度缓存。当渲染另一个
+ * 离相机近一点的多边形，它也会为它覆盖的像素产生一组颜色和深度缓存。现在颜色缓存就会产生“竞争”，
+ * 离得远的片元（深度值大）将被丢弃。最后， 只有离相机最近的片元才能跟新颜色和深度buffer， 渲染到屏幕上
+ * （如果两个多边形重叠，则会产生Z冲突）。
+ *
+ * 一开始渲染不透明物体，允许写入深度 。 这意味着所有渲染的物体，只有赢得深度测试时，才会有机会更新深度缓冲
+ * 区和颜色缓冲区。
+ *
+ * 接下来3） 关闭深度写入, glDepthMask( GL_FALSE ) ， 4）开启混合 glEnable( GL_BLEND ) 5）从远到近渲染透
+ * 明物体
+ *
+ * 感觉这很奇怪？
+ *
+ * 关闭深度写入（glDepthMask( GL_FALSE ) ）后，渲染透明物体， OpenGL将读取深度缓存，
+ * 然后决定时候丢弃该片元（例如， 如果你的透明物体在已经绘制的不透明物体后面， 则透明物体的片
+ * 元将丢弃）。
+ *
+ * 由于没有开启深度写入， 当透明物体离相机更近时，此透明的片元不会阻挡后面的片元，而是会跟他们
+ * 混合（跟新颜色buffer, 但不更新深度buffer）。
+ *
+ * 这很重要，因为假如你渲染离你很近的挡风玻璃，让它区更新深度缓冲区，那么接下的要绘制的物体你将
+ * 不会看到，如果它在挡风玻璃后面（深度测试失败）。
+ *
+ * 关闭深度测试是“欺骗”OpenGL， 让它不知道哪一个透明片元离相机最近（透明片元不会因为之前绘制
+ * 的透明片元而深度测试失败），关闭深度写入常常会用来渲染透明片元。同时，也能解释为什么要由远到近地绘制透明物体。
+* */
 		Gdx.gl.glDepthMask(false);
 		if (customShader != null)
 			customShader.bind();
