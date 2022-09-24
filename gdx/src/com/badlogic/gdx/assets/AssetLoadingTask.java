@@ -155,6 +155,7 @@ class AssetLoadingTask implements AsyncTask<Void> {
 		return assetDesc.file;
 	}
 
+	//
 	private void removeDuplicates (Array<AssetDescriptor> array) {
 		boolean ordered = array.ordered;
 		array.ordered = true;

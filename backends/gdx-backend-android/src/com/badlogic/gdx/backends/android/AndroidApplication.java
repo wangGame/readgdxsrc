@@ -150,6 +150,7 @@ public class AndroidApplication extends Activity implements AndroidApplicationBa
 
 		this.listener = listener;
 		this.handler = new Handler();
+		//沉寂服务
 		this.useImmersiveMode = config.useImmersiveMode;
 		//粘贴板
 		this.clipboard = new AndroidClipboard(this);
