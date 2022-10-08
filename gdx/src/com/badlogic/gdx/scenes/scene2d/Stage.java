@@ -66,10 +66,13 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 public class Stage extends InputAdapter implements Disposable {
 	/** True if any actor has ever had debug enabled. */
 	static boolean debug;
+	//视口
 	private Viewport viewport;
+	//画笔
 	private final Batch batch;
 	//如果是自己创建的batch就需要自己dispose
 	private boolean ownsBatch;
+	//根  group
 	private Group root;
 	private final Vector2 tempCoords = new Vector2();
 	private final Actor[] pointerOverActors = new Actor[20];
@@ -110,13 +113,16 @@ public class Stage extends InputAdapter implements Disposable {
 		this.viewport = viewport;
 		this.batch = batch;
 		root = new Group();
+		//给所有的演员设置stage
 		root.setStage(this);
 		//相机移动到屏幕中央
 		viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 	}
 
 	public void draw () {
+		//得到相机
 		Camera camera = viewport.getCamera();
+		//发生矩阵变换  等操作之后，需要将相机的位置恢复
 		camera.update();
 		//不显示就不绘制
 		if (!root.isVisible()) return;
@@ -746,6 +752,7 @@ public class Stage extends InputAdapter implements Disposable {
 	 * {@link #screenToStageCoordinates(Vector2)}.
 	 * @param touchable If true, the hit detection will respect the {@link Actor#setTouchable(Touchable) touchability}.
 	 * @return May be null if no actor was hit. */
+	//点击
 	public @Null Actor hit (float stageX, float stageY, boolean touchable) {
 		root.parentToLocalCoordinates(tempCoords.set(stageX, stageY));
 		return root.hit(tempCoords.x, tempCoords.y, touchable);
@@ -760,6 +767,7 @@ public class Stage extends InputAdapter implements Disposable {
 
 	/** Transforms the stage coordinates to screen coordinates.
 	 * @param stageCoords Input stage coordinates and output for resulting screen coordinates. */
+	//原本就是stage坐标，在转换为屏幕坐标
 	public Vector2 stageToScreenCoordinates (Vector2 stageCoords) {
 		viewport.project(stageCoords);
 		stageCoords.y = Gdx.graphics.getHeight() - stageCoords.y;
@@ -770,18 +778,29 @@ public class Stage extends InputAdapter implements Disposable {
 	 * describes how to convert them. The transform matrix is typically obtained from {@link Batch#getTransformMatrix()} during
 	 * {@link Actor#draw(Batch, float)}.
 	 * @see Actor#localToStageCoordinates(Vector2) */
+	//转换为屏幕坐标
 	public Vector2 toScreenCoordinates (Vector2 coords, Matrix4 transformMatrix) {
 		return viewport.toScreenCoordinates(coords, transformMatrix);
 	}
 
 	/** Calculates window scissor coordinates from local coordinates using the batch's current transformation matrix.
-	 * @see ScissorStack#calculateScissors(Camera, float, float, float, float, Matrix4, Rectangle, Rectangle) */
+	 * @see ScissorStack#calculateScissors(Camera, float, float, float, float, Matrix4, Rectangle, Rectangle)
+	 *
+	 * 传递进来的参数      存储参数的容器
+	 *
+	 * 将传递过来的参数，进行转换
+	 * */
 	public void calculateScissors (Rectangle localRect, Rectangle scissorRect) {
 		Matrix4 transformMatrix;
 		if (debugShapes != null && debugShapes.isDrawing())
 			transformMatrix = debugShapes.getTransformMatrix();
-		else
+		else //得到变换矩阵
 			transformMatrix = batch.getTransformMatrix();
+		/**
+		 * 变换矩阵
+		 * 传入的坐标矩阵
+		 * 输出的值
+		 */
 		viewport.calculateScissors(transformMatrix, localRect, scissorRect);
 	}
 
@@ -854,7 +873,8 @@ public class Stage extends InputAdapter implements Disposable {
 			root.setDebug(false, true);
 	}
 
-	/** If true, debug is enabled only for the first ascendant of the actor under the mouse that is a table. Can be combined with
+	/** If true, debug is enabled only for the first ascendant of the actor under the mouse
+	 *  that is a table. Can be combined with
 	 * {@link #setDebugAll(boolean)}. */
 	public void setDebugTableUnderMouse (boolean debugTableUnderMouse) {
 		setDebugTableUnderMouse(debugTableUnderMouse ? Debug.all : Debug.none);
@@ -866,12 +886,14 @@ public class Stage extends InputAdapter implements Disposable {
 		if (debugShapes != null) debugShapes.dispose();
 	}
 
+	/*检查屏幕坐标是否在窗口的屏幕区域。*/
 	/** Check if screen coordinates are inside the viewport's screen area. */
 	protected boolean isInsideViewport (int screenX, int screenY) {
 		int x0 = viewport.getScreenX();
 		int x1 = x0 + viewport.getScreenWidth();
 		int y0 = viewport.getScreenY();
 		int y1 = y0 + viewport.getScreenHeight();
+		//方向是相反的
 		screenY = Gdx.graphics.getHeight() - 1 - screenY;
 		return screenX >= x0 && screenX < x1 && screenY >= y0 && screenY < y1;
 	}

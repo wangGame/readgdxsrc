@@ -122,14 +122,17 @@ public class ScissorStack {
 	 * @param batchTransform the transformation {@link Matrix4}
 	 * @param area the {@link Rectangle} to transform to window coordinates
 	 * @param scissor the Rectangle to store the result in */
+	//我的理解就是把x y width hight的目标位置，转换到屏幕上
 	public static void calculateScissors (Camera camera, float viewportX, float viewportY, float viewportWidth,
 		float viewportHeight, Matrix4 batchTransform, Rectangle area, Rectangle scissor) {
+		//actor的位置
 		tmp.set(area.x, area.y, 0);
+		//转换得到游戏坐标的位置（stage中的位置）
 		tmp.mul(batchTransform);
+		//在变为屏幕的位置
 		camera.project(tmp, viewportX, viewportY, viewportWidth, viewportHeight);
 		scissor.x = tmp.x;
 		scissor.y = tmp.y;
-
 		tmp.set(area.x + area.width, area.y + area.height, 0);
 		tmp.mul(batchTransform);
 		camera.project(tmp, viewportX, viewportY, viewportWidth, viewportHeight);

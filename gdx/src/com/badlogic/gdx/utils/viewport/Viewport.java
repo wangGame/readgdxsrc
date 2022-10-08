@@ -115,6 +115,7 @@ public abstract class Viewport {
 	}
 
 	/** @see ScissorStack#calculateScissors(Camera, float, float, float, float, Matrix4, Rectangle, Rectangle) */
+	/*area:区域*/
 	public void calculateScissors (Matrix4 batchTransform, Rectangle area, Rectangle scissor) {
 		ScissorStack.calculateScissors(camera, screenX, screenY, screenWidth, screenHeight, batchTransform, area, scissor);
 	}
@@ -123,6 +124,7 @@ public abstract class Viewport {
 	 * left and the the y-axis is pointing downwards. */
 	public Vector2 toScreenCoordinates (Vector2 worldCoords, Matrix4 transformMatrix) {
 		tmp.set(worldCoords.x, worldCoords.y, 0);
+		//先转换到stage中，在转换到screen上
 		tmp.mul(transformMatrix);
 		camera.project(tmp, screenX, screenY, screenWidth, screenHeight);
 		tmp.y = Gdx.graphics.getHeight() - tmp.y;

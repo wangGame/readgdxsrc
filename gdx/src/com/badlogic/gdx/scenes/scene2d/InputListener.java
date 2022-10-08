@@ -57,6 +57,7 @@ public class InputListener implements EventListener {
 			return keyTyped(event, event.getCharacter());
 		}
 
+		//将点击的stage坐标转化为actor坐标
 		event.toCoordinates(event.getListenerActor(), tmpCoords);
 
 		switch (event.getType()) {

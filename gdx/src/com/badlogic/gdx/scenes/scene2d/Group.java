@@ -44,6 +44,7 @@ public class Group extends Actor implements Cullable {
 	private @Null Rectangle cullingArea;
 
 	public void act (float delta) {
+		//先执行自己的，  自己可能也有动画什么的
 		super.act(delta);
 		Actor[] actors = children.begin();
 		for (int i = 0, n = children.size; i < n; i++)

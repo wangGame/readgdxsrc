@@ -63,6 +63,7 @@ public abstract class Camera {
 
 	/** Recalculates the projection and view matrix of this camera and the {@link Frustum} planes. Use this after you've
 	 * manipulated any of the attributes of the camera. */
+//	重新计算这个相机的投影与视图矩阵和{@link截锥体}。使用这个在你操纵相机任何属性的相机
 	public abstract void update ();
 
 	/** Recalculates the projection and view matrix of this camera and the {@link Frustum} planes if <code>updateFrustum</code> is
