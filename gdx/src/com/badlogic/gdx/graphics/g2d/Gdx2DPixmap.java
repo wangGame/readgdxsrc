@@ -40,7 +40,7 @@ public class Gdx2DPixmap implements Disposable {
 
 	public static final int GDX2D_BLEND_NONE = 0;
 	public static final int GDX2D_BLEND_SRC_OVER = 1;
-
+	//名称转化
 	public static int toGlFormat (int format) {
 		switch (format) {
 		case GDX2D_FORMAT_ALPHA:
@@ -58,6 +58,7 @@ public class Gdx2DPixmap implements Disposable {
 		}
 	}
 
+	//类型 byte 565 4444
 	public static int toGlType (int format) {
 		switch (format) {
 		case GDX2D_FORMAT_ALPHA:
@@ -74,10 +75,14 @@ public class Gdx2DPixmap implements Disposable {
 		}
 	}
 
+	//图片的句柄
 	long basePtr;
+	//
 	int width;
 	int height;
+	//
 	int format;
+	//
 	ByteBuffer pixelPtr;
 	long[] nativeData = new long[4];
 

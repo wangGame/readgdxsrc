@@ -22,13 +22,13 @@ package com.badlogic.gdx.backends.android.surfaceview;
  * @author christoph widulle */
 //游戏真正展示的大小范围（策略）
 public interface ResolutionStrategy {
-
+	//宽度测量规范 width  height
 	public MeasuredDimension calcMeasures (final int widthMeasureSpec, final int heightMeasureSpec);
 
 	public static class MeasuredDimension {
 		public final int width;
 		public final int height;
-
+		//测量出来的尺寸
 		public MeasuredDimension (int width, int height) {
 			this.width = width;
 			this.height = height;

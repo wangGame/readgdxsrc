@@ -22,6 +22,7 @@ import com.badlogic.gdx.files.FileHandle;
  * {@link AssetLoadingTask} to load the actual asset.
  * @author mzechner */
 //加载器 写完了，这里真正的进行加载 的参数
+//	资源名字   资源类型   参数
 public class AssetDescriptor<T> {
 	public final String fileName;
 	public final Class<T> type;

@@ -80,7 +80,8 @@ public class AndroidApplication extends Activity implements AndroidApplicationBa
 
 	/** This method has to be called in the {@link Activity#onCreate(Bundle)} method. It sets up all the things necessary to get
 	 * input, render via OpenGL and so on. Uses a default {@link AndroidApplicationConfiguration}.
-	 * 
+	 * 这个方法必须调用{@link活动#创建(包)}的方法。设置的一切必要的输入,
+	 * 通过opengl渲染等等。使用一个默认}{@link Android应用程序配置
 	 * @param listener the {@link ApplicationListener} implementing the program logic **/
 	public void initialize (ApplicationListener listener) {
 		//初始化方法  传递一个config 和 一个game
@@ -147,8 +148,9 @@ public class AndroidApplication extends Activity implements AndroidApplicationBa
 		files = createFiles();
 		//net
 		net = new AndroidNet(this, config);
-
+		//游戏listener
 		this.listener = listener;
+
 		this.handler = new Handler();
 		//沉寂服务
 		this.useImmersiveMode = config.useImmersiveMode;
@@ -187,7 +189,8 @@ public class AndroidApplication extends Activity implements AndroidApplicationBa
 			} catch (Exception ex) {
 				log("AndroidApplication", "Content already displayed, cannot request FEATURE_NO_TITLE", ex);
 			}
-			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+					WindowManager.LayoutParams.FLAG_FULLSCREEN);
 			getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
 			setContentView(graphics.getView(), createLayoutParams());
 		}

@@ -589,6 +589,11 @@ public class Matrix4 implements Serializable {
 		float ty = -(top + bottom) / (top - bottom);
 		float tz = -(far + near) / (far - near);
 
+		//2/720 	0 		0		 -1
+		//0		  2/640   	0		 -1
+		//0			0	  -2/5		 -1
+		//0         0      0         1
+
 		val[M00] = x_orth;
 		val[M10] = 0;
 		val[M20] = 0;

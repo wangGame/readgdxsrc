@@ -8,7 +8,7 @@ import com.badlogic.gdx.Input.Keys;
 public final class UIUtils {
 	private UIUtils () {
 	}
-
+	//判断系统密码给
 	static public boolean isAndroid = System.getProperty("java.runtime.name").contains("Android");
 	static public boolean isMac = !isAndroid && System.getProperty("os.name").contains("Mac");
 	static public boolean isWindows = !isAndroid && System.getProperty("os.name").contains("Windows");

@@ -28,6 +28,10 @@ public class AndroidPreferences implements Preferences {
 	SharedPreferences sharedPrefs;
 	Editor editor;
 
+	/**
+	 * 获取android的preference
+	 * @param preferences
+	 */
 	public AndroidPreferences (SharedPreferences preferences) {
 		this.sharedPrefs = preferences;
 	}
@@ -160,6 +164,9 @@ public class AndroidPreferences implements Preferences {
 		editor.remove(key);
 	}
 
+	/**
+	 * 获得修改器
+	 */
 	private void edit () {
 		if (editor == null) {
 			editor = sharedPrefs.edit();

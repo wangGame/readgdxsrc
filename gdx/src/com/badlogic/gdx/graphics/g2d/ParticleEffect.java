@@ -278,7 +278,9 @@ public class ParticleEffect implements Disposable {
 	}
 
 	/** Permanently scales all the size and motion parameters of all the emitters in this effect. If this effect originated from a
-	 * {@link ParticleEffectPool}, the scale will be reset when it is returned to the pool. */
+	 * {@link ParticleEffectPool}, the scale will be reset when it is returned to the pool.
+	 * 粒子大小缩放
+	 * */
 	public void scaleEffect (float xSizeScaleFactor, float ySizeScaleFactor, float motionScaleFactor) {
 		xSizeScale *= xSizeScaleFactor;
 		ySizeScale *= ySizeScaleFactor;
@@ -292,8 +294,12 @@ public class ParticleEffect implements Disposable {
 	/** Sets the {@link com.badlogic.gdx.graphics.g2d.ParticleEmitter#setCleansUpBlendFunction(boolean) cleansUpBlendFunction}
 	 * parameter on all {@link com.badlogic.gdx.graphics.g2d.ParticleEmitter ParticleEmitters} currently in this ParticleEffect.
 	 * <p>
+	 *     设置{@link com.badlogic.gdx.graphics.g2d。粒子发射器#设置清理混合函数(布尔)清理混合函数}参
+	 *     数在所有{@link com.badlogic.gdx.graphics.g2d。粒子发射器粒子发射器}目前在这个粒子效果。
 	 * IMPORTANT: If set to false and if the next object to use this Batch expects alpha blending, you are responsible for setting
 	 * the Batch's blend function to (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA) before that next object is drawn.
+	 *
+	 * 清理混合功能
 	 * @param cleanUpBlendFunction */
 	public void setEmittersCleanUpBlendFunction (boolean cleanUpBlendFunction) {
 		for (int i = 0, n = emitters.size; i < n; i++) {

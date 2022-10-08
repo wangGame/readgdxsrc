@@ -27,6 +27,10 @@ import com.badlogic.gdx.backends.android.DefaultAndroidInput.TouchEvent;
  * pointers.
  * 
  * @author badlogicgames@gmail.com */
+
+/**
+ * 根据android的事件总类，来设置事件的点击类型
+ */
 public class AndroidTouchHandler {
 	public void onTouch (MotionEvent event, DefaultAndroidInput input) {
 		final int action = event.getAction() & MotionEvent.ACTION_MASK;
@@ -132,6 +136,7 @@ public class AndroidTouchHandler {
 		Gdx.app.log("AndroidMultiTouchHandler", "action " + actionStr + ", Android pointer id: " + pointer);
 	}
 
+	//根据button数据来这是方向
 	private int toGdxButton (int button) {
 		if (button == 0 || button == 1) return Buttons.LEFT;
 		if (button == 2) return Buttons.RIGHT;
@@ -141,6 +146,7 @@ public class AndroidTouchHandler {
 		return -1;
 	}
 
+	//给touch加上一个事件
 	private void postTouchEvent (DefaultAndroidInput input, int type, int x, int y, int pointer, int button, long timeStamp) {
 		TouchEvent event = input.usedTouchEvents.obtain();
 		event.timeStamp = timeStamp;
@@ -152,6 +158,7 @@ public class AndroidTouchHandler {
 		input.touchEvents.add(event);
 	}
 
+	//支持多指操做
 	public boolean supportsMultitouch (Context activity) {
 		return activity.getPackageManager().hasSystemFeature("android.hardware.touchscreen.multitouch");
 	}

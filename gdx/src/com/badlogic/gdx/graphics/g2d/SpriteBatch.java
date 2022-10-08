@@ -42,20 +42,22 @@ public class SpriteBatch implements Batch {
 	 * 过时了
 	 */
 	@Deprecated public static VertexDataType defaultVertexDataType = VertexDataType.VertexArray;
-
+	//Mesh
 	private Mesh mesh;
-
+	//顶点
 	final float[] vertices;
 	int idx = 0;
+	//最后一个Texture
 	Texture lastTexture = null;
+	//
 	float invTexWidth = 0, invTexHeight = 0;
 
 	boolean drawing = false;
-	//转换矩阵
+	//变换矩阵
 	private final Matrix4 transformMatrix = new Matrix4();
 	//正交  透视
 	private final Matrix4 projectionMatrix = new Matrix4();
-	//组合矩阵
+	//组合矩阵  最后的结果
 	private final Matrix4 combinedMatrix = new Matrix4();
 	//是否blend
 	private boolean blendingDisabled = false;
@@ -115,8 +117,12 @@ public class SpriteBatch implements Batch {
 			new VertexAttribute(Usage.Position, 2, ShaderProgram.POSITION_ATTRIBUTE),
 			new VertexAttribute(Usage.ColorPacked, 4, ShaderProgram.COLOR_ATTRIBUTE),
 			new VertexAttribute(Usage.TextureCoordinates, 2, ShaderProgram.TEXCOORD_ATTRIBUTE + "0"));
-
-		projectionMatrix.setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		//matrix
+		projectionMatrix.setToOrtho2D(
+				0,
+				0,
+				Gdx.graphics.getWidth(),
+				Gdx.graphics.getHeight());
 
 		vertices = new float[size * Sprite.SPRITE_SIZE];
 
@@ -276,6 +282,12 @@ public class SpriteBatch implements Batch {
 		return colorPacked;
 	}
 
+	/**
+	 *这个的原理
+	 *(1)坐标和uv的映射  uv从texture上得到一个区域，通过坐标进行映射
+	 * (2)坐标得到的是最后的坐标
+	 * (3)本地坐标在加上世界坐标，就是最终的坐标
+	 */
 	@Override
 	public void draw (Texture texture, float x, float y, float originX, float originY, float width, float height, float scaleX,
 		float scaleY, float rotation, int srcX, int srcY, int srcWidth, int srcHeight, boolean flipX, boolean flipY) {
@@ -285,10 +297,12 @@ public class SpriteBatch implements Batch {
 
 		if (texture != lastTexture)
 			switchTexture(texture);
+		//数量达到最大值
 		else if (idx == vertices.length) //
 			flush();
 
 		// bottom left and top right corner points relative to origin
+		//这个可以理解为以origin为模型的坐标原点
 		final float worldOriginX = x + originX;
 		final float worldOriginY = y + originY;
 		float fx = -originX;
@@ -1005,14 +1019,17 @@ public class SpriteBatch implements Batch {
 
 		renderCalls++;
 		totalRenderCalls++;
+		//会更逊渲染的最大数量
 		int spritesInBatch = idx / 20;
 		if (spritesInBatch > maxSpritesInBatch) maxSpritesInBatch = spritesInBatch;
 		int count = spritesInBatch * 6;
-
 		lastTexture.bind();
 		Mesh mesh = this.mesh;
+		//设置顶点  idx顶点计数
 		mesh.setVertices(vertices, 0, idx);
+		//其实位置
 		((Buffer)mesh.getIndicesBuffer()).position(0);
+		//最多到 多少
 		((Buffer)mesh.getIndicesBuffer()).limit(count);
 
 		if (blendingDisabled) {

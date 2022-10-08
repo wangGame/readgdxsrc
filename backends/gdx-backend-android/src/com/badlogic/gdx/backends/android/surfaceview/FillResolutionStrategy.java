@@ -23,6 +23,7 @@ import android.view.View;
 public class FillResolutionStrategy implements ResolutionStrategy {
 	@Override
 	public MeasuredDimension calcMeasures (int widthMeasureSpec, int heightMeasureSpec) {
+		//		1073742544  1073743148  720  1324
 		final int width = View.MeasureSpec.getSize(widthMeasureSpec);
 		final int height = View.MeasureSpec.getSize(heightMeasureSpec);
 		return new MeasuredDimension(width, height);

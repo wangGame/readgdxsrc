@@ -50,6 +50,7 @@ final class AndroidSound implements Sound {
 		int streamId = soundPool.play(soundId, volume, volume, 1, 0, 1);
 		// standardise error code with other backends
 		if (streamId == 0) return -1;
+		//插入？？？
 		streamIds.insert(0, streamId);
 		return streamId;
 	}

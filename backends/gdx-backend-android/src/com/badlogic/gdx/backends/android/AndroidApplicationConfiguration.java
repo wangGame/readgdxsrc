@@ -102,8 +102,10 @@ public class AndroidApplicationConfiguration {
 	 * 3* is enabled, {@link com.badlogic.gdx.Gdx#gl30} can be used to access its functionality. Requires at least Android 4.3 (API
 	 * level 18).
 	 * @deprecated this option is currently experimental and not yet fully supported, expect issues. */
+	//使用Open GL 3.0
 	@Deprecated public boolean useGL30 = false;
 
 	/** The maximum number of threads to use for network requests. Default is {@link Integer#MAX_VALUE}. */
+	//最大的网络线程数
 	public int maxNetThreads = Integer.MAX_VALUE;
 }

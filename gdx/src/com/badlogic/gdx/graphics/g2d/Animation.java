@@ -31,29 +31,40 @@ import com.badlogic.gdx.utils.reflect.ArrayReflection;
  * <code>Animation&lt;TextureRegion&gt; myAnimation = new Animation&lt;TextureRegion&gt;(...);</code>
  * 
  * @author mzechner */
+//动画
 public class Animation<T> {
 
 	/** Defines possible playback modes for an {@link Animation}. */
 	public enum PlayMode {
-		NORMAL, REVERSED, LOOP, LOOP_REVERSED, LOOP_PINGPONG, LOOP_RANDOM,
+		NORMAL, //正常播放
+		REVERSED, //反向
+		LOOP, //循环
+		LOOP_REVERSED, // 逆向循环
+		LOOP_PINGPONG,  //来回
+		LOOP_RANDOM,  //随机
 	}
 
 	/** Length must not be modified without updating {@link #animationDuration}. See {@link #setKeyFrames(T[])}. */
-	T[] keyFrames;
-	private float frameDuration;
-	private float animationDuration;
-	private int lastFrameNumber;
+	T[] keyFrames; // 存放每一帧的textureRegion
+	private float frameDuration; //帧时间
+	private float animationDuration; //动画时间
+	private int lastFrameNumber; // 最后一帧
 	private float lastStateTime;
-
+	//正常模式
 	private PlayMode playMode = PlayMode.NORMAL;
 
 	/** Constructor, storing the frame duration and key frames.
-	 * 
+	 *
+	 * 这个现在做了扩展，不仅仅是textureRegion
+	 *
+	 *
 	 * @param frameDuration the time between frames in seconds.
 	 * @param keyFrames the objects representing the frames. If this Array is type-aware, {@link #getKeyFrames()} can return the
 	 *           correct type of array. Otherwise, it returns an Object[]. */
 	public Animation (float frameDuration, Array<? extends T> keyFrames) {
+		//每帧动画的时长
 		this.frameDuration = frameDuration;
+		//得到类型
 		Class arrayType = keyFrames.items.getClass().getComponentType();
 		T[] frames = (T[])ArrayReflection.newInstance(arrayType, keyFrames.size);
 		for (int i = 0, n = keyFrames.size; i < n; i++) {
@@ -169,6 +180,7 @@ public class Animation<T> {
 
 	protected void setKeyFrames (T... keyFrames) {
 		this.keyFrames = keyFrames;
+		//这只总时长
 		this.animationDuration = keyFrames.length * frameDuration;
 	}
 

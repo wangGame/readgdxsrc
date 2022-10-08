@@ -16,7 +16,7 @@ package com.badlogic.gdx.backends.android.surfaceview;
 /** This {@link ResolutionStrategy} will place the GLSurfaceView with the given height and width in the center the screen.
  * 
  * @author christoph widulle */
-//固定的大小  传入的值是多少就是多少， 不进行转换
+//固定的大小  传入的值是多少就是多少，
 public class FixedResolutionStrategy implements ResolutionStrategy {
 
 	private final int width;

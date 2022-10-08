@@ -52,7 +52,9 @@ public class GLSurfaceView20 extends GLSurfaceView {
 	//键盘类型
 	public OnscreenKeyboardType onscreenKeyboardType = OnscreenKeyboardType.Default;
 
-	public GLSurfaceView20 (Context context, ResolutionStrategy resolutionStrategy, int targetGLESVersion) {
+	public GLSurfaceView20 (Context context,
+							ResolutionStrategy resolutionStrategy,
+							int targetGLESVersion) {
 		super(context);
 		//目标版本
 		GLSurfaceView20.targetGLESVersion = targetGLESVersion;

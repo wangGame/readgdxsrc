@@ -35,7 +35,7 @@ public class AndroidGL20 implements GL20 {
 	public void glAttachShader (int program, int shader) {
 		GLES20.glAttachShader(program, shader);
 	}
-	//绑定  使用名字
+	//绑定  使用名字绑定
 	public void glBindAttribLocation (int program, int index, String name) {
 		GLES20.glBindAttribLocation(program, index, name);
 	}
@@ -48,6 +48,7 @@ public class AndroidGL20 implements GL20 {
 		GLES20.glBindFramebuffer(target, framebuffer);
 	}
 	//绑定渲染    这个之前在创一个frameBuffer之后 进行绘制的时候看到过
+	//这个一般和FrameBuffer一起使用的
 	public void glBindRenderbuffer (int target, int renderbuffer) {
 		GLES20.glBindRenderbuffer(target, renderbuffer);
 	}
@@ -56,18 +57,27 @@ public class AndroidGL20 implements GL20 {
 		GLES20.glBindTexture(target, texture);
 	}
 	//blend
+	//blend除了颜色还有操作
 	public void glBlendColor (float red, float green, float blue, float alpha) {
 		GLES20.glBlendColor(red, green, blue, alpha);
 	}
 
+	//混合的模式
 	public void glBlendEquation (int mode) {
 		GLES20.glBlendEquation(mode);
 	}
 
+	//GLES20.glBlendFunc(nSrcPar,nDstPar);   混合
+	//GLES20.glBlendEquation(equaInt[nEquaIndex]);  叠加模式（相加  相减）
+	//glBlendFuncSeparate(GLenum srcRGB, GLenum destRGB, GLenum srcAlpha,
+	// GLenum destAlpha);
+	//参数srcRGB表示颜色值的源混合因子，参数destRGB表示颜色在的目标混合因子，参数
+	//srcAlpha表示Alpha值的源混合因子，参数destAlpha表示Alpha值的目标混合因子
+	//glBlendEquationSeparate - 分别设置RGB混合方程和alpha混合方程
 	public void glBlendEquationSeparate (int modeRGB, int modeAlpha) {
 		GLES20.glBlendEquationSeparate(modeRGB, modeAlpha);
 	}
-
+	//混合
 	public void glBlendFunc (int sfactor, int dfactor) {
 		GLES20.glBlendFunc(sfactor, dfactor);
 	}
@@ -87,19 +97,20 @@ public class AndroidGL20 implements GL20 {
 	public int glCheckFramebufferStatus (int target) {
 		return GLES20.glCheckFramebufferStatus(target);
 	}
-
+	//清除
 	public void glClear (int mask) {
 		GLES20.glClear(mask);
 	}
 
+	//清除后的颜色
 	public void glClearColor (float red, float green, float blue, float alpha) {
 		GLES20.glClearColor(red, green, blue, alpha);
 	}
-
+	//清除深度
 	public void glClearDepthf (float depth) {
 		GLES20.glClearDepthf(depth);
 	}
-
+	//清除
 	public void glClearStencil (int s) {
 		GLES20.glClearStencil(s);
 	}
@@ -112,6 +123,18 @@ public class AndroidGL20 implements GL20 {
 		GLES20.glCompileShader(shader);
 	}
 	//加载纹理数据
+
+	/**
+	 *
+	 * @param target texture
+	 * @param level 0
+	 * @param internalformat rgb
+	 * @param width w
+	 * @param height h
+	 * @param border 0
+	 * @param imageSize
+	 * @param data
+	 */
 	public void glCompressedTexImage2D (int target, int level, int internalformat, int width, int height, int border,
 		int imageSize, Buffer data) {
 		GLES20.glCompressedTexImage2D(target, level, internalformat, width, height, border, imageSize, data);
@@ -130,18 +153,22 @@ public class AndroidGL20 implements GL20 {
 		GLES20.glCopyTexSubImage2D(target, level, xoffset, yoffset, x, y, width, height);
 	}
 
+	//创建程序
 	public int glCreateProgram () {
 		return GLES20.glCreateProgram();
 	}
 
+	//创建shader
 	public int glCreateShader (int type) {
 		return GLES20.glCreateShader(type);
 	}
 
+	//怎样围起来为正
 	public void glCullFace (int mode) {
 		GLES20.glCullFace(mode);
 	}
 
+	//删除Buffer
 	public void glDeleteBuffers (int n, IntBuffer buffers) {
 		GLES20.glDeleteBuffers(n, buffers);
 	}
@@ -151,6 +178,7 @@ public class AndroidGL20 implements GL20 {
 		GLES20.glDeleteBuffers(1, ints, 0);
 	}
 
+	//删除frameBuffer
 	public void glDeleteFramebuffers (int n, IntBuffer framebuffers) {
 		GLES20.glDeleteFramebuffers(n, framebuffers);
 	}
@@ -160,10 +188,12 @@ public class AndroidGL20 implements GL20 {
 		GLES20.glDeleteFramebuffers(1, ints, 0);
 	}
 
+	//删除program
 	public void glDeleteProgram (int program) {
 		GLES20.glDeleteProgram(program);
 	}
 
+	//删除renderbuffer
 	public void glDeleteRenderbuffers (int n, IntBuffer renderbuffers) {
 		GLES20.glDeleteRenderbuffers(n, renderbuffers);
 	}
@@ -514,7 +544,7 @@ public class AndroidGL20 implements GL20 {
 	}
 
 	/**
-	 *
+	 * 给纹理设置参数
 	 * @param target
 	 * @param pname
 	 * @param params

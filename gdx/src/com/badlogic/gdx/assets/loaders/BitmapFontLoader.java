@@ -43,6 +43,7 @@ public class BitmapFontLoader extends AsynchronousAssetLoader<BitmapFont, Bitmap
 	}
 	BitmapFontData data;
 	//得到字体文件的依赖
+	//将依赖项变为任务
 	@Override
 	public Array<AssetDescriptor> getDependencies (String fileName, FileHandle file, BitmapFontParameter parameter) {
 		Array<AssetDescriptor> deps = new Array();

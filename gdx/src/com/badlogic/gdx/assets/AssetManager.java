@@ -521,6 +521,7 @@ public class AssetManager implements Disposable {
 
 	/** Removes a task from the loadQueue and adds it to the task stack. If the asset is already loaded (which can happen if it was
 	 * a dependency of a previously loaded asset) its reference count will be increased. */
+	//下一个认为
 	private void nextTask () {
 		AssetDescriptor assetDesc = loadQueue.removeIndex(0);
 

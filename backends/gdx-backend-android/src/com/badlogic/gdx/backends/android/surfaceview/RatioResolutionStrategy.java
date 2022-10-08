@@ -22,7 +22,7 @@ import android.view.View;
  * screen size.
  * 
  * @author christoph widulle */
-//宽高归一处理（画正方形吧）  可以使用的等比最大尺寸
+//  可以使用宽和高的比例来绘制
 public class RatioResolutionStrategy implements ResolutionStrategy {
 
 	private final float ratio;

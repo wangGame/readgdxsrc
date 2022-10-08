@@ -43,6 +43,16 @@ public class GdxEglConfigChooser implements GLSurfaceView.EGLConfigChooser {
 	protected final int[] mConfigAttribs;
 	private int[] mValue = new int[1];
 
+	/**
+	 * 绘制的一些要求， rgbadsn的值
+	 * @param r
+	 * @param g
+	 * @param b
+	 * @param a
+	 * @param depth
+	 * @param stencil
+	 * @param numSamples
+	 */
 	public GdxEglConfigChooser (int r, int g, int b, int a, int depth, int stencil, int numSamples) {
 		mRedSize = r;
 		mGreenSize = g;
@@ -51,14 +61,19 @@ public class GdxEglConfigChooser implements GLSurfaceView.EGLConfigChooser {
 		mDepthSize = depth;
 		mStencilSize = stencil;
 		mNumSamples = numSamples;
+		//最基础的属性要求    绘制的类型是open gl es绘制
 		mConfigAttribs = new int[] {EGL10.EGL_RED_SIZE, 4, EGL10.EGL_GREEN_SIZE, 4, EGL10.EGL_BLUE_SIZE, 4,
 			EGL10.EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT, EGL10.EGL_NONE};
 	}
 
+	/**
+	 * 根据最基础的配置要求，得到所有的配置信息，
+	 *
+	 */
 	public EGLConfig chooseConfig (EGL10 egl, EGLDisplay display) {
 		// get (almost) all configs available by using r=g=b=4 so we
 		// can chose with big confidence :)
-		//读取配置信息的个数   通过我们自己给的条件、测试一下
+		//读取配置信息的个数   使用最基础的属性来获取配置
 		int[] num_config = new int[1];
 		egl.eglChooseConfig(display, mConfigAttribs, null, 0, num_config);
 		//得到个数
@@ -91,7 +106,7 @@ public class GdxEglConfigChooser implements GLSurfaceView.EGLConfigChooser {
 			//获取深度信息   裁剪
 			int d = findConfigAttrib(egl, display, config, EGL10.EGL_DEPTH_SIZE, 0);
 			int s = findConfigAttrib(egl, display, config, EGL10.EGL_STENCIL_SIZE, 0);
-			//不满足返回
+			//不满足返回  这个两个要求还挺高
 			// We need at least mDepthSize and mStencilSize bits
 			if (d < mDepthSize || s < mStencilSize) continue;
 
@@ -101,13 +116,14 @@ public class GdxEglConfigChooser implements GLSurfaceView.EGLConfigChooser {
 			int b = findConfigAttrib(egl, display, config, EGL10.EGL_BLUE_SIZE, 0);
 			int a = findConfigAttrib(egl, display, config, EGL10.EGL_ALPHA_SIZE, 0);
 
+			//只要深度和模板大小  然后颜色达到要求就可以了。
 			// Match RGB565 as a fallback
 			if (safe == null && r == 5 && g == 6 && b == 5 && a == 0) {
 				safe = config;
 			}
 			// if we have a match, we chose this as our non AA fallback if that one
 			// isn't set already.
-			//找到我自己的那就可以了
+			//找到我自己的那就可以返回了
 			if (best == null && r == mRedSize && g == mGreenSize && b == mBlueSize && a == mAlphaSize) {
 				best = config;
 
@@ -116,7 +132,7 @@ public class GdxEglConfigChooser implements GLSurfaceView.EGLConfigChooser {
 					break;
 				}
 			}
-
+			//对于采样位数
 			// now check for MSAA support
 			int hasSampleBuffers = findConfigAttrib(egl, display, config, EGL10.EGL_SAMPLE_BUFFERS, 0);
 			int numSamples = findConfigAttrib(egl, display, config, EGL10.EGL_SAMPLES, 0);
@@ -151,7 +167,8 @@ public class GdxEglConfigChooser implements GLSurfaceView.EGLConfigChooser {
 			return safe;
 	}
 
-	private int findConfigAttrib (EGL10 egl, EGLDisplay display, EGLConfig config, int attribute, int defaultValue) {
+	private int findConfigAttrib (EGL10 egl, EGLDisplay display,
+								  EGLConfig config, int attribute, int defaultValue) {
 		if (egl.eglGetConfigAttrib(display, config, attribute, mValue)) {
 			return mValue[0];
 		}

@@ -31,7 +31,7 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
  * @see com.badlogic.gdx.scenes.scene2d.Group#setTransform(boolean) Group.setTransform()
  * @author Valentin Milea */
 public class CpuSpriteBatch extends SpriteBatch {
-
+	//
 	private final Matrix4 virtualMatrix = new Matrix4();
 	private final Affine2 adjustAffine = new Affine2();
 	private boolean adjustNeeded;
@@ -71,6 +71,7 @@ public class CpuSpriteBatch extends SpriteBatch {
 		flush();
 
 		if (adjustNeeded) {
+			//顶点刷新   安全替换矩阵
 			// vertices flushed, safe now to replace matrix
 			haveIdentityRealMatrix = checkIdt(virtualMatrix);
 
@@ -87,10 +88,20 @@ public class CpuSpriteBatch extends SpriteBatch {
 		return (adjustNeeded ? virtualMatrix : super.getTransformMatrix());
 	}
 
-	/** Sets the transform matrix to be used by this Batch. Even if this is called inside a {@link #begin()}/{@link #end()} block,
-	 * the current batch is <em>not</em> flushed to the GPU. Instead, for every subsequent draw() the vertices will be transformed
-	 * on the CPU to match the original batch matrix. This adjustment must be performed until the matrices are realigned by
-	 * restoring the original matrix, or by calling {@link #flushAndSyncTransformMatrix()}. */
+	/** Sets the transform matrix to be used by this Batch.
+	 * 这个批处理使用这个矩阵
+	 * Even if this is called inside a {@link #begin()}/{@link #end()} block,
+	 * 即使在开始和结束中调用
+	 * the current batch is <em>not</em> flushed to the GPU.
+	 * 这个没有刷新到GPU
+	 * Instead, for every subsequent draw() the vertices will be transformed
+	 * 每个绘制都会发生改变
+	 * on the CPU to match the original batch matrix.
+	 * 如果匹配了原始的矩阵
+	 * This adjustment must be performed until the matrices are realigned by
+	 * restoring the original matrix,
+	 * 这个调整必须执行 矩阵恢复原始的矩阵
+	 * or by calling {@link #flushAndSyncTransformMatrix()}. */
 	@Override
 	public void setTransformMatrix (Matrix4 transform) {
 		Matrix4 realMatrix = super.getTransformMatrix();
@@ -605,13 +616,11 @@ public class CpuSpriteBatch extends SpriteBatch {
 			while (copyCount > 0) {
 				float x = spriteVertices[offset];
 				float y = spriteVertices[offset + 1];
-
 				vertices[idx] = t.m00 * x + t.m01 * y + t.m02; // x
 				vertices[idx + 1] = t.m10 * x + t.m11 * y + t.m12; // y
 				vertices[idx + 2] = spriteVertices[offset + 2]; // color
 				vertices[idx + 3] = spriteVertices[offset + 3]; // u
 				vertices[idx + 4] = spriteVertices[offset + 4]; // v
-
 				idx += Sprite.VERTEX_SIZE;
 				offset += Sprite.VERTEX_SIZE;
 				copyCount -= Sprite.VERTEX_SIZE;
@@ -624,15 +633,16 @@ public class CpuSpriteBatch extends SpriteBatch {
 		} while (count > 0);
 	}
 
+	//两个是不是相等的
 	private static boolean checkEqual (Matrix4 a, Matrix4 b) {
 		if (a == b) return true;
-
 		// matrices are assumed to be 2D transformations
 		return (a.val[Matrix4.M00] == b.val[Matrix4.M00] && a.val[Matrix4.M10] == b.val[Matrix4.M10]
-			&& a.val[Matrix4.M01] == b.val[Matrix4.M01] && a.val[Matrix4.M11] == b.val[Matrix4.M11]
-			&& a.val[Matrix4.M03] == b.val[Matrix4.M03] && a.val[Matrix4.M13] == b.val[Matrix4.M13]);
+			 && a.val[Matrix4.M01] == b.val[Matrix4.M01] && a.val[Matrix4.M11] == b.val[Matrix4.M11]
+			 && a.val[Matrix4.M03] == b.val[Matrix4.M03] && a.val[Matrix4.M13] == b.val[Matrix4.M13]);
 	}
 
+	//是否相等
 	private static boolean checkEqual (Matrix4 matrix, Affine2 affine) {
 		final float[] val = matrix.getValues();
 
@@ -641,11 +651,20 @@ public class CpuSpriteBatch extends SpriteBatch {
 			&& val[Matrix4.M11] == affine.m11 && val[Matrix4.M03] == affine.m02 && val[Matrix4.M13] == affine.m12);
 	}
 
+	//检查是不是初始值
 	private static boolean checkIdt (Matrix4 matrix) {
 		final float[] val = matrix.getValues();
 
 		// matrix is assumed to be 2D transformation
-		return (val[Matrix4.M00] == 1 && val[Matrix4.M10] == 0 && val[Matrix4.M01] == 0 && val[Matrix4.M11] == 1
-			&& val[Matrix4.M03] == 0 && val[Matrix4.M13] == 0);
+		//1 0 0 0
+		//0 1 0 0
+		//0 0 1 0
+		//0 0 0 0
+		return (val[Matrix4.M00] == 1
+				&& val[Matrix4.M10] == 0
+				&& val[Matrix4.M01] == 0
+				&& val[Matrix4.M11] == 1
+				&& val[Matrix4.M03] == 0
+				&& val[Matrix4.M13] == 0);
 	}
 }

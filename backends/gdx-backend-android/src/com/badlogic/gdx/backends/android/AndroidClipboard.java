@@ -26,6 +26,7 @@ public class AndroidClipboard implements Clipboard {
 
 	private final android.content.ClipboardManager clipboard;
 
+	//获取系统的粘贴板
 	public AndroidClipboard (Context context) {
 		clipboard = (android.content.ClipboardManager)context.getSystemService(Context.CLIPBOARD_SERVICE);
 	}
@@ -35,6 +36,7 @@ public class AndroidClipboard implements Clipboard {
 		return clipboard.hasPrimaryClip();
 	}
 
+	//获取粘贴板的内容
 	@Override
 	public String getContents () {
 		ClipData clip = clipboard.getPrimaryClip();
@@ -44,6 +46,7 @@ public class AndroidClipboard implements Clipboard {
 		return text.toString();
 	}
 
+	//写入数据
 	@Override
 	public void setContents (final String contents) {
 		ClipData data = ClipData.newPlainText(contents, contents);

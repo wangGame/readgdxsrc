@@ -72,12 +72,15 @@ public class NinePatch {
 	 * @param bottom Pixels from bottom edge. */
 	public NinePatch (TextureRegion region, int left, int right, int top, int bottom) {
 		if (region == null) throw new IllegalArgumentException("region cannot be null.");
+		//中间的宽 高
 		final int middleWidth = region.getRegionWidth() - left - right;
 		final int middleHeight = region.getRegionHeight() - top - bottom;
-
+		//9块   textureRegin的是方向应该是顶部为0 0
 		TextureRegion[] patches = new TextureRegion[9];
 		if (top > 0) {
+//			l t
 			if (left > 0) patches[TOP_LEFT] = new TextureRegion(region, 0, 0, left, top);
+//			l 0 m t
 			if (middleWidth > 0) patches[TOP_CENTER] = new TextureRegion(region, left, 0, middleWidth, top);
 			if (right > 0) patches[TOP_RIGHT] = new TextureRegion(region, left + middleWidth, 0, right, top);
 		}

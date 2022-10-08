@@ -23,7 +23,10 @@ import com.badlogic.gdx.utils.Array;
 
 /** Abstract base class for asset loaders.
  * @author mzechner
- * 
+ *
+ * PlistAtlas  P
+ *
+ *
  * @param <T> the class of the asset the loader supports
  * @param <P> the class of the loading parameters the loader supports. */
 public abstract class AssetLoader<T, P extends AssetLoaderParameters<T>> {

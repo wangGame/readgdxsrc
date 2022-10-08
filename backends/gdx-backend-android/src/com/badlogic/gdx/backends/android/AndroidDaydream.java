@@ -41,7 +41,9 @@ import com.badlogic.gdx.utils.SnapshotArray;
 /** An implementation of the {@link Application} interface for Android. Create an {@link Activity} that derives from this class.
  * In the Activity#onCreate(Bundle) method call the {@link #initialize(ApplicationListener)} method specifying the configuration
  * for the {@link GLSurfaceView}.
- * 
+ *
+ * 的实现为Android应用}{@link接口。创建一个{@link活动},来自这类。在创建活动#(包)方法调用
+ * {@link #初始化(应用程序侦听器)}方法指定的配置{@link GLSurface视图}。
  * @author mzechner */
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class AndroidDaydream extends DreamService implements AndroidApplicationBase {

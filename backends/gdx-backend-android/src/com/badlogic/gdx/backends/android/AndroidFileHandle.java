@@ -43,6 +43,7 @@ public class AndroidFileHandle extends FileHandle {
 	final private AssetManager assets;
 
 	AndroidFileHandle (AssetManager assets, String fileName, FileType type) {
+		//设置path
 		super(fileName.replace('\\', '/'), type);
 		this.assets = assets;
 	}
@@ -53,6 +54,7 @@ public class AndroidFileHandle extends FileHandle {
 	}
 
 	public FileHandle child (String name) {
+		//获取子目录
 		name = name.replace('\\', '/');
 		if (file.getPath().length() == 0) return new AndroidFileHandle(assets, new File(name), type);
 		return new AndroidFileHandle(assets, new File(file, name), type);
@@ -77,6 +79,7 @@ public class AndroidFileHandle extends FileHandle {
 	}
 
 	public InputStream read () {
+		//读取数据 asset打开目录
 		if (type == FileType.Internal) {
 			try {
 				return assets.open(file.getPath());
@@ -110,6 +113,7 @@ public class AndroidFileHandle extends FileHandle {
 	public FileHandle[] list () {
 		if (type == FileType.Internal) {
 			try {
+				//获取list   都是通过asset读取文件目录
 				String[] relativePaths = assets.list(file.getPath());
 				FileHandle[] handles = new FileHandle[relativePaths.length];
 				for (int i = 0, n = handles.length; i < n; i++)

@@ -56,18 +56,21 @@ import java.util.List;
 /** @author jshapcot */
 //默认的输入
 public class DefaultAndroidInput extends AbstractInput implements AndroidInput {
-	//
+	//键盘点击下   抬起   类型
 	static class KeyEvent {
 		static final int KEY_DOWN = 0;
 		static final int KEY_UP = 1;
 		static final int KEY_TYPED = 2;
-
+		//点击时间
 		long timeStamp;
+		//类型
 		int type;
+		//点击的值
 		int keyCode;
 		char keyChar;
 	}
 
+	//点击事件
 	static class TouchEvent {
 		static final int TOUCH_DOWN = 0;
 		static final int TOUCH_UP = 1;

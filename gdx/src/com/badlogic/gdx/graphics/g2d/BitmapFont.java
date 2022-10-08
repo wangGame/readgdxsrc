@@ -942,6 +942,9 @@ public class BitmapFont implements Disposable {
 
 		/** Scales the font by the specified amount in both directions.
 		 * @see #setScale(float, float)
+		 *
+		 * 缩放
+		 *
 		 * @throws IllegalArgumentException if scaleX or scaleY is zero. */
 		public void setScale (float scaleXY) {
 			setScale(scaleXY, scaleXY);

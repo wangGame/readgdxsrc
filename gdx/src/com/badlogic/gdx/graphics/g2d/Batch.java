@@ -72,6 +72,9 @@ public interface Batch extends Disposable {
 	public void setPackedColor (float packedColor);
 
 	/** @return the rendering color of this Batch in vertex format (alpha compressed to 0-254)
+	 *
+	 * 呈现颜色的顶点格式(α压缩为0 - 254)
+	 *
 	 * @see Color#toFloatBits() */
 	public float getPackedColor ();
 

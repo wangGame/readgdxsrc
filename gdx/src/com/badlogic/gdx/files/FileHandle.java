@@ -53,9 +53,11 @@ import com.badlogic.gdx.utils.StreamUtils;
  * 
  * @author mzechner
  * @author Nathan Sweet */
-//android处理文件
+//处理文件
 public class FileHandle {
+	//文件
 	protected File file;
+	//类型
 	protected FileType type;
 
 	protected FileHandle () {
@@ -100,6 +102,8 @@ public class FileHandle {
 	}
 
 	/** Returns the file extension (without the dot) or an empty string if the file name doesn't contain a dot. */
+	//得到名字  获取最后一个点的位置
+	//kw.ye.aalA.App  --> App
 	public String extension () {
 		String name = file.getName();
 		int dotIndex = name.lastIndexOf('.');
