@@ -66,7 +66,7 @@ public class TextureRegionDrawable extends BaseDrawable implements TransformDraw
 	public TextureRegion getRegion () {
 		return region;
 	}
-
+	//创建一个sprite
 	/** Creates a new drawable that renders the same as this drawable tinted the specified color. */
 	public Drawable tint (Color tint) {
 		Sprite sprite;

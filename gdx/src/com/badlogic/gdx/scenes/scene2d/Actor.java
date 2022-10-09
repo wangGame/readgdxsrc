@@ -839,12 +839,16 @@ public class Actor {
 	 * transform matrix and the stage's camera must not have rotational components. Calling this method must be followed by a call
 	 * to {@link #clipEnd()} if true is returned.
 	 * @return false if the clipping area is zero and no drawing should occur.
+	 *
+	 * 开始切割
+	 *
 	 * @see ScissorStack */
 	public boolean clipBegin (float x, float y, float width, float height) {
 		if (width <= 0 || height <= 0) return false;
 		Stage stage = this.stage;
 		if (stage == null) return false;
 		Rectangle tableBounds = Rectangle.tmp;
+		//传递过来的坐标
 		tableBounds.x = x;
 		tableBounds.y = y;
 		tableBounds.width = width;

@@ -46,6 +46,7 @@ public class Group extends Actor implements Cullable {
 	public void act (float delta) {
 		//先执行自己的，  自己可能也有动画什么的
 		super.act(delta);
+		//执行子类的
 		Actor[] actors = children.begin();
 		for (int i = 0, n = children.size; i < n; i++)
 			actors[i].act(delta);
@@ -55,6 +56,7 @@ public class Group extends Actor implements Cullable {
 	/** Draws the group and its children. The default implementation calls {@link #applyTransform(Batch, Matrix4)} if needed, then
 	 * {@link #drawChildren(Batch, float)}, then {@link #resetTransform(Batch)} if needed. */
 	public void draw (Batch batch, float parentAlpha) {
+		//是否需要 更新  transform
 		if (transform) applyTransform(batch, computeTransform());
 		drawChildren(batch, parentAlpha);
 		if (transform) resetTransform(batch);
@@ -64,6 +66,13 @@ public class Group extends Actor implements Cullable {
 	 * after this method if {@link #setTransform(boolean) transform} is true. If {@link #setTransform(boolean) transform} is false
 	 * these methods don't need to be called, children positions are temporarily offset by the group position when drawn. This
 	 * method avoids drawing children completely outside the {@link #setCullingArea(Rectangle) culling area}, if set. */
+	/**
+	 * 绘制的过程中  分为 transform和非x两种
+	 * 1.对于裁剪
+	 * 2.对于t和非t
+	 * @param batch
+	 * @param parentAlpha
+	 */
 	protected void drawChildren (Batch batch, float parentAlpha) {
 		parentAlpha *= this.color.a;
 		SnapshotArray<Actor> children = this.children;
@@ -80,7 +89,11 @@ public class Group extends Actor implements Cullable {
 					Actor child = actors[i];
 					if (!child.isVisible()) continue;
 					float cx = child.x, cy = child.y;
-					if (cx <= cullRight && cy <= cullTop && cx + child.width >= cullLeft && cy + child.height >= cullBottom)
+					//在绘制之前会进行一次裁剪测试，这个里面主要目的是，不多于绘制外面的东西
+					if (cx <= cullRight
+							&& cy <= cullTop
+							&& cx + child.width >= cullLeft
+							&& cy + child.height >= cullBottom)
 						child.draw(batch, parentAlpha);
 				}
 			} else {
@@ -92,7 +105,10 @@ public class Group extends Actor implements Cullable {
 					Actor child = actors[i];
 					if (!child.isVisible()) continue;
 					float cx = child.x, cy = child.y;
-					if (cx <= cullRight && cy <= cullTop && cx + child.width >= cullLeft && cy + child.height >= cullBottom) {
+					if (cx <= cullRight
+							&& cy <= cullTop
+							&& cx + child.width >= cullLeft
+							&& cy + child.height >= cullBottom) {
 						child.x = cx + offsetX;
 						child.y = cy + offsetY;
 						child.draw(batch, parentAlpha);
@@ -182,8 +198,10 @@ public class Group extends Actor implements Cullable {
 
 	/** Returns the transform for this group's coordinate system. */
 	protected Matrix4 computeTransform () {
+		//得到世界的转换坐标
 		Affine2 worldTransform = this.worldTransform;
 		float originX = this.originX, originY = this.originY;
+		//旋转缩放
 		worldTransform.setToTrnRotScl(x + originX, y + originY, rotation, scaleX, scaleY);
 		if (originX != 0 || originY != 0) worldTransform.translate(-originX, -originY);
 
@@ -193,6 +211,7 @@ public class Group extends Actor implements Cullable {
 			if (parentGroup.transform) break;
 			parentGroup = parentGroup.parent;
 		}
+		//父类的自身的运算
 		if (parentGroup != null) worldTransform.preMul(parentGroup.worldTransform);
 
 		computedTransform.set(worldTransform);
@@ -201,7 +220,9 @@ public class Group extends Actor implements Cullable {
 
 	/** Set the batch's transformation matrix, often with the result of {@link #computeTransform()}. Note this causes the batch to
 	 * be flushed. {@link #resetTransform(Batch)} will restore the transform to what it was before this call. */
+	//在重新设置矩阵的时候，游戏里面会增加一次flush  太多的group变换会增加drawCall的次数
 	protected void applyTransform (Batch batch, Matrix4 transform) {
+		//保存老的矩阵
 		oldTransform.set(batch.getTransformMatrix());
 		batch.setTransformMatrix(transform);
 	}
@@ -363,6 +384,7 @@ public class Group extends Actor implements Cullable {
 			Actor child = actors[i];
 			if (unfocus) {
 				Stage stage = getStage();
+				//似乎是处理点击时间这种东西的
 				if (stage != null) stage.unfocus(child);
 			}
 			child.setStage(null);
@@ -387,6 +409,7 @@ public class Group extends Actor implements Cullable {
 
 	/** Returns the first actor found with the specified name. Note this recursively compares the name of every actor in the
 	 * group. */
+	//之前的版本  上的  一个更新
 	public @Null <T extends Actor> T findActor (String name) {
 		Array<Actor> children = this.children;
 		for (int i = 0, n = children.size; i < n; i++)

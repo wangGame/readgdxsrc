@@ -92,6 +92,7 @@ public class ScissorStack {
 		return scissors.peek();
 	}
 
+	//固定 rect
 	private static void fix (Rectangle rect) {
 		rect.x = Math.round(rect.x);
 		rect.y = Math.round(rect.y);

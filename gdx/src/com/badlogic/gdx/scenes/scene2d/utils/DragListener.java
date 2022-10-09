@@ -25,6 +25,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
  * outside the {@link #setTapSquareSize(float) tap square}. Any touch (not just the first) will trigger this listener. While
  * pressed, other touch downs are ignored.
  * @author Nathan Sweet */
+//滑动   距离大于14是滑动
 public class DragListener extends InputListener {
 	private float tapSquareSize = 14, touchDownX = -1, touchDownY = -1, stageTouchDownX = -1, stageTouchDownY = -1;
 	private float dragStartX, dragStartY, dragLastX, dragLastY, dragX, dragY;

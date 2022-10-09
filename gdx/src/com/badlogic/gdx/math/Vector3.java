@@ -240,6 +240,7 @@ public class Vector3 implements Serializable, Vector<Vector3> {
 
 	/** @param vector The other vector
 	 * @return Whether this and the other vector are equal */
+	//判断是不是相等
 	public boolean idt (final Vector3 vector) {
 		return x == vector.x && y == vector.y && z == vector.z;
 	}
@@ -249,6 +250,7 @@ public class Vector3 implements Serializable, Vector<Vector3> {
 		final float a = x2 - x1;
 		final float b = y2 - y1;
 		final float c = z2 - z1;
+		//两个的距离
 		return (float)Math.sqrt(a * a + b * b + c * c);
 	}
 
