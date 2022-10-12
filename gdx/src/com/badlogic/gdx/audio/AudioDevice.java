@@ -26,6 +26,7 @@ import com.badlogic.gdx.utils.Disposable;
  * @author badlogicgames@gmail.com */
 public interface AudioDevice extends Disposable {
 	/** @return whether this AudioDevice is in mono or stereo mode. */
+	/*单声道*/
 	public boolean isMono ();
 
 	/** Writes the array of 16-bit signed PCM samples to the audio device and blocks until they have been processed.
