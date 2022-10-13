@@ -392,14 +392,14 @@ public class BitmapFont implements Disposable {
 
 	/** Represents a single character in a font page. */
 	public static class Glyph {
-		public int id;
-		public int srcX;
-		public int srcY;
-		public int width, height;
-		public float u, v, u2, v2;
-		public int xoffset, yoffset;
+		public int id;//id
+		public int srcX;//从那个地方开始
+		public int srcY;//那个地方结束
+		public int width, height;//宽高
+		public float u, v, u2, v2;//uv
+		public int xoffset, yoffset;//偏移
 		public int xadvance;
-		public byte[][] kerning;
+		public byte[][] kerning;//page char
 		public boolean fixedWidth;
 
 		/** The index to the texture page that holds this glyph. */
@@ -489,17 +489,19 @@ public class BitmapFont implements Disposable {
 			load(fontFile, flip);
 		}
 
+		//这一部分主要读取文件里面的数据
 		public void load (FileHandle fontFile, boolean flip) {
 			if (imagePaths != null) throw new IllegalStateException("Already loaded.");
-
 			name = fontFile.nameWithoutExtension();
-
+			//加载文件
 			BufferedReader reader = new BufferedReader(new InputStreamReader(fontFile.read()), 512);
 			try {
+				//读取第一行   第一行就用了一个padding
 				String line = reader.readLine(); // info
 				if (line == null) throw new GdxRuntimeException("File is empty.");
-
+				//得到padding的值
 				line = line.substring(line.indexOf("padding=") + 8);
+				//得到padding值
 				String[] padding = line.substring(0, line.indexOf(' ')).split(",", 4);
 				if (padding.length != 4) throw new GdxRuntimeException("Invalid padding.");
 				padTop = Integer.parseInt(padding[0]);
@@ -514,13 +516,13 @@ public class BitmapFont implements Disposable {
 
 				// At least lineHeight and base are required.
 				if (common.length < 3) throw new GdxRuntimeException("Invalid common header.");
-
+				//行高
 				if (!common[1].startsWith("lineHeight=")) throw new GdxRuntimeException("Missing: lineHeight");
 				lineHeight = Integer.parseInt(common[1].substring(11));
-
+				//基础line
 				if (!common[2].startsWith("base=")) throw new GdxRuntimeException("Missing: base");
 				float baseLine = Integer.parseInt(common[2].substring(5));
-
+				//几张图
 				int pageCount = 1;
 				if (common.length >= 6 && common[5] != null && common[5].startsWith("pages=")) {
 					try {
@@ -530,7 +532,7 @@ public class BitmapFont implements Disposable {
 				}
 
 				imagePaths = new String[pageCount];
-
+				//明确文件的目录
 				// Read each page definition.
 				for (int p = 0; p < pageCount; p++) {
 					// Read each "page" info line.
@@ -556,7 +558,8 @@ public class BitmapFont implements Disposable {
 					imagePaths[p] = fontFile.parent().child(fileName).path().replaceAll("\\\\", "/");
 				}
 				descent = 0;
-
+				//字符个数 但是没有用
+				//读取每个字符的信息
 				while (true) {
 					line = reader.readLine();
 					if (line == null) break; // EOF
