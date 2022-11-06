@@ -190,7 +190,10 @@ public class InstanceBufferObject implements InstanceData {
 				int unitOffset = +attribute.unit;
 				shader.enableVertexAttribute(location + unitOffset);
 
-				shader.setVertexAttribute(location + unitOffset, attribute.numComponents, attribute.type, attribute.normalized,
+				shader.setVertexAttribute(location + unitOffset
+						, attribute.numComponents
+						, attribute.type
+						, attribute.normalized,
 					attributes.vertexSize, attribute.offset);
 				Gdx.gl30.glVertexAttribDivisor(location + unitOffset, 1);
 			}
