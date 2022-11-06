@@ -201,6 +201,7 @@ public class Animation {
 
 		public CurveTimeline (int frameCount) {
 			if (frameCount <= 0) throw new IllegalArgumentException("frameCount must be > 0: " + frameCount);
+			//一帧  19 个
 			curves = new float[(frameCount - 1) * BEZIER_SIZE];
 		}
 

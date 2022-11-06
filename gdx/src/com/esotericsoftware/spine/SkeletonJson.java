@@ -113,7 +113,7 @@ public class SkeletonJson {
 
 		JsonValue root = new JsonReader().parse(file);
 
-		// Skeleton.
+		// Skeleton.读取头内容
 		JsonValue skeletonMap = root.get("skeleton");
 		if (skeletonMap != null) {
 			skeletonData.hash = skeletonMap.getString("hash", null);
@@ -124,7 +124,7 @@ public class SkeletonJson {
 			skeletonData.imagesPath = skeletonMap.getString("images", null);
 		}
 
-		// Bones.
+		// Bones.   父类   位置   自己的名字
 		for (JsonValue boneMap = root.getChild("bones"); boneMap != null; boneMap = boneMap.next) {
 			BoneData parent = null;
 			String parentName = boneMap.getString("parent", null);
@@ -302,7 +302,7 @@ public class SkeletonJson {
 				throw new SerializationException("Error reading animation: " + animationMap.name, ex);
 			}
 		}
-
+		//重置数组的大小
 		skeletonData.bones.shrink();
 		skeletonData.slots.shrink();
 		skeletonData.skins.shrink();
@@ -749,7 +749,11 @@ public class SkeletonJson {
 		if (curve.isString() && curve.asString().equals("stepped"))
 			timeline.setStepped(frameIndex);
 		else if (curve.isArray()) {
-			timeline.setCurve(frameIndex, curve.getFloat(0), curve.getFloat(1), curve.getFloat(2), curve.getFloat(3));
+			timeline.setCurve(frameIndex,
+					curve.getFloat(0),
+					curve.getFloat(1),
+					curve.getFloat(2),
+					curve.getFloat(3));
 		}
 	}
 

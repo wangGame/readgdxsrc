@@ -29,6 +29,7 @@ import com.badlogic.gdx.math.collision.Ray;
 /** Base class for {@link OrthographicCamera} and {@link PerspectiveCamera}.
  * @author mzechner */
 public abstract class Camera {
+	//相机自身属性
 	/** the position of the camera **/
 	public final Vector3 position = new Vector3();
 	/** the unit length direction vector of the camera **/
@@ -36,6 +37,7 @@ public abstract class Camera {
 	/** the unit length up vector of the camera **/
 	public final Vector3 up = new Vector3(0, 1, 0);
 
+	//矩阵变换部分
 	/** the projection matrix **/
 	public final Matrix4 projection = new Matrix4();
 	/** the view matrix **/

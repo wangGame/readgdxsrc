@@ -49,7 +49,6 @@ import com.esotericsoftware.spine.utils.TwoColorPolygonBatch;
 
 public class SkeletonRenderer {
 	static private final short[] quadTriangles = {0, 1, 2, 2, 3, 0};
-
 	private boolean premultipliedAlpha;
 	private final FloatArray vertices = new FloatArray(32);
 	private final SkeletonClipping clipper = new SkeletonClipping();
@@ -64,16 +63,19 @@ public class SkeletonRenderer {
 	public void draw (Batch batch, Skeleton skeleton) {
 		VertexEffect vertexEffect = this.vertexEffect;
 		if (vertexEffect != null) vertexEffect.begin(skeleton);
-
 		boolean premultipliedAlpha = this.premultipliedAlpha;
 		BlendMode blendMode = null;
 		float[] vertices = this.vertices.items;
 		Color skeletonColor = skeleton.color;
-		float r = skeletonColor.r, g = skeletonColor.g, b = skeletonColor.b, a = skeletonColor.a;
+		float r = skeletonColor.r,
+				g = skeletonColor.g,
+				b = skeletonColor.b,
+				a = skeletonColor.a;
 		Array<Slot> drawOrder = skeleton.drawOrder;
 		for (int i = 0, n = drawOrder.size; i < n; i++) {
 			Slot slot = drawOrder.get(i);
 			Attachment attachment = slot.attachment;
+			//如果是regin 那么就直接绘制
 			if (attachment instanceof RegionAttachment) {
 				RegionAttachment region = (RegionAttachment)attachment;
 				region.computeWorldVertices(slot.getBone(), vertices, 0, 5);

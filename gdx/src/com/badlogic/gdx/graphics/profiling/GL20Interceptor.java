@@ -41,6 +41,10 @@ public class GL20Interceptor extends GLInterceptor implements GL20 {
 		}
 	}
 
+	/**
+	 * 纹理活跃
+	 * @param texture
+	 */
 	@Override
 	public void glActiveTexture (int texture) {
 		calls++;
@@ -48,6 +52,11 @@ public class GL20Interceptor extends GLInterceptor implements GL20 {
 		check();
 	}
 
+	/**
+	 * 绑定纹理
+	 * @param target
+	 * @param texture
+	 */
 	@Override
 	public void glBindTexture (int target, int texture) {
 		textureBindings++;
@@ -56,6 +65,11 @@ public class GL20Interceptor extends GLInterceptor implements GL20 {
 		check();
 	}
 
+	/**
+	 * 设置混合
+	 * @param sfactor
+	 * @param dfactor
+	 */
 	@Override
 	public void glBlendFunc (int sfactor, int dfactor) {
 		calls++;
@@ -63,6 +77,10 @@ public class GL20Interceptor extends GLInterceptor implements GL20 {
 		check();
 	}
 
+	/**
+	 * 清屏
+	 * @param mask
+	 */
 	@Override
 	public void glClear (int mask) {
 		calls++;
@@ -70,6 +88,13 @@ public class GL20Interceptor extends GLInterceptor implements GL20 {
 		check();
 	}
 
+	/***
+	 * 清屏颜色
+	 * @param red
+	 * @param green
+	 * @param blue
+	 * @param alpha
+	 */
 	@Override
 	public void glClearColor (float red, float green, float blue, float alpha) {
 		calls++;
@@ -1194,6 +1219,15 @@ public class GL20Interceptor extends GLInterceptor implements GL20 {
 		check();
 	}
 
+	/**
+	 * bytebuffer
+	 * @param indx
+	 * @param size
+	 * @param type
+	 * @param normalized
+	 * @param stride
+	 * @param ptr
+	 */
 	@Override
 	public void glVertexAttribPointer (int indx, int size, int type, boolean normalized, int stride, Buffer ptr) {
 		calls++;
@@ -1201,6 +1235,7 @@ public class GL20Interceptor extends GLInterceptor implements GL20 {
 		check();
 	}
 
+	//设置值  应该使用的时缓冲区
 	@Override
 	public void glVertexAttribPointer (int indx, int size, int type, boolean normalized, int stride, int ptr) {
 		calls++;

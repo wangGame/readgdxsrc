@@ -43,12 +43,13 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 public class AtlasAttachmentLoader implements AttachmentLoader {
 	//纹理打包
 	private TextureAtlas atlas;
-
+	//传进来的纹理
 	public AtlasAttachmentLoader (TextureAtlas atlas) {
 		if (atlas == null) throw new IllegalArgumentException("atlas cannot be null.");
 		this.atlas = atlas;
 	}
 
+	//下面几个都是skin的，就不看了
 	public RegionAttachment newRegionAttachment (Skin skin, String name, String path) {
 		AtlasRegion region = atlas.findRegion(path);
 		if (region == null) throw new RuntimeException("Region not found in atlas: " + path + " (region attachment: " + name + ")");

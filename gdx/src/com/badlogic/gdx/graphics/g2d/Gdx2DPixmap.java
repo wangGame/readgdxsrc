@@ -149,6 +149,11 @@ public class Gdx2DPixmap implements Disposable {
 		this.format = (int)nativeData[3];
 	}
 
+	/**
+	 * 很明显  传递进去  给一个句柄  宽高 format
+	 * @param pixelPtr
+	 * @param nativeData
+	 */
 	public Gdx2DPixmap (ByteBuffer pixelPtr, long[] nativeData) {
 		this.pixelPtr = pixelPtr;
 		this.basePtr = nativeData[0];
