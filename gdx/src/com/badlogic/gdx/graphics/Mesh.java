@@ -843,8 +843,8 @@ public class Mesh implements Disposable {
 	 * @param offset the start index of the part.
 	 * @param count the amount of indices the part contains.
 	 * @return the squared radius of the bounding sphere. */
-	public float calculateRadiusSquared (final float centerX, final float centerY, final float centerZ, int offset, int count,
-		final Matrix4 transform) {
+	public float calculateRadiusSquared (final float centerX, final float centerY, final float centerZ,
+										 int offset, int count, final Matrix4 transform) {
 		int numIndices = getNumIndices();
 		if (offset < 0 || count < 1 || offset + count > numIndices) throw new GdxRuntimeException("Not enough indices");
 
@@ -1124,12 +1124,15 @@ public class Mesh implements Disposable {
 	}
 
 	/** Method to transform the texture coordinates (UV) in the float array. This is a potentially slow operation, use with care.
+	 * 纹理坐标的转换
+	 *
 	 * @param matrix the transformation matrix
 	 * @param vertices the float array
 	 * @param vertexSize the number of floats in each vertex
 	 * @param offset the offset within a vertex to the texture location
 	 * @param start the vertex to start with
-	 * @param count the amount of vertices to transform */
+	 * @param count the amount of vertices to transform
+	 * */
 	public static void transformUV (final Matrix3 matrix, final float[] vertices, int vertexSize, int offset, int start,
 		int count) {
 		if (start < 0 || count < 1 || ((start + count) * vertexSize) > vertices.length) throw new IndexOutOfBoundsException(

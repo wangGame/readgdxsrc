@@ -195,10 +195,10 @@ public class Animation {
 	/** The base class for timelines that use interpolation between key frame values. */
 	abstract static public class CurveTimeline implements Timeline {
 		static public final float LINEAR = 0, STEPPED = 1, BEZIER = 2;
-		static private final int BEZIER_SIZE = 10 * 2 - 1;
+		static private final int BEZIER_SIZE = 10 * 2 - 1; //贝塞尔的大小19
 
 		private final float[] curves; // type, x, y, ...
-
+		//没一帧动画
 		public CurveTimeline (int frameCount) {
 			if (frameCount <= 0) throw new IllegalArgumentException("frameCount must be > 0: " + frameCount);
 			curves = new float[(frameCount - 1) * BEZIER_SIZE];
@@ -223,6 +223,7 @@ public class Animation {
 		 * @return Linear is 0, stepped is 1, Bezier is 2. */
 		public float getCurveType (int frameIndex) {
 			int index = frameIndex * BEZIER_SIZE;
+			//第一位是类型   默认是线性
 			if (index == curves.length) return LINEAR;
 			float type = curves[index];
 			if (type == LINEAR) return LINEAR;
@@ -234,13 +235,19 @@ public class Animation {
 		 * representing the percent of time between the two key frames. <code>cy1</code> and <code>cy2</code> are the percent of the
 		 * difference between the key frame's values. */
 		public void setCurve (int frameIndex, float cx1, float cy1, float cx2, float cy2) {
-			float tmpx = (-cx1 * 2 + cx2) * 0.03f, tmpy = (-cy1 * 2 + cy2) * 0.03f;
-			float dddfx = ((cx1 - cx2) * 3 + 1) * 0.006f, dddfy = ((cy1 - cy2) * 3 + 1) * 0.006f;
-			float ddfx = tmpx * 2 + dddfx, ddfy = tmpy * 2 + dddfy;
-			float dfx = cx1 * 0.3f + tmpx + dddfx * 0.16666667f, dfy = cy1 * 0.3f + tmpy + dddfy * 0.16666667f;
+			float tmpx = (-cx1 * 2 + cx2) * 0.03f,
+					tmpy = (-cy1 * 2 + cy2) * 0.03f;
+			float dddfx = ((cx1 - cx2) * 3 + 1) * 0.006f,
+					dddfy = ((cy1 - cy2) * 3 + 1) * 0.006f;
+			float ddfx = tmpx * 2 + dddfx,
+					ddfy = tmpy * 2 + dddfy;
+			float dfx = cx1 * 0.3f + tmpx + dddfx * 0.16666667f,
+					dfy = cy1 * 0.3f + tmpy + dddfy * 0.16666667f;
 
+			//得到下标
 			int i = frameIndex * BEZIER_SIZE;
 			float[] curves = this.curves;
+			//类型
 			curves[i++] = BEZIER;
 
 			float x = dfx, y = dfy;
@@ -289,7 +296,8 @@ public class Animation {
 		final float[] frames; // time, degrees, ...
 
 		public RotateTimeline (int frameCount) {
-			super(frameCount);
+			super(frameCount); //frame * bz - 1
+			//一个是时间    一个是
 			frames = new float[frameCount << 1];
 		}
 
@@ -711,7 +719,9 @@ public class Animation {
 						return;
 					case current:
 						Color color = slot.color, setup = slot.data.color;
-						color.add((setup.r - color.r) * alpha, (setup.g - color.g) * alpha, (setup.b - color.b) * alpha,
+						color.add((setup.r - color.r) * alpha,
+								(setup.g - color.g) * alpha,
+								(setup.b - color.b) * alpha,
 								(setup.a - color.a) * alpha);
 				}
 				return;
@@ -998,7 +1008,8 @@ public class Animation {
 
 			Slot slot = skeleton.slots.get(slotIndex);
 			Attachment slotAttachment = slot.attachment;
-			if (!(slotAttachment instanceof VertexAttachment) || !((VertexAttachment)slotAttachment).applyDeform(attachment)) return;
+			if (!(slotAttachment instanceof VertexAttachment) ||
+					!((VertexAttachment)slotAttachment).applyDeform(attachment)) return;
 
 			FloatArray verticesArray = slot.getAttachmentVertices();
 			if (verticesArray.size == 0) alpha = 1;

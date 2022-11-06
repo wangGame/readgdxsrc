@@ -204,8 +204,10 @@ public class TwoColorPolygonBatch {
 
 	/** Flushes the batch if the blend function was changed. */
 	public void setBlendFunctionSeparate (int srcFuncColor, int dstFuncColor, int srcFuncAlpha, int dstFuncAlpha) {
-		if (blendSrcFunc == srcFuncColor && blendDstFunc == dstFuncColor && blendSrcFuncAlpha == srcFuncAlpha
-			&& blendDstFuncAlpha == dstFuncAlpha) return;
+		if (blendSrcFunc == srcFuncColor
+				&& blendDstFunc == dstFuncColor
+				&& blendSrcFuncAlpha == srcFuncAlpha
+				&& blendDstFuncAlpha == dstFuncAlpha) return;
 		flush();
 		blendSrcFunc = srcFuncColor;
 		blendDstFunc = dstFuncColor;
@@ -246,7 +248,8 @@ public class TwoColorPolygonBatch {
 			+ "{\n" //
 			+ "  vec4 texColor = texture2D(u_texture, v_texCoords);\n" //
 			+ "  gl_FragColor.a = texColor.a * v_light.a;\n" //
-			+ "  gl_FragColor.rgb = ((texColor.a - 1.0) * u_pma + 1.0 - texColor.rgb) * v_dark.rgb + texColor.rgb * v_light.rgb;\n" //
+			+ "  gl_FragColor.rgb = ((texColor.a - 1.0) * u_pma + 1.0 - texColor.rgb) " +
+				"* v_dark.rgb + texColor.rgb * v_light.rgb;\n" //
 			+ "}";
 
 		ShaderProgram shader = new ShaderProgram(vertexShader, fragmentShader);

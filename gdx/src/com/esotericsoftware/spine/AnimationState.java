@@ -105,15 +105,16 @@ public class AnimationState {
 	/** Increments each track entry {@link TrackEntry#getTrackTime()}, setting queued animations as current if needed. */
 	public void update (float delta) {
 		delta *= timeScale;
+		//设置动画之后会给一个tracks 任务
 		for (int i = 0, n = tracks.size; i < n; i++) {
 			TrackEntry current = tracks.get(i);
 			if (current == null) continue;
 
 			current.animationLast = current.nextAnimationLast;
 			current.trackLast = current.nextTrackLast;
-
+			//时间
 			float currentDelta = delta * current.timeScale;
-
+			//当前在等待中，
 			if (current.delay > 0) {
 				current.delay -= currentDelta;
 				if (current.delay > 0) continue;
@@ -1037,6 +1038,7 @@ public class AnimationState {
 		}
 	}
 
+	//跨线程什么的都是使用一个队列等存储事件，在另一个线程中执行
 	class EventQueue {
 		private final Array objects = new Array();
 		boolean drainDisabled;
@@ -1074,6 +1076,7 @@ public class AnimationState {
 			objects.add(event);
 		}
 
+		//执行事件
 		public void drain () {
 			if (drainDisabled) return; // Not reentrant.
 			drainDisabled = true;

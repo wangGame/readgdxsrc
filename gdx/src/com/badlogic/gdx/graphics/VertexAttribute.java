@@ -58,8 +58,12 @@ public final class VertexAttribute {
 	 * @param alias the alias used in a shader for this attribute. Can be changed after construction.
 	 * @param unit Optional unit/index specifier, used for texture coordinates and bone weights */
 	public VertexAttribute (int usage, int numComponents, String alias, int unit) {
-		this(usage, numComponents, usage == Usage.ColorPacked ? GL20.GL_UNSIGNED_BYTE : GL20.GL_FLOAT, usage == Usage.ColorPacked,
-			alias, unit);
+		this(usage
+				, numComponents
+				, usage == Usage.ColorPacked ? GL20.GL_UNSIGNED_BYTE : GL20.GL_FLOAT
+				, usage == Usage.ColorPacked
+				, alias
+				, unit);
 	}
 
 	/** Constructs a new VertexAttribute.
