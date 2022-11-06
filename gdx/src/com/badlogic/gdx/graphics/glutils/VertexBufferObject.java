@@ -64,6 +64,7 @@ public class VertexBufferObject implements VertexData {
 	 * @param numVertices the maximum number of vertices
 	 * @param attributes the {@link VertexAttributes}. */
 	public VertexBufferObject (boolean isStatic, int numVertices, VertexAttributes attributes) {
+		//生成缓存区
 		bufferHandle = Gdx.gl20.glGenBuffer();
 
 		ByteBuffer data = BufferUtils.newUnsafeByteBuffer(attributes.vertexSize * numVertices);

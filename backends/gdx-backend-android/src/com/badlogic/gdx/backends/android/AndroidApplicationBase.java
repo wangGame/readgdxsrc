@@ -82,6 +82,8 @@ public interface AndroidApplicationBase extends Application {
 	WindowManager getWindowManager ();
 
 	/** Activates Android 4.4 KitKat's 'Immersive Mode' feature.
+	 *
+	 * 沉寂模式，就是应用占用整个应用
 	 * @param b Whether or not to use immersive mode */
 	void useImmersiveMode (boolean b);
 

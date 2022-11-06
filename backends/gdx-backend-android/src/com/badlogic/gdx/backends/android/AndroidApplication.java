@@ -81,7 +81,7 @@ public class AndroidApplication extends Activity implements AndroidApplicationBa
 	/** This method has to be called in the {@link Activity#onCreate(Bundle)} method. It sets up all the things necessary to get
 	 * input, render via OpenGL and so on. Uses a default {@link AndroidApplicationConfiguration}.
 	 * 这个方法必须调用{@link活动#创建(包)}的方法。设置的一切必要的输入,
-	 * 通过opengl渲染等等。使用一个默认}{@link Android应用程序配置
+	 * 通过opengl渲染等等。使用一个默认}{@link Android 应用程序配置
 	 * @param listener the {@link ApplicationListener} implementing the program logic **/
 	public void initialize (ApplicationListener listener) {
 		//初始化方法  传递一个config 和 一个game
@@ -140,7 +140,7 @@ public class AndroidApplication extends Activity implements AndroidApplicationBa
 		//默认的策略是铺满
 		graphics = new AndroidGraphics(this, config,
 			config.resolutionStrategy == null ? new FillResolutionStrategy() : config.resolutionStrategy);
-		//键盘输入
+		//用户输入
 		input = createInput(this, this, graphics.view, config);
 		//创建 audio
 		audio = createAudio(this, config);
@@ -158,6 +158,7 @@ public class AndroidApplication extends Activity implements AndroidApplicationBa
 		this.clipboard = new AndroidClipboard(this);
 		// Add a specialized audio lifecycle listener
 		//处理音效的
+		//这个东西对于声明周期的也是可以直接使用的，不一定非要找到什么方法在调用的
 		addLifecycleListener(new LifecycleListener() {
 
 			@Override
@@ -185,10 +186,12 @@ public class AndroidApplication extends Activity implements AndroidApplicationBa
 
 		if (!isForView) {
 			try {
+				//没有标题蓝
 				requestWindowFeature(Window.FEATURE_NO_TITLE);
 			} catch (Exception ex) {
 				log("AndroidApplication", "Content already displayed, cannot request FEATURE_NO_TITLE", ex);
 			}
+			//全屏
 			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 					WindowManager.LayoutParams.FLAG_FULLSCREEN);
 			getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
@@ -196,6 +199,7 @@ public class AndroidApplication extends Activity implements AndroidApplicationBa
 		}
 
 		createWakeLock(config.useWakelock);
+		//这句话是不是矛盾的
 		useImmersiveMode(this.useImmersiveMode);
 		if (this.useImmersiveMode && getVersion() >= Build.VERSION_CODES.KITKAT) {
 			AndroidVisibilityListener vlistener = new AndroidVisibilityListener();
@@ -238,6 +242,7 @@ public class AndroidApplication extends Activity implements AndroidApplicationBa
 	@TargetApi(19)
 	@Override
 	public void useImmersiveMode (boolean use) {
+		//小于19的不理会
 		if (!use || getVersion() < Build.VERSION_CODES.KITKAT) return;
 		View view = getWindow().getDecorView();
 		int code = View.SYSTEM_UI_FLAG_LAYOUT_STABLE

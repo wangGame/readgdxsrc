@@ -522,6 +522,10 @@ public final class BufferUtils {
 		synchronized (unsafeBuffers) {
 			unsafeBuffers.add(buffer);
 		}
+
+//		ByteBuffer allocate = ByteBuffer.allocate(numBytes);
+//		allocate.order(ByteOrder.nativeOrder());
+
 		return buffer;
 	}
 

@@ -1180,14 +1180,15 @@ public class Animation {
 		}
 	}
 
+	//mesh动画
 	/** Changes a skeleton's {@link Skeleton#getDrawOrder()}. */
 	static public class DrawOrderTimeline implements Timeline {
 		private final float[] frames; // time, ...
 		private final int[][] drawOrders;
 
 		public DrawOrderTimeline (int frameCount) {
-			frames = new float[frameCount];
-			drawOrders = new int[frameCount][];
+			frames = new float[frameCount]; //存在几帧
+			drawOrders = new int[frameCount][];//每帧的顶点
 		}
 
 		public int getPropertyId () {
@@ -1565,6 +1566,7 @@ public class Animation {
 		}
 	}
 
+	//约束
 	/** Changes a path constraint's mixes. */
 	static public class PathConstraintMixTimeline extends CurveTimeline {
 		static public final int ENTRIES = 3;

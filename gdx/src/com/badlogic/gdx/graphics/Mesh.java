@@ -71,7 +71,10 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 public class Mesh implements Disposable {
 	public enum VertexDataType {
 		//顶点数组     顶点数组缓存区
-		VertexArray, VertexBufferObject, VertexBufferObjectSubData, VertexBufferObjectWithVAO
+		VertexArray,
+		VertexBufferObject,
+		VertexBufferObjectSubData,
+		VertexBufferObjectWithVAO
 	}
 
 	/** list of all meshes **/

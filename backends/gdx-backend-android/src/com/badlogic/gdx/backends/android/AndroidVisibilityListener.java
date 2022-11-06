@@ -21,7 +21,10 @@ import android.view.View;
 /** Allows immersive mode support while maintaining compatibility with Android versions before API Level 19 (4.4)
  * @author Unkn0wn0ne */
 public class AndroidVisibilityListener {
-
+	/**
+	 * 大于19的开启沉默模式
+	 * @param application
+	 */
 	public void createListener (final AndroidApplicationBase application) {
 		try {
 			View rootView = application.getApplicationWindow().getDecorView();

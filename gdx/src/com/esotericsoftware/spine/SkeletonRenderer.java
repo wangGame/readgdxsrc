@@ -61,6 +61,7 @@ public class SkeletonRenderer {
 	private final Color temp6 = new Color();
 
 	public void draw (Batch batch, Skeleton skeleton) {
+		//
 		VertexEffect vertexEffect = this.vertexEffect;
 		if (vertexEffect != null) vertexEffect.begin(skeleton);
 		boolean premultipliedAlpha = this.premultipliedAlpha;
