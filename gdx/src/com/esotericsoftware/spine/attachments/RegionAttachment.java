@@ -151,28 +151,30 @@ public class RegionAttachment extends Attachment {
 	 * @param stride The number of <code>worldVertices</code> entries between the value pairs written. */
 	public void computeWorldVertices (Bone bone, float[] worldVertices, int offset, int stride) {
 		float[] vertexOffset = this.offset;
+		//世界坐标
 		float x = bone.getWorldX(), y = bone.getWorldY();
 		float a = bone.getA(), b = bone.getB(), c = bone.getC(), d = bone.getD();
 		float offsetX, offsetY;
 
 		offsetX = vertexOffset[BRX];
 		offsetY = vertexOffset[BRY];
+		//0 1
 		worldVertices[offset] = offsetX * a + offsetY * b + x; // br
 		worldVertices[offset + 1] = offsetX * c + offsetY * d + y;
 		offset += stride;
-
+		//6 7
 		offsetX = vertexOffset[BLX];
 		offsetY = vertexOffset[BLY];
 		worldVertices[offset] = offsetX * a + offsetY * b + x; // bl
 		worldVertices[offset + 1] = offsetX * c + offsetY * d + y;
 		offset += stride;
-
+		//12 13
 		offsetX = vertexOffset[ULX];
 		offsetY = vertexOffset[ULY];
 		worldVertices[offset] = offsetX * a + offsetY * b + x; // ul
 		worldVertices[offset + 1] = offsetX * c + offsetY * d + y;
 		offset += stride;
-
+		//18 19
 		offsetX = vertexOffset[URX];
 		offsetY = vertexOffset[URY];
 		worldVertices[offset] = offsetX * a + offsetY * b + x; // ur

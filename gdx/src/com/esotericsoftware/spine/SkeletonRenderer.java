@@ -59,27 +59,35 @@ public class SkeletonRenderer {
 	private final Color temp4 = new Color();
 	private final Color temp5 = new Color();
 	private final Color temp6 = new Color();
-
+	//绘制
 	public void draw (Batch batch, Skeleton skeleton) {
 		//
 		VertexEffect vertexEffect = this.vertexEffect;
 		if (vertexEffect != null) vertexEffect.begin(skeleton);
+		//是否预乘
 		boolean premultipliedAlpha = this.premultipliedAlpha;
+		//混合模式
 		BlendMode blendMode = null;
+		//顶点
 		float[] vertices = this.vertices.items;
 		Color skeletonColor = skeleton.color;
 		float r = skeletonColor.r,
 				g = skeletonColor.g,
 				b = skeletonColor.b,
 				a = skeletonColor.a;
+		//绘制顺序
 		Array<Slot> drawOrder = skeleton.drawOrder;
 		for (int i = 0, n = drawOrder.size; i < n; i++) {
 			Slot slot = drawOrder.get(i);
+			//得到
 			Attachment attachment = slot.attachment;
 			//如果是regin 那么就直接绘制
 			if (attachment instanceof RegionAttachment) {
+				//x y c u v
 				RegionAttachment region = (RegionAttachment)attachment;
+				//计算顶点世界坐标    v 0-8
 				region.computeWorldVertices(slot.getBone(), vertices, 0, 5);
+				//regin设置的颜色和slot的颜色 相乘
 				Color color = region.getColor(), slotColor = slot.getColor();
 				float alpha = a * slotColor.a * color.a * 255;
 				float multiplier = premultipliedAlpha ? alpha : 255;
@@ -433,6 +441,7 @@ public class SkeletonRenderer {
 		this.vertexEffect = vertexEffect;
 	}
 
+	//两个实现，凡是都没有使用
 	static public interface VertexEffect {
 		public void begin (Skeleton skeleton);
 
