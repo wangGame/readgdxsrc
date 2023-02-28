@@ -179,9 +179,9 @@ public class DefaultAndroidInput extends AbstractInput implements AndroidInput {
 		touchHandler = new AndroidTouchHandler();
 		hasMultitouch = touchHandler.supportsMultitouch(context);
 		haptics = new AndroidHaptics(context);
-
 		int rotation = getRotation();
 		DisplayMode mode = app.getGraphics().getDisplayMode();
+		//屏幕方向
 		if (((rotation == 0 || rotation == 180) && (mode.width >= mode.height))
 			|| ((rotation == 90 || rotation == 270) && (mode.width <= mode.height))) {
 			nativeOrientation = Orientation.Landscape;
@@ -357,6 +357,7 @@ public class DefaultAndroidInput extends AbstractInput implements AndroidInput {
 		return pressure[pointer];
 	}
 
+//	设置键盘可用
 	@Override
 	public void setKeyboardAvailable (boolean available) {
 		this.keyboardAvailable = available;
@@ -913,11 +914,16 @@ public class DefaultAndroidInput extends AbstractInput implements AndroidInput {
 	@Override
 	public int getRotation () {
 		int orientation = 0;
-
 		if (context instanceof Activity) {
-			orientation = ((Activity)context).getWindowManager().getDefaultDisplay().getRotation();
+			orientation = ((Activity)context)
+					.getWindowManager()
+					.getDefaultDisplay()
+					.getRotation();
 		} else {
-			orientation = ((WindowManager)context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getRotation();
+			orientation = ((WindowManager)context
+					.getSystemService(Context.WINDOW_SERVICE))
+					.getDefaultDisplay()
+					.getRotation();
 		}
 
 		switch (orientation) {
