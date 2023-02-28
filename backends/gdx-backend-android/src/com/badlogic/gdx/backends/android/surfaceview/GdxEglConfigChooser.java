@@ -62,8 +62,12 @@ public class GdxEglConfigChooser implements GLSurfaceView.EGLConfigChooser {
 		mStencilSize = stencil;
 		mNumSamples = numSamples;
 		//最基础的属性要求    绘制的类型是open gl es绘制
-		mConfigAttribs = new int[] {EGL10.EGL_RED_SIZE, 4, EGL10.EGL_GREEN_SIZE, 4, EGL10.EGL_BLUE_SIZE, 4,
-			EGL10.EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT, EGL10.EGL_NONE};
+		mConfigAttribs = new int[] {
+				EGL10.EGL_RED_SIZE, 4,
+				EGL10.EGL_GREEN_SIZE, 4,
+				EGL10.EGL_BLUE_SIZE, 4,
+				EGL10.EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
+				EGL10.EGL_NONE};
 	}
 
 	/**

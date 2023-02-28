@@ -61,7 +61,13 @@ public class AndroidGraphics extends AbstractGraphics implements Renderer {
 	 * be called in the GLThread while {@link #pause()} is sleeping in the Android UI Thread which will cause the
 	 * {@link AndroidGraphics#pause} variable never be set to false. As a result, the {@link AndroidGraphics#pause()} method will
 	 * kill the current process to avoid ANR */
-	//强制连续渲染，不然会出现ANR， 如果一直不渲染就杀死当前进程
+	/**
+	 * 强制连续渲染，不然会出现ANR， 如果一直不渲染就杀死当前进程
+	 *
+	 * 比如在运行的过程中，点击一个按钮，响应事件里面写循环。
+	 *
+	 * 用来设置模式的时候使用
+	 */
 	static volatile boolean enforceContinuousRendering = false;
 	//view
 	final GLSurfaceView20 view;
@@ -181,8 +187,12 @@ public class AndroidGraphics extends AbstractGraphics implements Renderer {
 		egl.eglInitialize(display, version);
 
 		int EGL_OPENGL_ES2_BIT = 4;
-		int[] configAttribs = {EGL10.EGL_RED_SIZE, 4, EGL10.EGL_GREEN_SIZE, 4, EGL10.EGL_BLUE_SIZE, 4, EGL10.EGL_RENDERABLE_TYPE,
-			EGL_OPENGL_ES2_BIT, EGL10.EGL_NONE};
+		int[] configAttribs = {
+				EGL10.EGL_RED_SIZE, 4,
+				EGL10.EGL_GREEN_SIZE, 4,
+				EGL10.EGL_BLUE_SIZE, 4,
+				EGL10.EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
+				EGL10.EGL_NONE};
 
 		EGLConfig[] configs = new EGLConfig[10];
 		int[] num_config = new int[1];
@@ -289,6 +299,7 @@ public class AndroidGraphics extends AbstractGraphics implements Renderer {
 		this.width = width;
 		this.height = height;
 		updatePpi();
+		//刘海
 		updateSafeAreaInsets();
 		//游戏的create执行的时候在surfaceChange的时候
 		gl.glViewport(0, 0, this.width, this.height);
@@ -721,6 +732,7 @@ public class AndroidGraphics extends AbstractGraphics implements Renderer {
 		int width = metrics.widthPixels;
 		int height = metrics.heightPixels;
 		int refreshRate = MathUtils.roundPositive(display.getRefreshRate());
+		//颜色的位数
 		int bitsPerPixel = config.r + config.g + config.b + config.a;
 
 		return new AndroidDisplayMode(width, height, refreshRate, bitsPerPixel);
@@ -754,6 +766,7 @@ public class AndroidGraphics extends AbstractGraphics implements Renderer {
 		if (view != null) {
 			// ignore setContinuousRendering(false) while pausing
 			this.isContinuous = enforceContinuousRendering || isContinuous;
+			//一直循环   更新的时候循环
 			int renderMode = this.isContinuous ? GLSurfaceView.RENDERMODE_CONTINUOUSLY : GLSurfaceView.RENDERMODE_WHEN_DIRTY;
 			view.setRenderMode(renderMode);
 		}
