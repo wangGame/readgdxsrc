@@ -122,6 +122,7 @@ final class AndroidSound implements Sound {
 		soundPool.resume(streamId);
 	}
 
+	//pan就是左右声道
 	@Override
 	public void setPan (long soundId, float pan, float volume) {
 		float leftVolume = volume;

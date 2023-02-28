@@ -50,18 +50,33 @@ public class DefaultAndroidAudio implements AndroidAudio {
 	public DefaultAndroidAudio (Context context, AndroidApplicationConfiguration config) {
 		if (!config.disableAudio) {
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-				AudioAttributes audioAttrib = new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_GAME)
-					.setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build();
-				soundPool = new SoundPool.Builder().setAudioAttributes(audioAttrib).setMaxStreams(config.maxSimultaneousSounds)
-					.build();
+				AudioAttributes audioAttrib = new AudioAttributes
+						.Builder()
+						.setUsage(AudioAttributes.USAGE_GAME)
+						.setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION) //简短的音
+						.build();
+				soundPool = new SoundPool
+						.Builder()
+						.setAudioAttributes(audioAttrib)
+						.setMaxStreams(config.maxSimultaneousSounds) //设置最大是16     同时播放32
+						.build();
 			} else {
-				soundPool = new SoundPool(config.maxSimultaneousSounds, AudioManager.STREAM_MUSIC, 0);// srcQuality: the sample-rate
-																																	// converter quality. Currently
-																																	// has no effect. Use 0 for the
-																																	// default.
+				soundPool = new SoundPool(config.maxSimultaneousSounds,
+						AudioManager.STREAM_MUSIC,
+						0);
+				// srcQuality: the sample-rate
+				// converter quality. Currently
+				// has no effect. Use 0 for the
+				// default.
 			}
 			manager = (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
 			if (context instanceof Activity) {
+//				建议使用硬件音量控制更改音量的音频流。
+//				建议的音频流将绑定到此活动的窗口。当“活动”处于前台时收到的卷请求将影响此流。
+//				不能保证硬件音量控制将始终更改此流的音量（例如，如果正在进行呼叫，则可能会更改其流的音量）。
+//				要重置回默认值，请使用AudioManager.use_default_STREAM_TYPE。
+//				参数：
+//				streamType–音频流的类型，其音量应通过硬件音量控制进行更改。
 				((Activity)context).setVolumeControlStream(AudioManager.STREAM_MUSIC);
 			}
 		} else {
@@ -116,9 +131,7 @@ public class DefaultAndroidAudio implements AndroidAudio {
 			throw new GdxRuntimeException("Android audio is not enabled by the application config.");
 		}
 		AndroidFileHandle aHandle = (AndroidFileHandle)file;
-
 		MediaPlayer mediaPlayer = createMediaPlayer();
-
 		if (aHandle.type() == FileType.Internal) {
 			try {
 				AssetFileDescriptor descriptor = aHandle.getAssetFileDescriptor();
@@ -147,26 +160,22 @@ public class DefaultAndroidAudio implements AndroidAudio {
 				throw new GdxRuntimeException("Error loading audio file: " + file, ex);
 			}
 		}
-
 	}
 
-	/** Creates a new Music instance from the provided FileDescriptor. It is the caller's responsibility to close the file
+	/**
+	 * Creates a new Music instance from the provided FileDescriptor. It is the caller's responsibility to close the file
 	 * descriptor. It is safe to do so as soon as this call returns.
-	 * 
+	 *
 	 * @param fd the FileDescriptor from which to create the Music
-	 * 
 	 * @see Audio#newMusic(FileHandle) */
 	public Music newMusic (FileDescriptor fd) {
 		if (soundPool == null) {
 			throw new GdxRuntimeException("Android audio is not enabled by the application config.");
 		}
-
 		MediaPlayer mediaPlayer = createMediaPlayer();
-
 		try {
 			mediaPlayer.setDataSource(fd);
 			mediaPlayer.prepare();
-
 			AndroidMusic music = new AndroidMusic(this, mediaPlayer);
 			synchronized (musics) {
 				musics.add(music);
@@ -185,10 +194,18 @@ public class DefaultAndroidAudio implements AndroidAudio {
 		}
 		AndroidSound androidSound;
 		AndroidFileHandle aHandle = (AndroidFileHandle)file;
+		//android 的internal目录是不可以随便获取文件的，也不操作的
+		//需要使用asset目录来读取
 		if (aHandle.type() == FileType.Internal) {
 			try {
+				//得到文件句柄
 				AssetFileDescriptor descriptor = aHandle.getAssetFileDescriptor();
-				androidSound = new AndroidSound(soundPool, manager, soundPool.load(descriptor, 1));
+				androidSound = new AndroidSound(
+						soundPool,
+						manager,
+						soundPool
+								.load(descriptor, 1));
+				//读取结束  关闭句柄
 				descriptor.close();
 			} catch (IOException ex) {
 				throw new GdxRuntimeException(
@@ -205,6 +222,12 @@ public class DefaultAndroidAudio implements AndroidAudio {
 	}
 
 	/** {@inheritDoc} */
+	/**
+	 * 录音
+	 * @param samplingRate the sampling rate in Hertz
+	 * @param isMono whether the recorder records in mono or stereo
+	 * @return
+	 */
 	@Override
 	public AudioRecorder newAudioRecorder (int samplingRate, boolean isMono) {
 		if (soundPool == null) {
@@ -236,13 +259,22 @@ public class DefaultAndroidAudio implements AndroidAudio {
 		}
 	}
 
+	/**
+	 * 创建MediaPlayer 记忆里面这个是用来播放视频的
+	 * @return
+	 */
 	protected MediaPlayer createMediaPlayer () {
 		MediaPlayer mediaPlayer = new MediaPlayer();
 		if (Build.VERSION.SDK_INT <= 21) {
 			mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
 		} else {
-			mediaPlayer.setAudioAttributes(new AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-				.setUsage(AudioAttributes.USAGE_GAME).build());
+			AudioAttributes build
+					= new AudioAttributes
+						.Builder()
+						.setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+						.setUsage(AudioAttributes.USAGE_GAME)
+						.build();
+			mediaPlayer.setAudioAttributes(build);
 		}
 		return mediaPlayer;
 	}

@@ -4,6 +4,7 @@ package com.badlogic.gdx.backends.android;
 import android.os.Handler;
 import com.badlogic.gdx.audio.Sound;
 
+//异步的区别就是在handler中播放
 public class AsynchronousSound implements Sound {
 
 	private final Sound sound;

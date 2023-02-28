@@ -70,7 +70,7 @@ public class DefaultAndroidInput extends AbstractInput implements AndroidInput {
 		char keyChar;
 	}
 
-	//点击事件
+	//触摸事件
 	static class TouchEvent {
 		static final int TOUCH_DOWN = 0;
 		static final int TOUCH_UP = 1;
@@ -158,19 +158,20 @@ public class DefaultAndroidInput extends AbstractInput implements AndroidInput {
 			v.setOnKeyListener(this);
 			// 触摸
 			v.setOnTouchListener(this);
-			//焦点
+			//可聚焦
 			v.setFocusable(true);
-			//
+			//在触摸模式下设置可聚焦
 			v.setFocusableInTouchMode(true);
+			//焦点
 			v.requestFocus();
-
+			//鼠标监听 ？
 			v.setOnGenericMotionListener(this);
 		}
 		this.config = config;
 		this.mouseHandler = new AndroidMouseHandler();
-
-		for (int i = 0; i < realId.length; i++)
+		for (int i = 0; i < realId.length; i++) {
 			realId[i] = -1;
+		}
 		handle = new Handler();
 		this.app = activity;
 		this.context = context;

@@ -6,7 +6,13 @@ import android.view.View.OnKeyListener;
 import android.view.View.OnTouchListener;
 import com.badlogic.gdx.Input;
 
-//输入
+/**
+ * 输入
+ * Input
+ * 触摸
+ * 键盘
+ * 鼠标
+ */
 public interface AndroidInput extends Input, OnTouchListener, OnKeyListener, OnGenericMotionListener {
 
 	/** Called when the {@link AndroidApplication} is about to pause */

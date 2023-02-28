@@ -192,7 +192,11 @@ public class Animation {
 		twoColor
 	}
 
-	/** The base class for timelines that use interpolation between key frame values. */
+	/**
+	 *  The base class for timelines that use interpolation between key frame values.
+	 *
+	 * 根据cave值
+	 * */
 	abstract static public class CurveTimeline implements Timeline {
 		static public final float LINEAR = 0, STEPPED = 1, BEZIER = 2;
 		static private final int BEZIER_SIZE = 10 * 2 - 1; //贝塞尔的大小19

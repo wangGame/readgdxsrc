@@ -42,7 +42,9 @@ public class AndroidTouchHandler {
 		long timeStamp = System.nanoTime();
 		synchronized (input) {
 			switch (action) {
+				//按下
 			case MotionEvent.ACTION_DOWN:
+				//手指按下
 			case MotionEvent.ACTION_POINTER_DOWN:
 				//得到空闲指针索引
 				realPointerIndex = input.getFreePointerIndex(); // get a free pointer index as reported by Input.getX() etc.

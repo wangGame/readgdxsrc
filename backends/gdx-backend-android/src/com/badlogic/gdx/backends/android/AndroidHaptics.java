@@ -31,17 +31,23 @@ public class AndroidHaptics {
 	private boolean vibratorSupport;
 	private boolean hapticsSupport;
 
+	/**
+	 * 29 以上有振幅控制的
+	 * 26 以上创建方式不同
+	 * @param context
+	 */
 	public AndroidHaptics (Context context) {
-		vibratorSupport = false;
-		hapticsSupport = false;
+		vibratorSupport = false; //振幅支持
+		hapticsSupport = false; //触觉
 		this.vibrator = (Vibrator)context.getSystemService(Context.VIBRATOR_SERVICE);
 		if (vibrator != null && vibrator.hasVibrator()) {
 			vibratorSupport = true;
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-				if (vibrator.hasAmplitudeControl()) {
+				if (vibrator.hasAmplitudeControl()) { //具有振幅
 					hapticsSupport = true;
 				}
-				this.audioAttributes = new AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+				this.audioAttributes = new AudioAttributes.Builder().
+						setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
 					.setUsage(AudioAttributes.USAGE_GAME).build();
 			}
 		}
@@ -56,6 +62,7 @@ public class AndroidHaptics {
 		}
 	}
 
+	//触觉支持的，可以调整振幅
 	public void vibrate (Input.VibrationType vibrationType) {
 		if (hapticsSupport) {
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -81,9 +88,12 @@ public class AndroidHaptics {
 	public void vibrate (int milliseconds, int intensity, boolean fallback) {
 		if (hapticsSupport) {
 			intensity = MathUtils.clamp(intensity, 0, 255);
-			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 				vibrator.vibrate(VibrationEffect.createOneShot(milliseconds, intensity));
-		} else if (fallback) vibrate(milliseconds);
+			}
+		} else if (fallback){
+			vibrate(milliseconds);
+		}
 	}
 
 	public boolean hasVibratorAvailable () {
